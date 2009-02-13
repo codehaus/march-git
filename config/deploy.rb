@@ -1,14 +1,19 @@
 ################################################################################
-#  Copyright (c) 2004-2007, by OpenXource, LLC. All rights reserved.           #
+#  Copyright 2007-2009 Codehaus Foundation
 #
-#  THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF OPENXOURCE                   #
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
 #
-#  The copyright notice above does not evidence any                            #
-#  actual or intended publication of such source code.                         #
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 ################################################################################
-
 require 'lib/backup_db.rb'
-
 
 #I couldn't get require or include to work properly, so I'll just eval it in-place
 if not ENV['CUSTOMER']
@@ -40,85 +45,29 @@ puts "Deploying to #{customer}"
 # form the root of the application path.
 
 set :application, "march"
-set :repository, "https://svn.rubyhaus.org/march/trunk"
-set :repository_site, "file:///opt/march/svn/trunk"
+
+# Repository options
+set :scm, "git"
+set :repository,  "git://git.codehaus.org/march.git"
+set :repository_site, "file:///opt/march/site.git"
+set :branch, "master"
+
 
 # =============================================================================
-# OPTIONAL VARIABLES
+# REPOSITORY VARIABLES
 # =============================================================================
-# set :deploy_to, "/path/to/app" # defaults to "/u/apps/#{application}"
-# set :user, "flippy"            # defaults to the currently logged in user
-# set :scm, :darcs               # defaults to :subversion
-# set :svn, "/path/to/svn"       # defaults to searching the PATH
-# set :darcs, "/path/to/darcs"   # defaults to searching the PATH
-# set :cvs, "/path/to/cvs"       # defaults to searching the PATH
-# set :gateway, "gate.host.com"  # default to no gateway
 set :deploy_to, '/opt/march'
 set :deploy_via, :remote_cache
-set :mongrel_conf, "#{deploy_to}/current/config/mongrel/mongrel_cluster.yml"
-set :mongrel_user, 'ror-march'
-set :mongrel_group, 'ror-march'
 set :use_sudo, false
 set :user, 'ror-march'
 #ssh_options[:user] = 'ror-march'
 
 
-# =============================================================================
-# SSH OPTIONS
-# =============================================================================
-# ssh_options[:keys] = %w(/path/to/my/key /path/to/another/key)
-# ssh_options[:port] = 25
-# ssh_options[:verbose] = :debug
-
-# =============================================================================
-# TASKS
-# =============================================================================
-# Define tasks that run on all (or only some) of the machines. You can specify
-# a role (or set of roles) that each task should be executed on. You can also
-# narrow the set of servers to a subset of a role by specifying options, which
-# must match the options given for the servers to select (like :primary => true)
-
-desc <<DESC
-An imaginary backup task. (Execute the 'show_tasks' task to display all
-available tasks.)
-DESC
-task :backup, :roles => :db, :only => { :primary => true } do
-  # the on_rollback handler is only executed if this task is executed within
-  # a transaction (see below), AND it or a subsequent task fails.
-  on_rollback { delete "/tmp/dump.sql" }
-
-  run "mysqldump -u theuser -p thedatabase > /tmp/dump.sql" do |ch, stream, out|
-    ch.send_data "thepassword\n" if out =~ /^Enter password:/
-  end
-end
-
-# Tasks may take advantage of several different helper methods to interact
-# with the remote server(s). These are:
-#
-# * run(command, options={}, &block): execute the given command on all servers
-#   associated with the current task, in parallel. The block, if given, should
-#   accept three parameters: the communication channel, a symbol identifying the
-#   type of stream (:err or :out), and the data. The block is invoked for all
-#   output from the command, allowing you to inspect output and act
-#   accordingly.
-# * sudo(command, options={}, &block): same as run, but it executes the command
-#   via sudo.
-# * delete(path, options={}): deletes the given file or directory from all
-#   associated servers. If :recursive => true is given in the options, the
-#   delete uses "rm -rf" instead of "rm -f".
-# * put(buffer, path, options={}): creates or overwrites a file at "path" on
-#   all associated servers, populating it with the contents of "buffer". You
-#   can specify :mode as an integer value, which will be used to set the mode
-#   on the file.
-# * render(template, options={}) or render(options={}): renders the given
-#   template and returns a string. Alternatively, if the :template key is given,
-#   it will be treated as the contents of the template to render. Any other keys
-#   are treated as local variables, which are made available to the (ERb)
-#   template.
 
 task :after_update_code do
   run <<-CMD
-    svn --non-interactive co #{repository_site} #{shared_path}/site &&
+    rm -rf #{shared_path}/site &&
+    git clone #{repository_site} #{shared_path}/site &&
     rm -rf #{release_path}/site &&
     ln -nfs #{shared_path}/site #{release_path}/site
   CMD
@@ -132,50 +81,25 @@ task :after_update_code do
   puts "Links updated"
 end
 
+
+
 namespace :deploy do
-  namespace :mongrel do
-    [ :stop, :start, :restart ].each do |t|
-      desc "#{t.to_s.capitalize} the mongrel appserver"
-      task t, :roles => :app do
-        #invoke_command checks the use_sudo variable to determine how to run the mongrel_rails command
-        mongrel_conf = "/opt/march/current/site/config/mongrel"
-        invoke_command "mongrel_cluster_ctl #{t.to_s} -c #{mongrel_conf}", :via => run_method
-      end
-      
-      task :reset, :roles => :app do
-        run "rm -f /opt/march/current/log/mongrel.*.pid"
-      end
-    end
-  end
-
-  desc "Custom restart task for mongrel cluster"
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    deploy.mongrel.restart
-  end
-
-  desc "Custom start task for mongrel cluster"
-  task :start, :roles => :app do
-    deploy.mongrel.start
-  end
-
-  desc "Custom stop task for mongrel cluster"
-  task :stop, :roles => :app do
-    deploy.mongrel.stop
-  end
-
-  desc "Custom reset task for mongrel cluster"
-  task :reset, :roles => :app do
-    deploy.mongrel.reset
+  task :restart, :roles => :web do
+    puts "You need to bounce the monit elements manually"
+    
+    #Restart Passenger configured sites
+    run "touch #{current_path}/tmp/restart.txt"
   end
   
   task :before_restart, :roles => :web do
+    run "mkdir -p /opt/march/shared/system/"
     warning = "March is currently restarting... please wait..."
     put warning, "/opt/march/shared/system/maintenance.html"
     run "chmod 644 /opt/march/shared/system/maintenance.html" 
   end
 
   task :after_restart, :roles => :web do
-    run "rm -f /opt/march/shared/system/maintenance.html"
+    run( "rm -f /opt/march/shared/system/maintenance.html" )
   end
 
 end
