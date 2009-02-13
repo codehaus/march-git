@@ -1,0 +1,14 @@
+<html>
+<head>
+<![if mso 9]>
+<style>
+</style>
+<![endif]>
+</head>
+
+<body>
+	<span>HELLO</span>
+</body>
+
+</html>
+

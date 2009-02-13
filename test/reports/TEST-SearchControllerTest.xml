@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite failures="0" name="SearchControllerTest" errors="0" assertions="1" tests="1" time="0.082082">
+  <testcase name="test_truth" assertions="1" time="0.081852">
+  </testcase>
+  <system-out>
+    <![CDATA[]]>
+  </system-out>
+  <system-err>
+    <![CDATA[]]>
+  </system-err>
+</testsuite>

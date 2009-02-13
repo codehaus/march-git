@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+# See this: http://www.alistapart.com/articles/sprites
+# And for spritemaker: http://www.alexpooley.com/2008/02/02/css-sprite-maker/
+# And: http://spritemaker.rubyforge.org/svn/trunk/spritemaker
+
+#Add to the end, don't insert!
+args = [ 'mail-groups.png', 'mail-group.png', 'mail-list.png', 'search.png' ]
+
+args = args.collect { |arg|
+  "public/images/#{arg}"
+}
+
+cmd = "spritemaker tmp/sprite.png #{args.join(' ')}"
+puts "Running #{cmd}"
+system(cmd)
+
+cmd = "pngcrush -brute -reduce tmp/sprite.png public/images/sprite.png > /dev/null"
+puts "Running #{cmd}"
+system(cmd)
+
+if $? == 0
+  puts "Complete"
+else
+  puts "Failed"
+end

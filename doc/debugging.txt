@@ -1,0 +1,11 @@
+# We had a long standing issue with messages with no message_id822 being threaded incorrectly.
+# We would walk WAY too many messages to draw the render tree
+
+app.get "/cargo/dev/200507101851.j6AIpJoE029327@smtp-ft1.fr.colt.net?root=haus/codehaus"
+
+
+m = Message.find_by_message_id822 "200507101851.j6AIpJoE029327@smtp-ft1.fr.colt.net"
+m.replies
+m.in_reply_to
+m.dump_tree
+

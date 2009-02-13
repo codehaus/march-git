@@ -1,0 +1,9 @@
+#xearchInput {
+  background-image: url(/images/search.png);
+  background-position: 4px 3px;
+  background-repeat: no-repeat;
+  padding: 1px 1px 1px 1.6em;
+  background-color: white;
+  height: 100%;
+  color: #666;
+  width: 10em; }

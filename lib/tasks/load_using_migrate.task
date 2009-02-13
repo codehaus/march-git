@@ -1,0 +1,45 @@
+################################################################################
+#  Copyright 2007-2008 Codehaus Foundation
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+################################################################################
+
+Rake::TaskManager.class_eval do
+  def remove_task(task_name)
+    @tasks.delete(task_name.to_s)
+  end
+end
+ 
+def remove_task(task_name)
+  Rake.application.remove_task(task_name)
+end
+
+def override_task(*args, &block)
+  name, params, deps = Rake.application.resolve_args(args)
+  remove_task Rake.application[name].name
+  Rake::Task.define_task({name => deps}, &block)
+end
+
+
+# The issue with db:schema:load is that it doesn't apply any stored procs / triggers etc. So
+# it's utterly useless for our purposes. It also has a limited range of data types that it works with.
+namespace :db do
+  namespace :schema do
+    desc "Adds all files with an svn status flag of '?'" 
+    override_task(:load) { 
+      puts "db:schema:load annoys me; so migrating instead"
+      Rake::Task["db:create"].invoke
+      Rake::Task["db:migrate"].invoke
+    }
+  end
+end

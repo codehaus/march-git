@@ -1,0 +1,5 @@
+<%= periodically_call_remote(:url => url_for(:action => 'data'), :frequency => '5', :update => "cache") %>
+
+<div id='cache'>
+  <p>Please wait for statistics to be gathered</p>
+</div>

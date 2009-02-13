@@ -1,0 +1,22 @@
+<% 
+  count = Favorite.count_by_target_type_and_target_id_excluding_user_id( target.class.name, target.id, current_user_id )
+  mesg = "No other people have marked this a favorite" if count == 0
+  mesg = "1 other person has marked this a favorite" if count == 1
+  mesg = "#{count} other people have marked this a favorite" if count > 1
+
+  if current_user.favorites.find_by_target_type_and_target_id( target.class.name, target.id ) 
+    action = :remove
+    element = image_tag( 'star-yellow.png', :class => 'favorite-on', :title => "Remove from favorites (#{mesg})" )
+  else
+    action = :add
+    element = image_tag( 'star-gray.png', :class => 'favorite-off', :title => "Add to favorites (#{mesg})" )
+  end 
+%>
+
+<%= link_to_remote( element, { :url => {:controller => 'favorites', :action => action, :target_type => target.class.name, :target_key => ::Targetable.get_target_key(target) }, 
+                           :update => "#{Favorite.html_id_for_target(target)}-icon", 
+                           :complete => [ visual_effect(:pulsate, "#{Favorite.html_id_for_target(target)}-icon", :duration => 1) ]
+                         }, 
+                         {  } )%>
+
+ 

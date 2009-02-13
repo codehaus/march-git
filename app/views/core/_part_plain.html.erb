@@ -1,0 +1,4 @@
+<% content = part_plain.content %>
+<div class="part_plain">
+  <pre class='message'><%= h redact_email( content ? content.data : '', :text ) %></pre>
+</div>

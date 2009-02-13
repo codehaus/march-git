@@ -1,0 +1,29 @@
+xml.instruct! :xml, :version=>"1.0" 
+xml.ResultSet(:version=>"2.0",
+              :totalResultsAvailable => @messages.length, 
+              :totalResultsReturned => @messages.length, 
+              :firstResultPosition => 1) {
+              
+              @messages << Message.find(:first)
+  for message in @messages
+    
+    xml.Result {
+      xml.id(message.id)
+#      xml.event_state_key(event.event_state.key.downcase)
+#      xml.event_state_name(event.event_state.name)
+#      xml.event_state_at(event.event_state_at)
+#      xml.node(event.node.name)
+#      xml.target_type(event.target_type)
+#      xml.target_id(event.target_id)
+#      xml.time_ago(time_ago_in_words(event.event_state_at) + " ago")
+#      #xml.link_resume(link_to_remote( img, { :url => {:action => 'resume', :id => event.id }, :update => "event-state-#{event.id}", :complete => visual_effect(:highlight, "event-state-#{event.id}", :duration => 1.0) } ))      
+#      if event.event_state.key == "SUSPENDED"
+#        xml.link_resume(link_to( img, :action => 'resume', :id => event.id ) )
+#      end
+#      if event.event_state.key == "WAITING"
+#        xml.link_resume(link_to( img, :action => 'suspend', :id => event.id ) )
+#      end
+  #    xml.output(event.output)
+    }
+  end
+}

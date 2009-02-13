@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+
+require RAILS_ROOT + '/config/environment'
+
+
+if RAILS_ENV == 'production'
+  puts "Benchmarking in production is quite dumb"
+  exit(1)
+end
+
+#Clear all data
+puts "Deleting existing DB data"
+MessageReference.connection.delete("DELETE FROM MESSAGE_REFERENCES")
+Part.connection.delete("DELETE FROM PARTS")
+Message.connection.delete("DELETE FROM MESSAGES")
+
+#Reset the sequences
+puts "Resetting ID sequences"
+Message.connection.execute("ALTER SEQUENCE MESSAGES_ID_SEQ RESTART WITH 1")
+Part.connection.execute("ALTER SEQUENCE PARTS_ID_SEQ RESTART WITH 1")
+MessageReference.connection.execute("ALTER SEQUENCE MESSAGE_REFERENCES_ID_SEQ RESTART WITH 1")
+
+#Reset count caches
+puts "Resetting LISTS.MESSAGES_COUNT cache"
+List.connection.update("UPDATE LISTS SET MESSAGES_COUNT = 0")
+
+
+#Erase the ferret index
+#puts "Removing ferret index"
+#if File.directory?("#{March::MAIL_ROOT}/ferret.idx")
+#  FileUtils.remove_dir("#{March::MAIL_ROOT}/ferret.idx")
+#end
+
+
+#Do the import
+importer = March::EzmlmArchiveMessagesImporter.new( March::MAIL_ROOT, true )
+start_time = Time.now()
+begin
+	importer.import_archives('tmp/archive')
+rescue Exception => e
+  puts e
+end
+end_time = Time.now()
+
+puts end_time - start_time

@@ -1,0 +1,41 @@
+<div id='messageListingContainer'>
+  <table class="message listing" id='messageListing'>
+    <thead>
+      <tr class='header'>
+        <% if messages.respond_to?(:total_entries) %>
+        <th>#</th>
+        <% end %>
+        <th colspan='2'>Subject</th>
+        <th>Author</th>
+        <th>Sent (UTC)</th>
+      </tr>
+    </thead>
+    <tbody>
+  <% messages.each_index { |index|
+     message = messages[index]
+   %>
+    <tr class = "<%= cycle('even', 'odd') %>">
+      <% if messages.respond_to?(:total_entries) %>
+      <td><%= messages.total_entries - index - messages.offset %></td>
+      <% end %>
+      <td class="subject">
+        <%= image_link_to( 'message.png', '', url_for_message( message ), :title => message.subject ) %> 
+      </td>
+      <td class="subject">
+        <%= link_to( h( message.subject_precis ), url_for_message( message ), :title => message.subject ) %> 
+      </td>
+      <td class="author address">
+        <%= mail_hide(message.from_address, message.from_name) %>
+      </td>
+      <td class="date">
+        <% if (Time.now - message.sent_at) > (86400 * 14) %>
+         <%= format_date( message.sent_at ) %>
+        <% else %>
+         <%=  time_ago_in_words message.sent_at %> ago
+        <% end %>
+      </td>
+    </tr>
+  <% } %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+ <meta http-equiv="content-type" content="text/html" />
+ <meta name="description" content="_your description goes here_" />
+ <meta name="keywords" content="_your,keywords,goes,here_" />
+ <meta name="author" content="Rubyhaus  / Original design: Andreas Viklund - http://andreasviklund.com/" />
+ <%= stylesheet_link_tag 'gravytrain.css' %>
+ <%= stylesheet_link_tag 'ajax.css' %>
+ <%= stylesheet_link_tag "http://yui.yahooapis.com/#{ GravyTrain::YUI }/build/assets/skins/sam/skin.css" %>
+ <% init_yui( :component, 'logger', 'container', 'datasource', 'menu', 'autocomplete', 'datatable') %>
+ <%= render_yui %>
+
+
+   <%= javascript_include_tag  'all_min' %>
+ 	 <%= stylesheet_link_tag "calendar_date_select/silver.css" %>
+ <title><%= @page_title %></title>
+</head>
+
+<body class='yui-skin-sam'>
+	<div id='doc3'>
+
+		<div id="doc" class="yui-t1"> 
+	   	<div id="hd">
+				<table class='tightpack' style='margin-top: 1px'>
+					<tr>
+						<td><%= image_tag 'gravytrain-text.png', :style => 'position: relative' %></td>
+						<td><%= image_tag 'gravytrain.jpg', :style => 'position: relative' %></td>
+					</tr>
+				</table>
+				<%= render :partial => '/partials/navigation_top'%>
+			</div>
+		
+	   	<div id="bd"> 
+	    	<div id="yui-main"> 
+					<div class="yui-g"> 
+		     		<%= yield %>
+					</div>
+	    	</div> 
+			</div> 
+			<div id="ft">
+				<%= render :partial => '/partials/footer' %>
+			</div> 
+		</div> 
+  </div>
+</body>
+</html>

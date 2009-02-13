@@ -1,0 +1,63 @@
+<!-- SiteSearch Google -->
+<form method="get" action="<%= fix_doubleslash("#{url_for_target(@pather.target)}/~search" ) %>" target="_top" style="margin-top: 20px;">
+<table border="0" bgcolor="#ffffff">
+<tr><td nowrap="nowrap" valign="top" align="left" height="32">
+<a href="http://www.google.com/">
+<img src="http://www.google.com/logos/Logo_25wht.gif" border="0" alt="Google" align="middle"></img></a>
+</td>
+<td nowrap="nowrap">
+<input type="hidden" name="domains" value="<%= request.host %>"></input>
+<input type="text" name="q" size="31" maxlength="255" value=""></input>
+<input type="submit" name="sa" value="Search"></input>
+</td></tr>
+<tr>
+<td>&#160;</td>
+<td nowrap="nowrap">
+<table>
+<tr>
+
+<% group = (@pather.target ? @pather.target.containing_group : nil) %>
+<% first = true%>
+<% while group %>
+  <td>
+    <input type="radio" name="sitesearch" value="<%= group.domain %>" checked="<%= "checked" if first %>"></input>
+    <font size="-1" color="#000000"><%= group.domain %></font>
+  </td>
+  <% group = group.parent %>
+  <% first = false %>
+<% end %>
+<td>
+<input type="radio" name="sitesearch" value=""></input>
+<font size="-1" color="#000000">Web</font>
+</td>
+</tr>
+</table>
+<input type="hidden" name="client" value="pub-3023399591478482"></input>
+<input type="hidden" name="forid" value="1"></input>
+<input type="hidden" name="channel" value="6554910381"></input>
+<input type="hidden" name="ie" value="ISO-8859-1"></input>
+<input type="hidden" name="oe" value="ISO-8859-1"></input>
+<input type="hidden" name="safe" value="active"></input>
+<input type="hidden" name="flav" value="0000"></input>
+<input type="hidden" name="sig" value="k604J9no4tnRYATa"></input>
+<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:11"></input>
+<input type="hidden" name="hl" value="en"></input>
+</td></tr></table>
+</form>
+<!-- SiteSearch Google -->
+
+
+<!-- Google Search Result Snippet Begins -->
+<div id="googleSearchUnitIframe"></div>
+
+<script type="text/javascript">
+   var googleSearchIframeName = 'googleSearchUnitIframe';
+   var googleSearchFrameWidth = 700;
+   var googleSearchFrameHeight = 1500;
+   var googleSearchFrameborder = 0 ;
+   var googleSearchDomain = 'www.google.com';
+</script>
+<script type="text/javascript"
+         src="http://www.google.com/afsonline/show_afs_search.js">
+</script>
+<!-- Google Search Result Snippet Ends -->

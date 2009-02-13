@@ -1,0 +1,72 @@
+cache "charts/#{@target.class.name}=#{@target.id}/#{Cache.daily}" do
+  require 'chronic'
+  def get_skip(msgs)
+    msgs.each_index { |i| 
+      return i if (msgs[i].message_count || 0).to_i > 0
+    }
+    return msgs.length - 12
+  end
+
+  width = 500
+  height = 250
+
+  messages = Message.find_by_sql(@sql)
+  xml.chart do  
+    xml.legend_transition( :type => 'slide_down', :delay => 0, :duration => 1)
+
+    xml.chart_transition( :type => 'slide_up', :delay => 0.2, :duration => 1 )
+  #	xml.chart_border :bottom_thickness=> 5, :left_thickness=>0, :color=>'222222'
+
+    xml.chart_rect( :y => 20, :height => height - 65, :x => 60, :width => width - 60 - 20 )
+
+    #xml.chart_type( 'line' )
+    xml.axis_value( :steps => '5', :decimals => '0', :show_min => 'true' )
+    xml.axis_ticks( :value_ticks=>'true', :category_ticks=>'true', 
+                    :major_thickness=>'2', :minor_thickness=>'1', :minor_count=> 3, 
+                    :major_color=>'000000', :minor_color=>'888888', :position=>'outside')
+    xml.axis_category( :skip => 3, :size => 8, :orientation => :diagonal_up )
+    
+    xml.series_color do
+      xml.color '007700'
+    end
+
+    xml.chart_data do  
+      last_year = nil
+
+      row_a = []
+      row_b = []
+    
+      skip = get_skip(messages)
+      messages = messages[skip..-1]
+      
+      xml.row do  
+        xml.null
+        for message in messages
+          dt = Chronic.parse(message.dt)
+          xml.string(dt.strftime('%Y - %b'))
+        end 
+      end
+  
+      xml.row do  
+        #xml.string('messages/month') 
+        xml.null
+        for message in messages
+          xml.number(message.message_count) 
+        end 
+      end
+
+    end
+    
+    id = @target.identifier
+    id = @target.address if @target.respond_to?(:address)
+
+    xml.legend_rect :x => -1000, :y => -1000
+    xml.draw do
+  		#xml.circle :layer => 'background', :x => 450, :y => 400, :radius => 400, :fill_color => '555577', :fill_alpha => 7,  :line_alpha => 0
+  		#xml.text '|||||||||||||||||||||||||||||||||||||||', :color => '000000', :alpha => 5, :size => 100, :x => 0, :y => 200, :width => 600, :height => 200
+  		#xml.text id, :color => '444466', :alpha => 30, :size => 25, :x => 70, :y => 23, :width => 400, :height => 200
+  		#xml.text '@', :color => '666688', :alpha => 10, :size => 180, :x => 65, :y => 40, :width => 400, :height => 200
+    end
+  
+  end
+end

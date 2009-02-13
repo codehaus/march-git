@@ -1,0 +1,82 @@
+.listing
+  :border-width    1px
+  :border-style    solid
+  :border-color    = !table_border
+  :padding         0.3em
+  :border-collapse collapse
+
+  img
+    :position relative
+    :top 4px
+
+  a:hover
+    :text-decoration none
+
+
+  
+  tr.header
+    :background-color = !table_header
+    :border-color = !table_header_border
+    :padding 1px
+
+  tr.footer
+    :font-weight      bolder
+    :background-color = !table_footer
+    :margin-top       5px
+    td
+      :padding-right    1em
+    
+  tr.header, tr.footer
+    :border-width 1px
+    :border-style solid
+    :border-color = !table_header_border
+    
+  tr.odd
+    :background-color = !table_row_odd
+
+  tr.even
+    :background-color = !table_row_even
+  
+  td
+    :padding 0.3em
+    :border 0
+    :vertical-align middle
+    
+  th
+    :padding 0.3em
+    :border-color = !table_header_border
+
+  .date
+    :float right
+    :margin-right 0.5em
+
+
+  .author
+    :margin-left 2em
+    
+    
+.description-old
+  :padding 0.4em
+  :border-width 1px
+  :width 100%
+  :border-style = solid
+  :border-color = red# !light_border
+
+  td
+    :background-color = !light_background
+    :padding          = !spacing
+    :width            auto
+    :margin-right     = !spacing
+    :margin-bottom    = !spacing
+    :border-width     1px
+    :border-style     solid
+    :border-color     = !light_border
+
+.legrid
+  tr
+    :vertical-align top
+    
+  .left
+    :width 75%
+  
+    

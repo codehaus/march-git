@@ -1,0 +1,140 @@
+<% @servers.each { |server, stats| %>
+
+  <% 
+     def extract(hash, key)
+       key = key.to_s
+       return nil unless hash.has_key?(key)
+       value = hash[key]
+       hash.delete(key)
+       return value
+     end
+     
+     cmd_get = extract(stats, :cmd_get).to_i
+     cmd_set = extract(stats, :cmd_set).to_i
+     
+     get_hits = extract(stats, :get_hits).to_i
+     get_misses = extract(stats, :get_misses).to_i
+     
+     curr_connections = extract(stats, :curr_connections).to_i
+     total_connections = extract(stats, :total_connections).to_i
+
+     bytes =  extract(stats, 'bytes').to_i
+     limit_maxbytes =  extract(stats, 'limit_maxbytes').to_i
+
+     uptime =  extract(stats, 'uptime').to_i
+   %>
+
+
+<h1>System</h1>
+<table>
+  <tr>
+    <th>Uptime</th>
+  </tr>
+  <tr>
+    <td><%= uptime_as_words(uptime)%></td>
+  </tr>
+</table>
+
+<h1>Memory</h1>
+
+<table>
+  <tr>
+    <th>In Use</th>
+    <th>Available</th>
+    <th>%</th>
+  </tr>
+  <tr>
+    <td><%= sprintf('%2.1f', 1.0 * bytes / 1024 / 1024) %> MB</td>
+    <td><%= sprintf('%2.1f', 1.0 * limit_maxbytes / 1024 / 1024) %> MB</td>
+    <td><%= sprintf('%2.2f%%', 100.0 * bytes / limit_maxbytes)  %>
+  </tr>
+</table>
+<h1>Hit Ratio</h1>
+
+<table>
+  <tr>
+    <th>Hits</th>
+    <th>Misses</th>
+    <th>Hit Ratio</th>
+  </tr>
+  <tr>
+    <td><%= get_hits %></td>
+    <td><%= get_misses %></td>
+    <td><%= sprintf('%2.2f%%', 100.0 * (get_hits) / (get_hits + get_misses)) %>
+  </tr>
+  
+</table>
+
+
+<h1>Accesses</h1>
+
+<h2>Totals</h2>
+<table>
+  <tr>
+    <th>Gets</th>
+    <th>Sets</th>
+    <th>Total</th>
+  </tr>
+  <tr>
+    <td><%= cmd_get %></td>
+    <td><%= cmd_set %></td>
+    <td><b><%= cmd_get + cmd_set %></b></td>
+  </tr>
+</table>
+
+<h2>Rate</h2>
+<table>
+  <tr>
+    <th>Get Rate</th>
+    <th>Set Rate</th>
+    <th>Total Rate</th>
+  </tr>
+  <tr>
+    <td><%= sprintf('%2.2f gets/second', 1.00 * (cmd_get) / uptime)%></td>
+    <td><%= sprintf('%2.2f sets/second', 1.00 * (cmd_set) / uptime)%></td>
+    <td><b><%= sprintf('%2.2f accesses/second', 1.00 * (cmd_get + cmd_set) / uptime)%></b></td>
+  </tr>
+</table>
+
+<h1>Connections</h1>
+
+<table>
+  <tr>
+    <th>Current</th>
+    <th>Total</th>
+  </tr>
+  <tr>
+    <td><%= curr_connections %></td>
+    <td><%= total_connections %></td>
+  </tr>
+  
+</table>
+
+<%
+  bytes_read = extract(stats, :bytes_read)
+  bytes_written = extract(stats, :bytes_written)
+ %>
+
+<table>
+  <tr>
+    <th>Bytes read</th>
+    <th>Bytes written</th>
+  </tr>
+  <tr>
+    <td><%= bytes_read %></td>
+    <td><%= bytes_written %></td>
+  </tr>
+</table>
+
+<h1>Miscellaneous</h1>
+<table class='grid'>
+  <% stats.each { |key, value| %>
+    <tr>
+      <td><%= key %></td><td><%= value %></td>
+    </tr>
+  <% } %>
+</table>  
+
+
+  
+<% } %>

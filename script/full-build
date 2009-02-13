@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+source /etc/profile.d/ruby.sh
+export RAILS_ENV=test
+
+rake clean db:drop db:create
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  exit $RESULT
+fi
+
+rake db:migrate --trace
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  exit $RESULT
+fi
+
+
+rm -f db/schema.rb
+rake ci:setup:testunit test
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  exit $RESULT
+fi
+
+

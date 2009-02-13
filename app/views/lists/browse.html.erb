@@ -1,0 +1,23 @@
+<% set_page_title("#{@list.address}") %>
+<div>
+  
+  <%= render_partial '/core/missing' if @warning == 'invalid-match' %>
+
+  <hr/>  
+
+  <div class="digg_pagination" style='width: 100%; margin-bottom: 0.5em'>
+    <div class='page_info_box'>
+    <div class="page_info" style=""><%= page_entries_info @messages %></div>
+    </div>
+    <%= will_paginate @messages, :container => false %>
+  </div>
+  <div style='clear:both'>
+
+  <%= render :partial => '/core/messages', :locals => { :messages => @messages } %>  
+  
+  <div class="digg_pagination" style='width: 100%; margin-bottom: 0.5em'>
+    <%= will_paginate @messages, :container => false %>
+  </div>
+  <div style='clear:both'>
+  
+</div>

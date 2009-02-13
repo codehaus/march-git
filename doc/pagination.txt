@@ -1,0 +1,27 @@
+OFFSET Performance
+------------------
+
+The performance of PostgreSQL degrades as the OFFSET parameter increases.
+
+This is problematic as it means that we can't generate arbitrary pages of data easily.
+
+(as X messages are added, the page boundaries will shift)
+
+"Solution"
+----------
+
+To cope with this, we will use a combination of user interface changes 
+and precomputed indexes to find records of interest.
+
+Given X records;
+With N records per page.
+
+The first page will have:
+
+((X % N) + N) messages
+
+After that, pages will have N message.
+
+There will be  ((X - X % N) / N) pages in total.
+
+

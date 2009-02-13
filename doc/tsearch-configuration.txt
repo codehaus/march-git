@@ -1,0 +1,55 @@
+--First we create a dictionary to remove all the stopwords; including an extra dictionary
+--to remove mailing specific stop words (e.g. mail footers etc) 
+-- march is the english stopword list merged with a stopword list bundled with march
+-- add your site specific words to
+-- march_common is deployed with march
+-- march_site is your site specific stopword list
+DROP TEXT SEARCH CONFIGURATION march_config;
+DROP TEXT SEARCH DICTIONARY march_dict;
+--DROP TEXT SEARCH DICTIONARY english_ispell;
+
+CREATE TEXT SEARCH DICTIONARY march_dict (
+    TEMPLATE = simple, -- ispell
+    --AffFile = english,
+    StopWords = march
+    );
+--    ,
+--    DictFile = english, --DictFile = english,
+--);
+
+
+CREATE TEXT SEARCH CONFIGURATION march_config ( COPY = pg_catalog.simple );
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ALTER MAPPING FOR asciiword, 
+                      asciihword, 
+                      hword_asciipart,
+                      word, 
+                      hword, 
+                      hword_part
+    WITH march_dict;
+    
+
+######################################################
+############### NOW FOR SOME TEST CODE ###############
+######################################################
+SELECT to_tsvector('simple','in the list of codehaus rubyhaus stop words');
+SELECT to_tsvector('march_config','in the list of codehaus rubyhaus stop words');
+
+
+SELECT * FROM ts_debug('march_config', '
+PostgreSQL, the highly scalable, SQL compliant, open source object-relational
+database management system, is now undergoing beta testing of the next
+versions of our software. Codehaus rocks
+');
+
+
+SELECT to_tsvector('march_config', '
+PostgreSQL, the highly scalable, SQL compliant, open source object-relational
+database management system, is now undergoing beta testing of the next
+versions of our software. Codehaus rocks. GWT should be picked up as a search word
+');
+
+
+SELECT strip(to_tsvector('march_config', 'PostgreSQL highly scalable Codehaus rocks GWT should be picked up as a search word'));
+

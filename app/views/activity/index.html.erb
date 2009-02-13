@@ -1,0 +1,100 @@
+<script type="text/javascript">
+  function init_page() {
+    YAHOO.widget.DataTable.prototype.requery = function(newRequest) {
+      this.getDataSource().sendRequest(
+       (newRequest ===
+        undefined?this.get('initialRequest'):newRequest),
+        this.onDataReturnInitializeTable,
+        this
+       );
+    };
+
+    var myDataSource = new YAHOO.util.DataSource("./events_data?");
+    myDataSource.responseType = YAHOO.util.DataSource.TYPE_XML;
+
+    myDataSource.responseSchema = {
+        resultNode: "Result",
+        fields: [
+          {key: "id", parser:YAHOO.util.DataSource.parseNumber}, 
+          {key: "event_state_name"}, 
+          {key: "event_state_at", parser:YAHOO.util.DataSource.parseDate},
+          {key: "node"}, 
+          {key: "target_type"}, 
+          {key: "target_id", parser:YAHOO.util.DataSource.parseNumber}, 
+          {key: "time_ago"},
+          {key: "link_resume"},
+          {key: "output"}
+        ],
+        metaFields : {totalRecords: 'totalRecords'}
+    };
+
+    var format_target = function(elCell, oRecord, oColumn, oData) { 
+        target_type = oRecord.getData('target_type');
+        target_id = oRecord.getData('target_id');
+        elCell.innerHTML = target_type + '/' + target_id;
+    };
+
+    var myColumnHeaders = [
+        {key: "id", label: "ID", sortable: true},
+        {key: "event_state_name", label: "State", sortable:true },
+        {key: "event_state_at", label: "Last Update", sortable:true },
+        {key: "time_ago", label: "" },
+        {key: "node", label: "Node", sortable:true },
+        {key: "target", label: "Target", sortable:true, formatter:format_target },
+        {key: "link_resume", label: "Operations" },
+        {key: "output", label: "Output"}
+    ];
+
+    var buildQueryString = function (state,dt) {
+            return "offset=" + state.pagination.recordOffset +
+                   "&limit=" + state.pagination.rowsPerPage;
+    };
+    
+    var myColumnSet = new YAHOO.widget.ColumnSet(myColumnHeaders);
+            
+    // The Paginator instance will have its totalRecords configuration 
+    // populated by the DataTable when it receives the records from the 
+    // DataSource 
+    var oConfigs = { 
+      initialRequest         : 'offset=0&limit=25',
+      generateRequest        : buildQueryString,
+      paginator: new YAHOO.widget.Paginator({ 
+        rowsPerPage: 15 
+      }), 
+      paginationEventHandler : YAHOO.widget.DataTable.handleDataSourcePagination,
+      // Show over 500 records 
+      initialRequest: "results=504" 
+    };
+    var myDataTable = new YAHOO.widget.DataTable("datatable", myColumnSet, myDataSource, oConfigs);
+
+    new PeriodicalExecuter(function(pe) { myDataTable.requery() }, 10);
+  }
+
+
+  init_functions.push(init_page);
+
+</script>
+
+<div class="one_with_sidebar_left  yui-skin-sam">
+  <div class="content">
+    <div id="events">
+        <div id="example">
+            <div id="datatable"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <h1>What is this?</h1>
+    <p>
+     As changes occur within Xircles, events are raised that tell each host within the Xircles cluster
+     what to do.
+    </p>
+    
+    <p>
+      You can review the changes that have recently occurred, and all future events
+    </p>
+
+    <%= render :partial => '/core/cluster/menu' %>
+  </div>
+</div>

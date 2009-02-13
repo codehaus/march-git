@@ -1,0 +1,33 @@
+cache "zeitgeist/#{@type}/#{latest_id}" do
+  
+@words = Message.connection.execute(@sql)
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.instruct! 'xml-stylesheet'.to_sym, :type => 'text/css', :href => '/rss.css'
+xml.rss(:version=>"2.0"){
+  xml.channel{
+    xml.title( @title )
+    xml.link( @link )
+    xml.language( 'en-us' )
+    xml.pubDate( Time.new.rfc2822 )
+    xml.generator ( 'http://march.rubyhaus.org/' )
+    
+    xml.docs( "This file is an RSS 2.0 file.")
+    xml.description("Feed of the latest and greatest hot subjects")
+    xml.language("en-US")
+    now = Time.new.rfc2822
+    for word in @words
+      puts "-=" * 40
+      puts word.inspect
+      xml.item do
+        xml.title( word[0] )
+        xml.pubDate(now)
+        
+        xml.description( "Hit Rate: #{sprintf('%2.1f%%', 100.0 * word[1].to_i / @messages)} (#{word[1].to_i} / #{@messages})" )
+      end
+    end
+  }
+}
+
+
+end

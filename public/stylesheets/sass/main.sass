@@ -1,0 +1,190 @@
+
+
+//                       THE COLORS
+!light_background        = #eee
+!light_border            = #ddd
+
+!table_base              = #EDF5FF
+!table_header            = !table_base
+!table_header_border     = !light_border
+!table_row               = !table_base
+!table_row_odd           = !table_base 
+!table_row_even          = !table_base + #111 
+!table_footer            = !table_base
+!table_border            = !light_border
+
+!spacing                 = 0.8em
+
+
+//                       THE OTHER STYLESHEETS
+@import                  search.sass
+@import                  layout.sass
+@import                  headings.sass
+@import                  groups.sass
+@import                  lists.sass
+@import                  message-tree.sass
+@import                  pagination.sass
+@import                  message.sass
+@import                  ad.sass
+@import                  xircles.sass
+
+//                       THE RANDOM STYLES THAT WE HAVEN'T LOADED ELSEWHERE
+
+body                     
+  :font-family           "Gill Sans", "Trebuchet MS", Verdana, Helvetica, sans-serif
+
+
+img.feed-link            
+  :border                0
+  :position              relative
+  :top                   5px
+
+
+.image-link,             .image-linkvisited 
+  :text-decoration       none
+
+
+.image-linkhover         
+  :text-decoration       none
+
+
+.image-link              img 
+  :border                0
+  :position              relative
+  :top                   2px
+  :left                  2px
+  :margin-right          1px
+
+
+
+
+
+
+
+.operations              
+  a:hover                
+    :text-decoration     none
+
+
+.scroller                
+  :margin                0
+  :border                0
+  :height                600px //These help it scroll in the text area
+  :text-align            left
+  :overflow              auto
+  :margin-left           0
+  :margin-right          0
+  :width                 auto
+
+
+
+.part_plain              
+  :padding               0
+
+
+.yuimenuitemlabel        
+  :margin-left           auto
+  :margin-right          auto
+
+
+
+
+//                       These are some compatibility settings for different browsers
+pre.message              
+  :white-space           -moz-pre-wrap
+  :white-space           -pre-wrap
+  :white-space           -o-pre-wrap
+  :white-space           pre-wrap
+  :word-wrap             break-word
+  :border                0
+
+
+
+#archive-status          
+  :color                 #fff
+  :font-size             90%
+  :font-style            italic
+
+
+
+#hd
+  :background-color      #070
+  :background-image      url(/images/header-background-gradient.png)
+  :background-repeat     repeat-x
+  :background-attachment fixed
+  :background-position   0 0
+
+
+ul.navigation_links      
+  li                     
+    a                    
+      :color             #050
+      :font-weight       bolder
+
+
+ul.navigation_links      
+  li                     
+    :color               #333
+
+
+.sidebar                 
+  h1                     
+    :color               #595
+
+  h2                     
+    :color               #77c
+
+
+
+
+.page_info_box           
+  :width                 100%
+  :background-color      #070
+
+
+
+
+.part_html               
+  :padding               0.5em
+
+
+.part_plain              
+  :margin                0.5em
+
+
+
+
+input.openid             
+  :background            url( /images/openid_login_bg.gif ) no-repeat
+  :background-position   0 50%
+  :background-color      #fff
+  :padding-left          18px
+
+
+
+
+#login_box               
+  position:              absolute
+  right:                 2.5em
+  font-size:             8pt
+  padding:               1em
+  padding-right:         0px
+  color:                 #CEC
+  font-family:           Verdana, Helvetica, san-serif
+
+
+  a                      
+    color:               #BDB
+    font-weight:         bold
+
+
+.info
+  .favorite-icon
+    :float        right
+    :margin-top   = !spacing / 2
+    :margin-right = !spacing / 2
+
+
+.address
+  :color       #222
+  :font-style italic

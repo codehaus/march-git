@@ -1,0 +1,7 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@example.com
+    ServerName archive.example.com
+
+    RewriteEngine on
+    RewriteRule (.*) http://archive.example.com$1?root=example [P,QSA]
+</VirtualHost>

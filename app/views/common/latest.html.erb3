@@ -1,0 +1,118 @@
+<script type='text/javascript'>
+//<![CDATA[
+function init_page() {
+
+YAHOO.log('Initialised');
+
+ var url = 'http://localhost/turd';
+ YAHOO.log(" URL:" + url); 
+ 
+ var oCallback = { 
+ 	    success: function(oRequest,oResponse,oPayload) { 
+ 	        YAHOO.log("SUCCESS: Hi " + oPayload + "! There are " + oResponse.results.length + " Greyhounds"); 
+ 	    }, 
+ 	    failure: function(oRequest, oResponse, oPayload) { 
+          YAHOO.log("Request: " + Object.inspect(oRequest));
+          YAHOO.log("Response: " + Object.inspect(oResponse));
+ 	        YAHOO.log("FAILURE: Hi " + oPayload + "! There were no Greyhounds found."); 
+ 	    }, 
+ 	    scope: this, 
+ 	    argument: this 
+ };
+  
+ this.getDataSource().sendRequest(url, oCallback, this);
+
+
+
+   this.myLogReader = new YAHOO.widget.LogReader(); 
+   YAHOO.widget.DataTable.prototype.requery = function(newRequest) {
+     YAHOO.log("Requerying " + this); 
+   
+     var url = (newRequest === undefined ? this.get('initialRequest') : newRequest);
+     YAHOO.log(" URL:" + url); 
+     
+     var oCallback = { 
+     	    success: function(oRequest,oResponse,oPayload) { 
+     	        YAHOO.log("SUCCESS: Hi " + oPayload + "! There are " + oResponse.results.length + " Greyhounds"); 
+     	    }, 
+     	    failure: function(oRequest, oResponse, oPayload) { 
+ 	            YAHOO.log("Request: " + Object.inspect(oRequest));
+ 	            YAHOO.log("Response: " + Object.inspect(oResponse));
+     	        YAHOO.log("FAILURE: Hi " + oPayload + "! There were no Greyhounds found."); 
+     	    }, 
+     	    scope: this, 
+     	    argument: this 
+     };
+      
+     this.getDataSource().sendRequest(url, oCallback, this);
+   };
+   
+   
+
+   var myDataSource = new YAHOO.util.DataSource(<%= url_for( :action => 'latest_data' ).to_json %>);
+   myDataSource.responseType = YAHOO.util.DataSource.TYPE_XML;
+ 
+   myDataSource.responseSchema = {
+       resultNode: "Result",
+       fields: [
+         {key: "id", parser:YAHOO.util.DataSource.parseNumber}, 
+         {key: "event_state_name"}, 
+         {key: "event_state_at", parser:YAHOO.util.DataSource.parseDate},
+         {key: "node"}, 
+         {key: "target_type"}, 
+         {key: "target_id", parser:YAHOO.util.DataSource.parseNumber}, 
+         {key: "time_ago"},
+         {key: "link_resume"},
+         {key: "output"}
+       ],
+       metaFields : {totalRecords: 'totalRecords'}
+   };
+
+   var format_target = function(elCell, oRecord, oColumn, oData) { 
+       target_type = oRecord.getData('target_type');
+       target_id = oRecord.getData('target_id');
+       elCell.innerHTML = target_type + '/' + target_id;
+   };
+
+   var myColumnHeaders = [
+       {key: "id", label: "ID", sortable: true},
+       {key: "event_state_name", label: "State", sortable:true },
+       {key: "event_state_at", label: "Last Update", sortable:true },
+       {key: "time_ago", label: "" },
+       {key: "node", label: "Node", sortable:true },
+       {key: "target", label: "Target", sortable:true, formatter:format_target },
+       {key: "link_resume", label: "Operations" },
+       {key: "output", label: "Output"}
+   ];
+
+   var buildQueryString = function (state,dt) {
+           return '';
+   };
+   
+   var myColumnSet = new YAHOO.widget.ColumnSet(myColumnHeaders);
+           
+   // The Paginator instance will have its totalRecords configuration 
+   // populated by the DataTable when it receives the records from the 
+   // DataSource 
+   var oConfigs = { 
+     initialRequest         : <%= url_for( :action => 'latest_data', :pathonly => false ).to_json %>,
+     generateRequest        : buildQueryString,
+     paginator: new YAHOO.widget.Paginator({ 
+       rowsPerPage: 15 
+     }), 
+     paginationEventHandler : YAHOO.widget.DataTable.handleDataSourcePagination,
+   };
+   var myDataTable = new YAHOO.widget.DataTable("xml", myColumnSet, myDataSource, oConfigs);
+
+   new PeriodicalExecuter(function(pe) { myDataTable.requery() }, 10);
+   YAHOO.log('Initialised');
+   
+ }
+ 
+ init_functions.push(init_page);
+
+// ]]>
+</script>
+
+
+<div id="xml"></div> 

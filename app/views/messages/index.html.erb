@@ -1,0 +1,105 @@
+<table class='legrid'>
+  <tr>
+    <td class='left'>
+
+
+<% cache( "message/#{@message.path}" ) do %>
+
+<% if render_ad?(:top_banner) %>
+  <table class='ad-wrapper'>
+  <tr><td><%= render_ad(:top_banner) %></td></tr>
+  </table>
+<% end %>
+
+<% preferred_content_part = @message.preferred_content_part %>     
+
+<table class='message-content' style='width: 100%'>
+  <tr>
+    <td style='vertical-align: top'>
+      <div class="scroller">
+      <div class="message_part">
+        <%= render_part preferred_content_part %>  
+      </div>
+      </div>
+      <% if render_ad?(:top) %>
+        <%= render_ad(:top) %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+
+<% if @message.parts.length > 1 %>
+<div class="message-attachments">  
+  <h1>Message Attachments</h1>
+  <ol>
+  <% for part in @message.parts %>
+    <% next if part == preferred_content_part %>
+    <li><%= "#{part.name ? part.name : 'Attachment'} (#{format_size(part.length)} - #{part.content_type})" %>
+          <%= image_link_to('attachment.gif', 'open', url_for_part( part, false ), :title => 'open attachment' ) %> 
+        - <%= image_link_to('download.gif', 'download', url_for_part( part, true ), :title => 'download attachment' ) %></li>
+  <% end %>
+  </ol>
+</div>
+<% end %>
+
+<% end #cache %>
+
+</td>
+<td class='right' style='vertical-align: top; width: 25%'>
+<div class='infoblock'>
+  <% cache "layouts/messages/#{@message.list_id}/recent/#{@list.messages_count}" do %>
+  <div class='heading'>Recent&nbsp;&raquo;</div>
+    <table style='border-bottom: 1px solid #777' class='compact'>
+  <% for message in @message.list.recent(3) %>
+    <tr>
+  <td class="subject">
+    <%= link_to( h( message.normalized_subject_precis(20) ), url_for_message( message ), :title => message.subject ) %> 
+  </td>
+  <td class="author address">
+    <%= mail_hide(message.from_address, message.from_name) %>
+  </td>
+  <td class="date">
+     <%=  time_ago_in_words message.sent_at %> ago
+  </td>
+  
+  <% end %>
+  </tr>
+  </table>
+  <%= link_to 'browse the latest messages', url_for_list(@message.list) %>
+</div>
+<% end %>
+<div id='message-tree'>
+<div class='heading' style='position: relative'>Thread&nbsp;&raquo;
+  <% cache "layouts/messages/#{@message.id}/prevnext/#{@list.messages_count}" do %>
+  <span style='position: absolute; right: 0; top: 1px'>
+  <% if @message.message_prev %>
+  <%= image_link_to 'message-prev.gif', '', url_for_message(@message.message_prev), :title => "previous message => #{@message.message_prev.subject_precis}" %>
+  <% else %>
+  <%= image_link_to 'message-prev-disabled.gif', '', nil, :title => 'no previous message' %>
+  <% end %>
+  
+  <% if @message.message_next %>
+  <%= image_link_to 'message-next.gif', '', url_for_message(@message.message_next), :title => "next message => #{@message.message_next.subject_precis}" %>
+  <% else %>
+  <%= image_link_to 'message-next-disabled.gif', '', nil, :title => 'no next message' %>
+  <% end %>
+  </span>
+  <% end %>
+</div>
+
+<%= render_message_tree @message %>
+</div>
+<script type='text/javascript'>
+  // this lets us use the same cache for all message trees; then attach the style for the selection afterwards
+  window.addEventListener( 'load', function () {
+    var current = document.getElementById('message-<%= @message.id %>');
+    if (current != null) {
+      current.className = 'current_message';
+    }
+  });
+</script>
+
+</td>
+</tr>
+</table>

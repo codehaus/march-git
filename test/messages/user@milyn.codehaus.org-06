@@ -1,0 +1,113 @@
+Return-Path: <daniel.bevenius@redpill.se>
+Mailing-List: contact user-help@milyn.codehaus.org; run by ezmlm
+Delivered-To: mailing list user@milyn.codehaus.org
+Received: (qmail 1297 invoked by uid 89); 12 Jul 2007 12:45:54 -0000
+Received: from unknown (HELO intranet.ataco.se) (213.115.168.151)
+  by mail.codehaus.org with (AES256-SHA encrypted) SMTP; 12 Jul 2007 12:45:54 -0000
+Received: from localhost ([127.0.0.1])
+	by intranet.ataco.se with esmtp (Exim 4.63)
+	(envelope-from <daniel.bevenius@redpill.se>)
+	id 1I8y6L-0007Yi-Nv
+	for user@milyn.codehaus.org; Thu, 12 Jul 2007 14:48:57 +0200
+From: "Daniel Bevenius" <daniel.bevenius@redpill.se>
+To: user@milyn.codehaus.org
+Cc: 
+Date: Thu, 12 Jul 2007 14:48:57 +0200
+X-Priority: 3
+Importance: Normal
+Message-Id: <E1I8y6L-0007Yi-Nv@intranet.ataco.se>
+Subject: RE: Re: [milyn-user] Namespace issue
+
+
+Ah, I'll give that a try. Thanks!
+
+/Daniel
+
+You can specify the full xslt within the resource definition Dan (as far 
+as I can remember).  Just, set is-xslttemplate="false" if you do that 
+and it should work.
+
+T.
+
+Daniel Bevenius wrote:
+> Hi Tom,
+>
+> I'll take a look and see if this can be done somehow.
+>
+> Yeah, that sound like a good idea. I quite like being able to specify the transformation in the same file but this is getting a bit messy the way we are doing it at the moment. 
+>
+>
+> /Daniel
+>
+>
+>
+> Hey Daniel.
+>
+> I'll need to take a look at the XSL spec, but unless it provides a way 
+> to do it locally within a template, I'd imagine it needs to be done 
+> globally within the stylesheet, in which case templatelets will not work 
+> and you'll have to specify a full stylesheet. 
+>
+> Perhaps we could extend this functionality to support specification of 
+> namespaces to be added to the stylesheet that gets generated from the 
+> templatelet.  That should get around this issue.
+>
+> T.
+>
+> Daniel Bevenius wrote:
+>   
+>> Hi,
+>>
+>> I've been having some trouble with namespaces when using smooks for transforming xml to xml. The problem we had was that the input xml contained namespaces and there was an issue with this prior to version 0.9 of smooks.
+>>
+>> But we were still having problems and this was because we were not using namespaces in our "Templatelet" configurations.
+>>
+>> This is what we had:
+>>
+>> <FirstName>
+>>     <xsl:value-of select="./buyer/name"/>
+>> </FirstName>
+>>
+>> But we should have been using:
+>> <FirstName>
+>>     <xsl:value-of select="./xxx:buyer/xxx:name"
+>>     xmlns:xxx="http://www.www.org.com/xxx/XXX" />
+>> </FirstName>
+>>
+>> Now, this is ok and works, but I suspect that there are better ways of doing this?
+>>
+>> Does anyone know if it is possible to specify the namespace globally inside a Templatetet so that one does not have to specify this for every xsl element?
+>>
+>> Thanks,
+>>
+>> Daniel
+>>
+>> ---------------------------------------------------------------------
+>> To unsubscribe from this list please visit:
+>>
+>>     http://xircles.codehaus.org/manage_email
+>>
+>>
+>>   
+>>     
+>
+> ---------------------------------------------------------------------
+> To unsubscribe from this list please visit:
+>
+>     http://xircles.codehaus.org/manage_email
+>
+>
+>   
+
+---------------------------------------------------------------------
+To unsubscribe from this list please visit:
+
+    http://xircles.codehaus.org/manage_email
+
+
+-- 
+This message has been scanned for viruses and
+dangerous content by MailScanner, and is
+believed to be clean.
+
+

@@ -1,0 +1,26 @@
+<p>
+  <%= current_user.nickname_not_nil %> <% if current_user.fullname %> (or more formally <i>"<%= current_user.fullname %>"</i>) <% end %>
+</p>
+
+
+<p>
+  You are authenticated using OpenID - <%= link_to current_user.identifier, current_user.identifier %>
+</p>
+
+<h1>Favorites</h1>
+
+  <% @favorites = current_user.favorites %>
+  
+  <% if @favorites.empty? %>
+    <p style='margin-left: 1em'>No favorites found; just click on the yellow star!</p>
+  <% else %>
+    <% for favorite in @favorites %>
+      <% target = favorite.target %>
+      <%= render_object target, :favorite %>
+    <% end %>
+  <% end %>
+
+</div>
+
+
+

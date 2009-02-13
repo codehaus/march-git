@@ -1,0 +1,2 @@
+module ZeitgeistHelper
+end

@@ -1,0 +1,47 @@
+<script type="text/javascript">
+  function init_page() {
+    YAHOO.widget.DataTable.prototype.requery = function(newRequest) {
+        this.getDataSource().sendRequest(
+            (newRequest === undefined?this.get('initialRequest'):newRequest), 
+            this.onDataReturnInitializeTable, this);
+    };
+
+    var myDataSource = new YAHOO.util.DataSource(<%= url_for( :action => 'latest_data' ).to_json %>);
+    myDataSource.responseType = YAHOO.util.DataSource.TYPE_XML;
+    
+myDataSource.sendRequest('a');
+    myDataSource.responseSchema = {
+        resultNode: "Result",
+        fields: [
+          {key: "id", parser:YAHOO.util.DataSource.parseNumber}
+        ]
+    };
+
+    var myColumnHeaders = [
+        {key: "id", label: "ID", sortable: true}
+    ];
+
+    var myColumnSet = new YAHOO.widget.ColumnSet(myColumnHeaders);
+            
+    var oConfigs = {
+      initialRequest: <%= url_for( :action => 'latest_data' ).to_json %>
+    };
+    var myDataTable = new YAHOO.widget.DataTable("datatable", myColumnSet, myDataSource, oConfigs);
+
+    new PeriodicalExecuter(function(pe) { myDataTable.requery(); }, 10);
+    
+    myDataTable.requery();
+  }
+
+
+  init_functions.push(init_page);
+
+</script>
+
+<div class="content">
+  <div id="events">
+      <div id="example">
+          <div id="datatable"></div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<table class='listing'>
+  <% for list in @lists %>
+  <tr class="<%= cycle('even', 'odd') %>">
+    <td><%= link_to_list(list.address, list) %></td>
+    <td><%= list.messages_count %> messages</td>
+  </tr>
+  <% end %>
+</table>

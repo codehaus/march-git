@@ -1,0 +1,7 @@
+The message tree is cached by the id of the current node, and expired if the number of messages in the
+current list changes. The LRU strategy of the caching store means that memoization effectively occurs in
+an efficient manner.  The infrequently accessed leaves of the store will expire from the caching store 
+relatively quickly.
+
+Since a mail archive typically only increases in size (and doesn't mutate existing messages); this is a
+suitable caching strategy.

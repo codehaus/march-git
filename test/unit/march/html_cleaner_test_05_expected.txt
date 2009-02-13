@@ -1,0 +1,1082 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><style type="text/css"><!--
+#msg DL { border : 1px #006 solid; background-color : #369; padding : 6px; color : #fff; }
+#msg DT { float : left; width : 6em; font-weight : bold; }
+#msg DL, #msg DT, #msg UL, #msg LI { font-family : arial,helvetica,sans-serif; font-size : 10pt;  }
+h3 { font-family : arial,helvetica,sans-serif; font-size : 10pt; font-weight : bold; }
+#msg PRE { overflow : auto; white-space : normal; background-color : #ffc; border : 1px #fc0 solid; padding : 6px; }
+#msg UL, PRE, .diff { overflow : auto; }
+#patch h4 { font-family : arial,helvetica,sans-serif; font-size : 10pt; }
+#patch h4 { padding: 8px; background : #369; color : #fff; margin : 0; }
+#patch .propset h4, #patch .binary h4 {margin: 0;}
+#patch pre {padding:0;line-height:1.2em;margin:0;}
+#patch .diff {background:#eeeeee;padding: 0 0 10px 0;}
+#patch .propset .diff, #patch .binary .diff  {padding: 10px 0;}
+#patch span {display:block;padding:0 10px;}
+#patch .modfile, #patch .addfile, #patch .delfile, #patch .propset, #patch .binary, #patch .copfile {border:1px solid #ccc;margin:10px 0;}
+#patch .add {background:#ddffdd;}
+#patch .rem {background:#ffdddd;}
+#patch .lines, .info {color:#888888;background:#ffffff;}
+.diff { width : 100%; }
+#msg DL { border : 1px #006 solid; background-color : #369; padding : 6px; color : #fff; }
+#msg DT { float : left; width : 6em; font-weight : bold; }
+#msg DL, #msg DT, #msg UL, #msg LI { font-family : arial,helvetica,sans-serif; font-size : 10pt;  }
+h3 { font-family : arial,helvetica,sans-serif; font-size : 10pt; font-weight : bold; }
+#msg PRE { overflow : auto; white-space : normal; background-color : #ffc; border : 1px #fc0 solid; padding : 6px; }
+#msg UL, PRE, .diff { overflow : auto; }
+#patch h4 { font-family : arial,helvetica,sans-serif; font-size : 10pt; }
+#patch h4 { padding: 8px; background : #369; color : #fff; margin : 0; }
+#patch .propset h4, #patch .binary h4 {margin: 0;}
+#patch pre {padding:0;line-height:1.2em;margin:0;}
+#patch .diff {background:#eeeeee;padding: 0 0 10px 0;}
+#patch .propset .diff, #patch .binary .diff  {padding: 10px 0;}
+#patch span {display:block;padding:0 10px;}
+#patch .modfile, #patch .addfile, #patch .delfile, #patch .propset, #patch .binary, #patch .copfile {border:1px solid #ccc;margin:10px 0;}
+#patch .add {background:#ddffdd;}
+#patch .rem {background:#ffdddd;}
+#patch .lines, .info {color:#888888;background:#ffffff;}
+.diff { width : 100%; }
+--></style>
+<title>[1643] trunk/xfire/examples/jaxb2: Remove old m1 stuff from examples</title>
+</head>
+<body>
+
+<div id="msg">
+<dl>
+<dt>Revision</dt> <dd><a href="http://fisheye.codehaus.org/changelog/xfire/?cs=1643">1643</a></dd>
+<dt>Author</dt> <dd>dandiep</dd>
+<dt>Date</dt> <dd>2006-06-16 09:46:38 -0500 (Fri, 16 Jun 2006)</dd>
+</dl>
+
+<h3>Log Message</h3>
+<pre>Remove old m1 stuff from examples</pre>
+
+<h3>Removed Paths</h3>
+<ul>
+<li><a href="#trunkxfireexamplesjaxb2mavenxml">trunk/xfire/examples/jaxb2/maven.xml</a></li>
+<li><a href="#trunkxfireexamplesjaxb2projectproperties">trunk/xfire/examples/jaxb2/project.properties</a></li>
+<li><a href="#trunkxfireexamplesjaxb2projectxml">trunk/xfire/examples/jaxb2/project.xml</a></li>
+<li><a href="#trunkxfireexamplesjsr181projectproperties">trunk/xfire/examples/jsr181/project.properties</a></li>
+<li><a href="#trunkxfireexamplesjsr181projectxml">trunk/xfire/examples/jsr181/project.xml</a></li>
+<li><a href="#trunkxfireexamplespurchaseordermavenxml">trunk/xfire/examples/purchase-order/maven.xml</a></li>
+<li><a href="#trunkxfireexamplespurchaseorderprojectproperties">trunk/xfire/examples/purchase-order/project.properties</a></li>
+<li><a href="#trunkxfireexamplespurchaseorderprojectxml">trunk/xfire/examples/purchase-order/project.xml</a></li>
+<li><a href="#trunkxfireexamplesspringmavenxml">trunk/xfire/examples/spring/maven.xml</a></li>
+<li><a href="#trunkxfireexamplesspringprojectproperties">trunk/xfire/examples/spring/project.properties</a></li>
+<li><a href="#trunkxfireexamplesspringprojectxml">trunk/xfire/examples/spring/project.xml</a></li>
+</ul>
+
+</div>
+<div id="patch">
+<h3>Diff</h3>
+<a id="trunkxfireexamplesjaxb2mavenxml"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/jaxb2/maven.xml (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/jaxb2/maven.xml	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/jaxb2/maven.xml	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,32 +0,0 @@
+</span><span class="rem">-&lt;project default=&quot;jar:install&quot; xmlns:j=&quot;jelly:core&quot; 
+-	xmlns:ant=&quot;jelly:ant&quot; xmlns:maven=&quot;jelly:maven&quot; xmlns:i=&quot;jelly:interaction&quot;&gt;
+-
+-	&lt;ant:path id=&quot;jaxb.path&quot;&gt;
+-		&lt;ant:path refid=&quot;maven.dependency.classpath&quot; /&gt;
+-		&lt;ant:pathelement path=&quot;${maven.build.dest}&quot; /&gt;
+-		&lt;ant:pathelement path=&quot;${maven.test.dest}&quot; /&gt;
+-	&lt;/ant:path&gt;
+-
+-	
+-	&lt;goal name=&quot;generate-jaxb&quot;&gt;
+-
+-		&lt;ant:delete dir=&quot;${maven.build.dir}/generated&quot; /&gt;
+-		&lt;ant:mkdir dir=&quot;${maven.build.dir}/generated&quot; /&gt;
+-		
+-		&lt;!-- START SNIPPET: xjc --&gt;
+-		&lt;ant:taskdef name=&quot;xjc&quot; classname=&quot;com.sun.tools.xjc.XJCTask&quot; classpathref=&quot;jaxb.path&quot; /&gt;
+-
+-		&lt;xjc target=&quot;${maven.build.dir}/generated&quot;&gt;
+-			&lt;schema dir=&quot;src/main/META-INF/xfire&quot; includes=&quot;*.xsd&quot; /&gt;
+-		&lt;/xjc&gt;
+-		&lt;!-- END SNIPPET: xjc --&gt;
+-		
+-		&lt;ant:path id=&quot;xfire.jaxb.generated&quot; location=&quot;${maven.build.dir}/generated&quot; /&gt;
+-		&lt;maven:addPath id=&quot;maven.compile.src.set&quot; refid=&quot;xfire.jaxb.generated&quot; /&gt;
+-	&lt;/goal&gt;
+-
+-	&lt;preGoal name=&quot;java:compile&quot;&gt;
+-		&lt;attainGoal name=&quot;generate-jaxb&quot; /&gt;
+-	&lt;/preGoal&gt;
+-
+-&lt;/project&gt;
+</span></pre></div>
+<a id="trunkxfireexamplesjaxb2projectproperties"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/jaxb2/project.properties (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/jaxb2/project.properties	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/jaxb2/project.properties	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,9 +0,0 @@
+</span><span class="rem">-maven.war.src=${basedir}/src/webapp
+-
+-# Display the version the web site is documenting
+-maven.xdoc.version = ${pom.currentVersion}
+-
+-maven.junit.fork=once
+-maven.compile.source=1.5
+-maven.compile.target=1.5
+-maven.repo.remote=http://ibiblio.org/maven,http://dist.codehaus.org
+</span><span class="cx">\ No newline at end of file
+</span></pre></div>
+<a id="trunkxfireexamplesjaxb2projectxml"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/jaxb2/project.xml (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/jaxb2/project.xml	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/jaxb2/project.xml	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,236 +0,0 @@
+</span><span class="rem">-&lt;project&gt;
+-  &lt;pomVersion&gt;4&lt;/pomVersion&gt;
+-  &lt;groupId&gt;xfire&lt;/groupId&gt;
+-  &lt;artifactId&gt;jaxb2-example&lt;/artifactId&gt;
+-  &lt;name&gt;XFire&lt;/name&gt;
+-  &lt;currentVersion&gt;@xfire.version@&lt;/currentVersion&gt;
+-  &lt;repository&gt;
+-    &lt;connection&gt;
+-      scm:cvs:pserver:anonymous@cvs.xfire.codehaus.org:/home/projects/xfire/scm:xfire
+-    &lt;/connection&gt;
+-    &lt;url&gt;http://cvs.xfire.codehaus.org&lt;/url&gt;
+-  &lt;/repository&gt;
+-
+-  &lt;dependencies&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;activation&lt;/groupId&gt;
+-      &lt;artifactId&gt;activation&lt;/artifactId&gt;
+-      &lt;version&gt;1.0.2&lt;/version&gt;
+-      &lt;url&gt;http://java.sun.com/products/javabeans/glasgow/jaf.html&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;javamail&lt;/groupId&gt;
+-      &lt;artifactId&gt;javamail&lt;/artifactId&gt;
+-      &lt;version&gt;1.3.2&lt;/version&gt;
+-      &lt;url&gt;http://java.sun.com/products/javamail/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;commons-logging&lt;/groupId&gt;
+-      &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+-      &lt;version&gt;1.0.4&lt;/version&gt;
+-      &lt;url&gt;http://jakarta.apache.org/commons/logging&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;stax&lt;/groupId&gt;
+-      &lt;artifactId&gt;stax-api&lt;/artifactId&gt;
+-      &lt;version&gt;1.0&lt;/version&gt;
+-      &lt;url&gt;http://jcp.org/en/jsr/detail?id=173&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;wsdl4j&lt;/groupId&gt;
+-      &lt;artifactId&gt;wsdl4j&lt;/artifactId&gt;
+-      &lt;version&gt;1.5.2&lt;/version&gt;
+-      &lt;url&gt;http://www-124.ibm.com/developerworks/projects/wsdl4j/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;woodstox&lt;/groupId&gt;
+-      &lt;artifactId&gt;wstx-asl&lt;/artifactId&gt;
+-      &lt;version&gt;2.9&lt;/version&gt;
+-      &lt;url&gt;http://woodstox.codehaus.org/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;jdom&lt;/groupId&gt;
+-      &lt;artifactId&gt;jdom&lt;/artifactId&gt;
+-      &lt;version&gt;1.0&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;servletapi&lt;/groupId&gt;
+-      &lt;artifactId&gt;servletapi&lt;/artifactId&gt;
+-      &lt;version&gt;2.3&lt;/version&gt;
+-      &lt;url&gt;http://java.sun.com/products/servlet/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;scope&gt;build&lt;/scope&gt;
+-      &lt;/properties&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;jaxen&lt;/groupId&gt;
+-      &lt;artifactId&gt;jaxen&lt;/artifactId&gt;
+-      &lt;version&gt;1.1-beta-8&lt;/version&gt;
+-      &lt;url&gt;http://www.jaxen.org/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;org.codehaus.xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;xfire-all&lt;/artifactId&gt;
+-      &lt;version&gt;1.1-SNAPSHOT&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;
+-      &lt;version&gt;2.0-ea3&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;jaxb-impl&lt;/artifactId&gt;
+-      &lt;version&gt;2.0-ea3&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;jaxb-xjc&lt;/artifactId&gt;
+-      &lt;version&gt;2.0-ea3&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;commons-beanutils&lt;/groupId&gt;
+-      &lt;artifactId&gt;commons-beanutils&lt;/artifactId&gt;
+-      &lt;version&gt;1.7.0&lt;/version&gt;
+-      &lt;url&gt;http://jakarta.apache.org/commons/beanutils&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;springframework&lt;/groupId&gt;
+-      &lt;artifactId&gt;spring&lt;/artifactId&gt;
+-      &lt;version&gt;1.2.6&lt;/version&gt;
+-      &lt;url&gt;http://www.springframework.org&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;org.apache.xbean&lt;/groupId&gt;
+-      &lt;artifactId&gt;xbean-spring&lt;/artifactId&gt;
+-      &lt;version&gt;2.2&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;xfire-jsr181-api&lt;/artifactId&gt;
+-      &lt;version&gt;1.0-M1&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;!--
+-      
+-      Test only dependencies
+-      
+-    --&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;junit&lt;/groupId&gt;
+-      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+-      &lt;version&gt;3.8.1&lt;/version&gt;
+-      &lt;url&gt;http://www.junit.org&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;scope&gt;test&lt;/scope&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;log4j&lt;/groupId&gt;
+-      &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+-      &lt;version&gt;1.2.8&lt;/version&gt;
+-      &lt;url&gt;http://logging.apache.org/log4j&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;scope&gt;test&lt;/scope&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-
+-  &lt;/dependencies&gt;
+-  &lt;build&gt;
+-    &lt;sourceDirectory&gt;${basedir}/src/main&lt;/sourceDirectory&gt;
+-    &lt;unitTestSourceDirectory&gt;
+-      ${basedir}/src/test
+-    &lt;/unitTestSourceDirectory&gt;
+-    &lt;unitTest&gt;
+-      &lt;includes&gt;
+-        &lt;include&gt;**/*Test.java&lt;/include&gt;
+-        &lt;include&gt;**/*TestCase.java&lt;/include&gt;
+-        &lt;include&gt;**/*Test.class&lt;/include&gt;
+-        &lt;include&gt;**/*TestCase.class&lt;/include&gt;
+-      &lt;/includes&gt;
+-      &lt;excludes&gt;
+-        &lt;exclude&gt;**/*Abstract*&lt;/exclude&gt;
+-      &lt;/excludes&gt;
+-      &lt;resources&gt;
+-        &lt;resource&gt;
+-          &lt;directory&gt;${basedir}/src/test&lt;/directory&gt;
+-          &lt;excludes&gt;
+-            &lt;exclude&gt;**/*.java&lt;/exclude&gt;
+-          &lt;/excludes&gt;
+-          &lt;filtering&gt;false&lt;/filtering&gt;
+-        &lt;/resource&gt;
+-      &lt;/resources&gt;
+-    &lt;/unitTest&gt;
+-    &lt;resources&gt;
+-      &lt;resource&gt;
+-        &lt;directory&gt;${basedir}/src/main&lt;/directory&gt;
+-        &lt;excludes&gt;
+-          &lt;exclude&gt;**/*.java&lt;/exclude&gt;
+-        &lt;/excludes&gt;
+-      &lt;/resource&gt;
+-    &lt;/resources&gt;
+-  &lt;/build&gt;
+-  &lt;reports&gt;
+-    &lt;report&gt;maven-tasklist-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-checkstyle-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-jdepend-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-changelog-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-file-activity-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-javadoc-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-jxr-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-junit-report-plugin&lt;/report&gt;
+-    &lt;report&gt;maven-javadoc-plugin&lt;/report&gt;
+-  &lt;/reports&gt;
+-&lt;/project&gt;
+</span></pre></div>
+<a id="trunkxfireexamplesjsr181projectproperties"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/jsr181/project.properties (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/jsr181/project.properties	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/jsr181/project.properties	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,6 +0,0 @@
+</span><span class="rem">-maven.war.src=${basedir}/src/webapp
+-
+-maven.junit.fork=true
+-maven.compile.source=1.5
+-maven.compile.target=1.5
+-maven.repo.remote=http://ibiblio.org/maven,http://dist.codehaus.org
+</span><span class="cx">\ No newline at end of file
+</span></pre></div>
+<a id="trunkxfireexamplesjsr181projectxml"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/jsr181/project.xml (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/jsr181/project.xml	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/jsr181/project.xml	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,235 +0,0 @@
+</span><span class="rem">-&lt;project&gt;
+-  &lt;groupId&gt;xfire&lt;/groupId&gt;
+-  &lt;artifactId&gt;xfire-jsr181-demo&lt;/artifactId&gt;
+-  &lt;id&gt;xfire-jsr181-demo&lt;/id&gt;
+-  &lt;name&gt;XFire Book Demo&lt;/name&gt;
+-  &lt;currentVersion&gt;@xfire.version@&lt;/currentVersion&gt;
+-  &lt;shortDescription&gt;&lt;/shortDescription&gt;
+-  &lt;package&gt;org.codehaus.xfire&lt;/package&gt;
+-  &lt;organization&gt;
+-    &lt;name&gt;Codehaus&lt;/name&gt;
+-    &lt;url&gt;http://www.codehaus.org/&lt;/url&gt;
+-    &lt;logo&gt;http://images.codehaus.org/codehaus-small.gif&lt;/logo&gt;
+-  &lt;/organization&gt;
+-  
+-  &lt;description&gt;
+-  &lt;/description&gt;
+-
+-  &lt;url&gt;http://xfire.codehaus.org&lt;/url&gt;
+-  &lt;siteAddress&gt;xfire.codehaus.org&lt;/siteAddress&gt;
+-  &lt;siteDirectory&gt;/home/projects/xfire/public_html/maven/xfire-demo&lt;/siteDirectory&gt;
+-  &lt;distributionSite&gt;xfire.codehaus.org&lt;/distributionSite&gt;
+-  &lt;distributionDirectory&gt;/dist&lt;/distributionDirectory&gt;
+-
+-  &lt;repository&gt;
+-    &lt;connection&gt;scm:cvs:pserver:anonymous@cvs.xfire.codehaus.org:/home/projects/xfire/scm:xfire-demo&lt;/connection&gt;
+-    &lt;url&gt;http://cvs.xfire.codehaus.org&lt;/url&gt;
+-  &lt;/repository&gt;
+-
+-  &lt;versions/&gt;
+-  &lt;branches/&gt;
+-
+-  &lt;mailingLists&gt;
+-    &lt;mailingList&gt;
+-      &lt;name&gt;XFire Announce List&lt;/name&gt;
+-      &lt;subscribe&gt;mailto:announce-subscribe@xfire.codehaus.org&lt;/subscribe&gt;
+-      &lt;unsubscribe&gt;mailto:announce-unsubscribe@xfire.codehaus.org&lt;/unsubscribe&gt;
+-      &lt;archive&gt;http://archive.xfire.codehaus.org/announce/&lt;/archive&gt;
+-    &lt;/mailingList&gt;
+-    &lt;mailingList&gt;
+-      &lt;name&gt;XFire User List&lt;/name&gt;
+-      &lt;subscribe&gt;mailto:user-subscribe@xfire.codehaus.org&lt;/subscribe&gt;
+-      &lt;unsubscribe&gt;mailto:user-unsubscribe@xfire.codehaus.org&lt;/unsubscribe&gt;
+-      &lt;archive&gt;http://archive.xfire.codehaus.org/user/&lt;/archive&gt;
+-    &lt;/mailingList&gt;
+-    &lt;mailingList&gt;
+-      &lt;name&gt;XFire Developer List&lt;/name&gt;
+-      &lt;subscribe&gt;mailto:dev-subscribe@xfire.codehaus.org&lt;/subscribe&gt;
+-      &lt;unsubscribe&gt;mailto:dev-unsubscribe@xfire.codehaus.org&lt;/unsubscribe&gt;
+-      &lt;archive&gt;http://archive.xfire.codehaus.org/dev/&lt;/archive&gt;
+-    &lt;/mailingList&gt;
+-    &lt;mailingList&gt;
+-      &lt;name&gt;XFire Commit List&lt;/name&gt;
+-      &lt;subscribe&gt;mailto:scm-subscribe@xfire.codehaus.org&lt;/subscribe&gt;
+-      &lt;unsubscribe&gt;mailto:scm-unsubscribe@xfire.codehaus.org&lt;/unsubscribe&gt;
+-      &lt;archive&gt;http://archive.xfire.codehaus.org/scm/&lt;/archive&gt;
+-    &lt;/mailingList&gt;
+-  &lt;/mailingLists&gt;
+-  
+-  
+-  &lt;developers&gt;
+-    &lt;developer&gt;
+-      &lt;name&gt;Dan Diephouse&lt;/name&gt;
+-      &lt;id&gt;dandiep&lt;/id&gt;
+-      &lt;email&gt;dan@envoisolutions.com&lt;/email&gt;
+-      &lt;organization&gt;Envoi solutions&lt;/organization&gt;
+-      &lt;roles&gt;
+-        &lt;role&gt;Developer&lt;/role&gt;
+-      &lt;/roles&gt;
+-    &lt;/developer&gt;
+-  &lt;/developers&gt;
+-    
+-  &lt;dependencies&gt;
+-
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;xfire-jsr181-api&lt;/artifactId&gt;
+-      &lt;version&gt;1.0-M1&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;    
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;commons-logging&lt;/groupId&gt;
+-      &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+-      &lt;version&gt;1.0.4&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;log4j&lt;/groupId&gt;
+-      &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+-      &lt;version&gt;1.2.8&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;jaxen&lt;/groupId&gt;
+-      &lt;artifactId&gt;jaxen&lt;/artifactId&gt;
+-      &lt;version&gt;1.1-beta-8&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-        
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;javamail&lt;/groupId&gt;
+-      &lt;artifactId&gt;javamail&lt;/artifactId&gt;
+-      &lt;version&gt;1.3.2&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;servletapi&lt;/groupId&gt;
+-      &lt;artifactId&gt;servletapi&lt;/artifactId&gt;
+-      &lt;version&gt;2.3&lt;/version&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;org.codehaus.xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;xfire-all&lt;/artifactId&gt;
+-      &lt;version&gt;1.1-SNAPSHOT&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;stax&lt;/groupId&gt;
+-      &lt;artifactId&gt;stax-api&lt;/artifactId&gt;
+-      &lt;version&gt;1.0&lt;/version&gt;
+-       &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;woodstox&lt;/groupId&gt;
+-      &lt;artifactId&gt;wstx-asl&lt;/artifactId&gt;
+-      &lt;version&gt;2.9&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-            
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;wsdl4j&lt;/groupId&gt;
+-      &lt;artifactId&gt;wsdl4j&lt;/artifactId&gt;
+-      &lt;version&gt;1.5.2&lt;/version&gt;
+-      &lt;url&gt;http://www-124.ibm.com/developerworks/projects/wsdl4j/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;junit&lt;/groupId&gt;
+-      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+-      &lt;version&gt;3.8.1&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;jdom&lt;/groupId&gt;
+-      &lt;artifactId&gt;jdom&lt;/artifactId&gt;
+-      &lt;version&gt;1.0&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;springframework&lt;/groupId&gt;
+-      &lt;artifactId&gt;spring&lt;/artifactId&gt;
+-      &lt;version&gt;1.2.6&lt;/version&gt;
+-       &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;org.apache.xbean&lt;/groupId&gt;
+-      &lt;artifactId&gt;xbean-spring&lt;/artifactId&gt;
+-      &lt;version&gt;2.2&lt;/version&gt;
+-       &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-
+-  &lt;/dependencies&gt;
+- 
+- 
+-    &lt;build&gt;
+-      &lt;sourceDirectory&gt;${basedir}/src/main&lt;/sourceDirectory&gt;
+-      &lt;unitTestSourceDirectory&gt;${basedir}/src/test&lt;/unitTestSourceDirectory&gt;
+-      &lt;unitTest&gt;
+-        &lt;includes&gt;
+-          &lt;include&gt;**/*Test.java&lt;/include&gt;
+-          &lt;include&gt;**/*TestCase.java&lt;/include&gt;
+-        &lt;/includes&gt;
+-        &lt;excludes&gt;
+-          &lt;exclude&gt;**/*Abstract*.java&lt;/exclude&gt;
+-        &lt;/excludes&gt;
+-        &lt;resources&gt;
+-          &lt;resource&gt;
+-            &lt;directory&gt;${basedir}/src/test&lt;/directory&gt;
+-            &lt;includes&gt;
+-              &lt;include&gt;**/*&lt;/include&gt;
+-            &lt;/includes&gt;
+-            &lt;excludes&gt;
+-              &lt;exclude&gt;**/*.java&lt;/exclude&gt;
+-            &lt;/excludes&gt;
+-            &lt;filtering&gt;false&lt;/filtering&gt;
+-          &lt;/resource&gt;
+-        &lt;/resources&gt;
+-      &lt;/unitTest&gt;
+-      &lt;resources&gt;
+-        &lt;resource&gt;
+-          &lt;directory&gt;${basedir}/src/main&lt;/directory&gt;
+-          &lt;excludes&gt;
+-            &lt;exclude&gt;**/*.java&lt;/exclude&gt;
+-          &lt;/excludes&gt;
+-        &lt;/resource&gt;
+-      &lt;/resources&gt;
+-    &lt;/build&gt;
+-  
+-&lt;/project&gt;
+</span></pre></div>
+<a id="trunkxfireexamplespurchaseordermavenxml"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/purchase-order/maven.xml (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/purchase-order/maven.xml	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/purchase-order/maven.xml	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,26 +0,0 @@
+</span><span class="rem">-&lt;project xmlns:maven=&quot;jelly:maven&quot; xmlns:ant=&quot;jelly:ant&quot;&gt;
+-
+-  &lt;goal name=&quot;xfire-beansy&quot;&gt;  
+-      &lt;echo&gt;***** Starting to build xml beans from schema *******&lt;/echo&gt;  
+-      &lt;java classname=&quot;org.apache.xmlbeans.impl.tool.SchemaCompiler&quot; fork=&quot;yes&quot; dir=&quot;${basedir}&quot; failonerror=&quot;false&quot;&gt;
+-          &lt;classpath refid=&quot;maven.dependency.classpath&quot;/&gt;
+-          &lt;arg value=&quot;-d&quot;/&gt;
+-          &lt;arg value=&quot;${maven.xmlbeans.targetdir}&quot;/&gt;
+-          &lt;arg value=&quot;${maven.xmlbeans.schemadir}\po.xsd&quot;/&gt;
+-      &lt;/java&gt;
+-      &lt;echo&gt;${maven.compile.dest}&lt;/echo&gt;
+-      &lt;copy todir=&quot;${maven.build.dir}/classes&quot;&gt;
+-        &lt;fileset dir=&quot;${maven.xmlbeans.targetdir}&quot;/&gt;
+-      &lt;/copy&gt;
+-  &lt;/goal&gt;  
+-  
+-  &lt;goal name=&quot;xfire-beansy:clean&quot;&gt;
+-      &lt;delete quiet=&quot;true&quot; dir=&quot;${maven.xmlbeans.sourcedir}&quot;/&gt;
+-      &lt;attainGoal name=&quot;clean&quot;/&gt;
+-  &lt;/goal&gt;
+-  
+-  &lt;preGoal name=&quot;java:compile&quot;&gt;
+-      &lt;attainGoal name=&quot;xfire-beansy&quot;/&gt;
+-  &lt;/preGoal&gt;
+-
+-&lt;/project&gt;
+</span><span class="cx">\ No newline at end of file
+</span></pre></div>
+<a id="trunkxfireexamplespurchaseorderprojectproperties"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/purchase-order/project.properties (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/purchase-order/project.properties	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/purchase-order/project.properties	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,9 +0,0 @@
+</span><span class="rem">-maven.multiproject.type=war
+-maven.war.src=${basedir}/src/main/webapp/
+-
+-maven.junit.fork=true
+-maven.compile.source=1.2
+-maven.compile.target=1.2
+-maven.repo.remote=http://ibiblio.org/maven,http://dist.codehaus.org
+-maven.xmlbeans.targetdir=${basedir}/target/xmlbeans-classes
+-maven.xmlbeans.schemadir=${basedir}/src/main/xsd
+</span><span class="cx">\ No newline at end of file
+</span></pre></div>
+<a id="trunkxfireexamplespurchaseorderprojectxml"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/purchase-order/project.xml (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/purchase-order/project.xml	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/purchase-order/project.xml	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,210 +0,0 @@
+</span><span class="rem">-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+-&lt;project&gt;
+-    &lt;pomVersion&gt;4&lt;/pomVersion&gt;
+-    &lt;groupId&gt;xfire&lt;/groupId&gt;
+-    &lt;artifactId&gt;purchase-order&lt;/artifactId&gt;
+-    &lt;name&gt;Sample Web App Project that uses XmlBeans for the service binding.&lt;/name&gt;
+-    &lt;description&gt;
+-        This project provides an example of how to use xmlbeans as the binding of a web service.
+-    &lt;/description&gt;
+-    &lt;shortDescription&gt;
+-        Sample Web App.
+-    &lt;/shortDescription&gt;
+-    &lt;developers&gt;
+-        &lt;developer&gt;
+-            &lt;name&gt;Brian Blitzer&lt;/name&gt;
+-            &lt;email&gt;bblitzer@alservices.com&lt;/email&gt;
+-        &lt;/developer&gt;
+-    &lt;/developers&gt;
+-    
+-  &lt;dependencies&gt;
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;commons-logging&lt;/groupId&gt;
+-      &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+-      &lt;version&gt;1.0.4&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;log4j&lt;/groupId&gt;
+-      &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+-      &lt;version&gt;1.2.8&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;jaxen&lt;/groupId&gt;
+-      &lt;artifactId&gt;jaxen&lt;/artifactId&gt;
+-      &lt;version&gt;1.1-beta-8&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-        
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;javamail&lt;/groupId&gt;
+-      &lt;artifactId&gt;javamail&lt;/artifactId&gt;
+-      &lt;version&gt;1.3.2&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;jaf&lt;/groupId&gt;
+-      &lt;artifactId&gt;activation&lt;/artifactId&gt;
+-      &lt;version&gt;1.0.2&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;servletapi&lt;/groupId&gt;
+-      &lt;artifactId&gt;servletapi&lt;/artifactId&gt;
+-      &lt;version&gt;2.3&lt;/version&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;org.codehaus.xfire&lt;/groupId&gt;
+-      &lt;artifactId&gt;xfire-all&lt;/artifactId&gt;
+-      &lt;version&gt;1.1-SNAPSHOT&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-        
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;springframework&lt;/groupId&gt;
+-      &lt;artifactId&gt;spring&lt;/artifactId&gt;
+-      &lt;version&gt;1.2.6&lt;/version&gt;
+-       &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;org.apache.xbean&lt;/groupId&gt;
+-      &lt;artifactId&gt;xbean-spring&lt;/artifactId&gt;
+-      &lt;version&gt;2.2&lt;/version&gt;
+-       &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-               
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;stax&lt;/groupId&gt;
+-      &lt;artifactId&gt;stax-api&lt;/artifactId&gt;
+-      &lt;version&gt;1.0&lt;/version&gt;
+-       &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;woodstox&lt;/groupId&gt;
+-      &lt;artifactId&gt;wstx-asl&lt;/artifactId&gt;
+-      &lt;version&gt;2.9&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-            
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;wsdl4j&lt;/groupId&gt;
+-      &lt;artifactId&gt;wsdl4j&lt;/artifactId&gt;
+-      &lt;version&gt;1.5.2&lt;/version&gt;
+-      &lt;url&gt;http://www-124.ibm.com/developerworks/projects/wsdl4j/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;wsdl4j&lt;/groupId&gt;
+-      &lt;artifactId&gt;wsdl4j-qname&lt;/artifactId&gt;
+-      &lt;version&gt;1.4&lt;/version&gt;
+-      &lt;url&gt;http://www-124.ibm.com/developerworks/projects/wsdl4j/&lt;/url&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;junit&lt;/groupId&gt;
+-      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+-      &lt;version&gt;3.8.1&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;jdom&lt;/groupId&gt;
+-      &lt;artifactId&gt;jdom&lt;/artifactId&gt;
+-      &lt;version&gt;1.0&lt;/version&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-    
+-    &lt;dependency&gt;
+-      &lt;groupId&gt;xmlbeans&lt;/groupId&gt;
+-      &lt;artifactId&gt;xbean&lt;/artifactId&gt;
+-      &lt;version&gt;2.1.0&lt;/version&gt;
+-      &lt;type&gt;jar&lt;/type&gt;
+-      &lt;properties&gt;
+-        &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-      &lt;/properties&gt;
+-    &lt;/dependency&gt;
+-  
+-  &lt;/dependencies&gt;
+-  &lt;build&gt;
+-        &lt;nagEmailAddress&gt;bblitzer@alservices.com&lt;/nagEmailAddress&gt;
+-        &lt;sourceDirectory&gt;${basedir}/src/main/java&lt;/sourceDirectory&gt;
+-        &lt;unitTestSourceDirectory&gt;
+-            ${basedir}/test/java
+-        &lt;/unitTestSourceDirectory&gt;
+-        &lt;unitTest&gt;
+-            &lt;includes&gt;
+-                &lt;include&gt;**/*Test.java&lt;/include&gt;
+-            &lt;/includes&gt;
+-        &lt;/unitTest&gt;
+-        &lt;defaultGoal&gt;clean&lt;/defaultGoal&gt;
+-        &lt;resources&gt;
+-            &lt;resource&gt;
+-                &lt;directory&gt;${basedir}/src/main/varconf/${maven.build.environment}&lt;/directory&gt;
+-                &lt;includes&gt;
+-                    &lt;include&gt;**/*.*&lt;/include&gt;
+-                &lt;/includes&gt;
+-                &lt;filtering&gt;false&lt;/filtering&gt;
+-            &lt;/resource&gt;
+-            &lt;resource&gt;
+-                &lt;directory&gt;${basedir}/src/main/conf/&lt;/directory&gt;
+-                &lt;includes&gt;
+-                    &lt;include&gt;**/*.*&lt;/include&gt;
+-                &lt;/includes&gt;
+-                &lt;filtering&gt;false&lt;/filtering&gt;
+-            &lt;/resource&gt;
+-            &lt;resource&gt;
+-                &lt;directory&gt;${basedir}/src/main/&lt;/directory&gt;
+-                &lt;includes&gt;
+-                    &lt;include&gt;**/*.*&lt;/include&gt;
+-                &lt;/includes&gt;
+-                &lt;filtering&gt;false&lt;/filtering&gt;
+-            &lt;/resource&gt;
+-            &lt;resource&gt;
+-                &lt;directory&gt;${basedir}/src/main/java/META-INF/&lt;/directory&gt;
+-                &lt;includes&gt;
+-                    &lt;include&gt;**/*.*&lt;/include&gt;
+-                &lt;/includes&gt;
+-                &lt;filtering&gt;false&lt;/filtering&gt;
+-                &lt;targetPath&gt;${targetdir}/META-INF&lt;/targetPath&gt;
+-            &lt;/resource&gt;                
+-        &lt;/resources&gt;
+-    &lt;/build&gt;
+-&lt;/project&gt;
+</span></pre></div>
+<a id="trunkxfireexamplesspringmavenxml"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/spring/maven.xml (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/spring/maven.xml	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/spring/maven.xml	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,2 +0,0 @@
+</span><span class="rem">-&lt;project default=&quot;war:war&quot;&gt;
+-&lt;/project&gt;
+</span></pre></div>
+<a id="trunkxfireexamplesspringprojectproperties"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/spring/project.properties (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/spring/project.properties	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/spring/project.properties	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,8 +0,0 @@
+</span><span class="rem">-maven.xdoc.date = left
+-maven.xdoc.theme.url=http://codehaus.org/codehaus-style.css
+-maven.xdoc.version = ${pom.currentVersion}
+-
+-maven.junit.fork=true
+-maven.compile.source=1.2
+-maven.compile.target=1.2
+-maven.repo.remote=http://ibiblio.org/maven,http://dist.codehaus.org
+</span></pre></div>
+<a id="trunkxfireexamplesspringprojectxml"></a>
+<div class="delfile"><h4>Deleted: trunk/xfire/examples/spring/project.xml (1642 => 1643)</h4>
+<pre class="diff">
+<span class="info">--- trunk/xfire/examples/spring/project.xml	2006-06-16 02:47:12 UTC (rev 1642)
++++ trunk/xfire/examples/spring/project.xml	2006-06-16 14:46:38 UTC (rev 1643)
+</span><span class="lines">@@ -1,151 +0,0 @@
+</span><span class="rem">-&lt;project&gt;
+-    &lt;groupId&gt;xfire&lt;/groupId&gt;
+-    &lt;artifactId&gt;xfire-spring-example&lt;/artifactId&gt;
+-    &lt;id&gt;xfire-spring-demo&lt;/id&gt;
+-    &lt;name&gt;Spring XFire Example&lt;/name&gt;
+-    &lt;package&gt;org.codehaus.xfire.spring.example&lt;/package&gt;
+-    &lt;shortDescription&gt;XFire Spring Example&lt;/shortDescription&gt;
+-    &lt;description&gt;An example that shows how to use XFire in Spring&lt;/description&gt;
+-    &lt;currentVersion&gt;1.1-SNAPSHOT&lt;/currentVersion&gt;
+-    &lt;dependencies&gt;
+-
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;org.codehaus.xfire&lt;/groupId&gt;
+-            &lt;artifactId&gt;xfire-all&lt;/artifactId&gt;
+-            &lt;version&gt;1.1-SNAPSHOT&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;jaxen&lt;/groupId&gt;
+-            &lt;artifactId&gt;jaxen&lt;/artifactId&gt;
+-            &lt;version&gt;1.1-beta-8&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;javamail&lt;/groupId&gt;
+-            &lt;artifactId&gt;javamail&lt;/artifactId&gt;
+-            &lt;version&gt;1.3.2&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;stax&lt;/groupId&gt;
+-            &lt;artifactId&gt;stax-api&lt;/artifactId&gt;
+-            &lt;version&gt;1.0&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;woodstox&lt;/groupId&gt;
+-            &lt;artifactId&gt;wstx-asl&lt;/artifactId&gt;
+-            &lt;version&gt;2.9&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;wsdl4j&lt;/groupId&gt;
+-            &lt;artifactId&gt;wsdl4j&lt;/artifactId&gt;
+-            &lt;version&gt;1.4&lt;/version&gt;
+-            &lt;url&gt;http://www-124.ibm.com/developerworks/projects/wsdl4j/&lt;/url&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;jdom&lt;/groupId&gt;
+-            &lt;artifactId&gt;jdom&lt;/artifactId&gt;
+-            &lt;version&gt;1.0&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;!--
+-        
+-        Test only dependencies
+-        
+-        --&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;junit&lt;/groupId&gt;
+-            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+-            &lt;version&gt;3.8.1&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;false&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;!--
+-        
+-        Spring dependencies
+-        
+-        --&gt;
+-        &lt;dependency&gt;
+-          &lt;groupId&gt;springframework&lt;/groupId&gt;
+-          &lt;artifactId&gt;spring&lt;/artifactId&gt;
+-          &lt;version&gt;1.2.6&lt;/version&gt;
+-           &lt;properties&gt;
+-            &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-          &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        
+-        &lt;dependency&gt;
+-          &lt;groupId&gt;org.apache.xbean&lt;/groupId&gt;
+-          &lt;artifactId&gt;xbean-spring&lt;/artifactId&gt;
+-          &lt;version&gt;2.2&lt;/version&gt;
+-           &lt;properties&gt;
+-            &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-          &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;commons-logging&lt;/groupId&gt;
+-            &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+-            &lt;version&gt;1.0.4&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-        &lt;dependency&gt;
+-            &lt;groupId&gt;log4j&lt;/groupId&gt;
+-            &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+-            &lt;version&gt;1.2.8&lt;/version&gt;
+-            &lt;properties&gt;
+-                &lt;war.bundle&gt;true&lt;/war.bundle&gt;
+-            &lt;/properties&gt;
+-        &lt;/dependency&gt;
+-    &lt;/dependencies&gt;
+-    &lt;build&gt;
+-        &lt;sourceDirectory&gt;${basedir}/src/main&lt;/sourceDirectory&gt;
+-        &lt;unitTestSourceDirectory&gt;${basedir}/src/test&lt;/unitTestSourceDirectory&gt;
+-        &lt;unitTest&gt;
+-            &lt;includes&gt;
+-                &lt;include&gt;**/*Test.java&lt;/include&gt;
+-                &lt;include&gt;**/*TestCase.java&lt;/include&gt;
+-            &lt;/includes&gt;
+-            &lt;excludes&gt;
+-                &lt;exclude&gt;**/*Abstract*.java&lt;/exclude&gt;
+-            &lt;/excludes&gt;
+-            &lt;resources&gt;
+-                &lt;resource&gt;
+-                    &lt;directory&gt;${basedir}/src/test&lt;/directory&gt;
+-                    &lt;includes&gt;
+-                        &lt;include&gt;**/*.vm&lt;/include&gt;
+-                    &lt;/includes&gt;
+-                &lt;/resource&gt;
+-            &lt;/resources&gt;
+-        &lt;/unitTest&gt;
+-        &lt;resources&gt;
+-            &lt;resource&gt;
+-                &lt;directory&gt;${basedir}/src/main&lt;/directory&gt;
+-                &lt;includes&gt;
+-                    &lt;include&gt;**/*.xml&lt;/include&gt;
+-                &lt;/includes&gt;
+-                &lt;filtering&gt;false&lt;/filtering&gt;
+-            &lt;/resource&gt;
+-        &lt;/resources&gt;
+-    &lt;/build&gt;
+-&lt;/project&gt;
+</span>
+</pre>
+</div>
+</div>
+
+</body>
+</html>

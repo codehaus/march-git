@@ -1,0 +1,62 @@
+Return-Path: <alex@nrfx.com>
+Mailing-List: contact dev-help@drools.codehaus.org; run by ezmlm
+Delivered-To: mailing list dev@drools.codehaus.org
+Received: (qmail 28922 invoked from network); 22 May 2004 19:12:39 -0000
+Received: from green.rootmode.com (65.87.2.187)
+  by beaver.codehaus.org with SMTP; 22 May 2004 19:12:39 -0000
+X-ClientAddr: 209.181.233.150
+Received: from nrfx.com (stonearch.net [209.181.233.150] (may be forged))
+	(authenticated bits=0)
+	by green.rootmode.com (8.12.10/8.12.10) with ESMTP id i4MJ1s9j032200;
+	Sat, 22 May 2004 15:01:54 -0400
+Message-ID: <40AFC282.4060101@nrfx.com>
+Date: Sat, 22 May 2004 14:13:38 -0700
+From: "N. Alex Rupp" <alex@nrfx.com>
+User-Agent: Mozilla Thunderbird 0.5 (Windows/20040207)
+X-Accept-Language: en-us, en
+MIME-Version: 1.0
+To: user@drools.codehaus.org, dev@drools.codehaus.org,
+        announce@drools.codehaus.org
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+X-RootMode-MailScanner-Information: Please contact the ISP for more information
+X-RootMode-MailScanner: Found to be clean
+Subject: Recent Drools updates
+
+In the last two months, several updates and improvements have been made 
+to the Drools project.  All of the updates are available in the project CVS.
+
+There is a new documentation site up in Confluence.  We're going to be 
+porting all of the information from the Drools project page to the 
+confluence docs. (http://docs.codehaus.org/display/DROOLS/Home).  Right 
+now information about the new mailing lists, CVS and JIRA tasks for the 
+beta-14 release have been collected there.
+
+The JSR-94 compatibility layer is passing all of its unit tests, and 
+soon we're going to start testing it against the TCK.  We should also be 
+able to update the Miss Manners benchmark test.  I'm considering having 
+two Miss Manners benchmarks--one which uses the JSR94 API, and one which 
+does not.  We might also port the Miss Manners benchmark tests to the 
+Groovy and Python semantics modules, so that we can compare their 
+performance differences as well.
+
+We have a working top-level maven build.  At the moment, it will run a 
+multiproject:install on each of the project directories in turn.  Some 
+have asked for a goal building out a drools-full JAR, which would 
+package together the drools-core, drools-smf, drools-io and drools-base 
+modules.  The semantics plugins and JSR94 module would need to be 
+included.  I'll get to work on that as soon as I can.
+
+At this time, we are very close to a beta-14 release.  The remaining 
+tasks for the beta-14 release are in the JIRA table at the bottom of the 
+Drools confluence page.
+
+As we push for the beta-14 release, I hope to flesh out the project 
+documentation and include much better DRL reference materials, and 
+information about writing semantics plugins.
+
+Thanks,
+--
+N. Alex Rupp
+
+

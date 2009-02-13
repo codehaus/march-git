@@ -1,0 +1,97 @@
+<% cache( "groups/#{@group.id}/#{latest_id}" ) do %>
+
+<table class='legrid'>
+  <tr>
+    <td class='left'>
+
+<% if render_ad?(:top_banner) %>
+  <table class='ad-wrapper'>
+  <tr><td><%= render_ad(:top_banner) %></td></tr>
+  </table>
+<% end %>
+
+<% 
+   child_groups = Group.find( :all, :conditions => [ 'parent_id = ?', @group.id ], :order => 'key') 
+   set_page_title(@group.name)
+ %>
+
+
+<div id='myMarkedUpContainer'>
+  <% total_messages_count = 0 
+     total_lists_count = 0 %>
+
+  <% if @group.children_count + @group.lists_count > 0 %>
+  <table class="listing" id='myTable'>
+    <tr class='header'>
+      <th colspan='7'>List / Group</th>
+    </tr>
+  <% for group in child_groups %>
+    <% messages_count = group.messages_count
+       total_messages_count += messages_count 
+       lists_count_total = group.lists_count_total
+       total_lists_count += lists_count_total %>
+    <tr class="<%= cycle('even', 'odd') -%>">
+      <td><%= render_favorite_icon(group) %></td>
+      <td style='width: 20px'>
+        <% img = selector(group.children_count + group.lists_count, 'mail-group.png', 'mail-group.png', 'mail-groups.png') %>
+        <%= image_link_to(  img, '', url_for_group( group ), :title => group.name, :alt => 'Group' ) %>
+      </td>
+      <td>
+        <%= link_to( group.key, url_for_group( group ), :title => group.name ) %>
+      </td>
+      <td><%= pluralize(lists_count_total, 'list') %></td>
+      <td><%= pluralize(messages_count, 'message') %></td>
+      <td><%= link_to_rss( url_for_group( group, :rss ), "Feed of latest messages for #{group.name}" ) %></td>
+      <td><%= link_to_charts( url_for_group( group, :charts ), "Message activity or #{group.name}" ) %></td>     
+    </tr>
+  <% end %>
+
+  <% for list in List.find(:all, :conditions => ['group_id = ?', @group.id ], :order => 'key' ) %>
+    <% total_messages_count += list.messages_count 
+       total_lists_count += 1
+     %>
+    <tr class="<%= cycle('even', 'odd') %>">
+     <td><%= render_favorite_icon(list) %></td>
+     <td>
+       <%= image_link_to( 'mail-list.png', '', url_for_list( list ), :title => list.address, :alt => 'List' ) %>
+     </td>
+     <td>
+       <%= link_to( list.address, url_for_list( list ), :title => list.address ) %>
+     </td>
+     <td></td>
+     <td><%= pluralize(list.messages_count, 'message') %></td>
+     <td><%= link_to_rss( url_for_list( list, :latest_rss ), "Feed of latest messages for #{list.address}" ) %></td>     
+     <td><%= link_to_charts( url_for_list( list, :charts ), "Message activity or #{list.address}" ) %></td>     
+    </tr>
+  <% end %>
+  <tr class='footer'>
+    <td colspan='3'>Totals</td>
+    <td><%= pluralize(total_lists_count, 'list') %></td>
+    <td><%= pluralize(total_messages_count, 'message') %></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <% else %>
+   No children found
+  <% end %>
+  </table>
+</div>
+
+</td>
+<td class='right info'>
+  <%= render_object @group, :info %>
+  
+  <!-- too expensive to calculate for large groups -->
+  <% if @group.children_count == 0 %>
+    <% cache( "groups/#{@group.identifier}/tag_cloud/#{Cache.daily}}" ) do %>
+    <div class='tag-cloud'>
+      <%= tag_cloud(tags(@group)) %>
+    </div>
+    <% end %>
+  <% end %>
+</td>
+
+</tr>
+</table>
+<% end # cache %>
+

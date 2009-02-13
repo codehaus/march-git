@@ -1,0 +1,62 @@
+-- Development --
+
+0. Preparation
+BASE_URL=http://localhost:3002
+
+
+1.  Insert the base groups
+
+./script/add-group --url=$BASE_URL/march/api -k haus -n Haus
+./script/add-group --url=$BASE_URL/march/api -k codehaus -n Codehaus -p haus
+./script/add-group --url=$BASE_URL/march/api -k rubyhaus -n Rubyhaus -p haus
+
+OR
+
+ ./script/console
+ 
+haus = Group.new(:key => 'haus', :name => 'Haus', :domain => 'localhost', :identifier => 'haus')
+haus.description = 'This is the owner of all things at the Haus'
+haus.save!
+
+codehaus = Group.new(:key => 'codehaus', :name => 'Codehaus', :domain => 'localhost', :identifier => 'haus.codehaus')
+codehaus.description = 'Welcome to Codehaus. The original and the best'
+codehaus.parent = haus
+codehaus.save!
+
+drools = Group.new(:key => 'drools', :name => 'Drools', :domain => 'localhost', :identifier => 'haus.codehaus.drools')
+drools.description = 'Drools; the rule engine to rule them all'
+drools.parent = codehaus
+drools.save!
+
+dev_drools = List.new(:key => 'dev', :address => 'dev@drools.codehaus.org', :group => drools, :identifier => 'org.codehaus.drools.dev')
+dev_drools.description = 'This is the development list!'
+dev_drools.save!
+
+groovy = Group.new(:key => 'groovy', :name => 'Groovy', :domain => 'localhost', :identifier => 'haus.codehaus.groovy')
+groovy.description = 'Groovy; some kind of dynamic language'
+groovy.parent = codehaus
+groovy.save!
+
+dev_groovy = List.new(:key => 'dev', :address => 'dev@groovy.codehaus.org', :group => groovy, :identifier => 'org.codehaus.groovy.dev')
+dev_groovy.description = 'This is the development list!'
+dev_groovy.save!
+
+2. Insert some lists (even if they're bogus)
+
+./script/add-list --url=$BASE_URL/march/api -a dev@drools.codehaus.org -g haus/codehaus -k dev -i http://example.com/
+
+3. Import some messages
+  rake import #Doesn't really import
+  ./maintenance/import-ezmlm-archive-messages tmp/archive
+4. Browse
+  http://localhost:3002/dev@drools.codehaus.org
+  
+  
+  
+  
+  
+  
+http://localhost:3000/api/update_group?token=X&identifier=haus.codehaus.xfire
+http://localhost:3000/api/update_list?token=X&group=haus.codehaus.xfire&identifier=org.codehaus.xfire.dev&address=dev@xfire.codehaus.org&key=dev
+
+http://localhost:3000/api/update_list?token=X&group=haus.codehaus.groovy&identifier=org.codehaus.groovy.dev&address=dev@groovy.codehaus.org&key=dev

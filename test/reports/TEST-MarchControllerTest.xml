@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite failures="0" name="MarchControllerTest" errors="1" assertions="3" tests="2" time="0.006895">
+  <testcase name="test_find_group" assertions="0" time="0.002408">
+    <failure type="NoMethodError" message="You have a nil object when you didn't expect it!...">
+You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.api_methods (NoMethodError)
+/Users/bwalding/Workspace/march/vendor/plugins/actionwebservice/lib/action_web_service/protocol/soap_protocol.rb:140:in `register_api'
+/Users/bwalding/Workspace/march/vendor/plugins/actionwebservice/lib/action_web_service/test_invoke.rb:53:in `encode_rpc_call'
+/Users/bwalding/Workspace/march/vendor/plugins/actionwebservice/lib/action_web_service/test_invoke.rb:36:in `prepare_request'
+/Users/bwalding/Workspace/march/vendor/plugins/actionwebservice/lib/action_web_service/test_invoke.rb:9:in `invoke'
+./test/functional/march_controller_test.rb:22:in `test_find_group'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `__send__'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit.rb:278
+/Library/Ruby/Gems/1.8/gems/rake-0.8.1/lib/rake/rake_test_loader.rb:5    </failure>
+  </testcase>
+  <testcase name="test_routing" assertions="3" time="0.004262">
+  </testcase>
+  <system-out>
+    <![CDATA[]]>
+  </system-out>
+  <system-err>
+    <![CDATA[]]>
+  </system-err>
+</testsuite>

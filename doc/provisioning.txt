@@ -1,0 +1,16 @@
+User: ror-march
+Host: 127.0.0.100 ror.march.localhost
+
+= Postgres =
+Database: march_prod
+Owner: march_prod_owner
+
+
+CREATE USER march_development_owner WITH CREATEDB;
+ALTER USER march_development_owner PASSWORD 'march_development_owner';
+CREATE DATABASE march_development OWNER march_development_owner;
+
+CREATE USER march_test_owner WITH CREATEDB;
+ALTER USER march_test_owner PASSWORD 'march_test_owner';
+CREATE DATABASE march_test OWNER march_test_owner;
+

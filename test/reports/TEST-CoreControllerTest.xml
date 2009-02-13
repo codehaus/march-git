@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite failures="0" name="CoreControllerTest" errors="0" assertions="16" tests="4" time="1.678485">
+  <testcase name="test_group_target" assertions="4" time="1.223902">
+  </testcase>
+  <testcase name="test_latest_for_list" assertions="4" time="0.289778">
+  </testcase>
+  <testcase name="test_list_target" assertions="4" time="0.127831">
+  </testcase>
+  <testcase name="test_message_target" assertions="4" time="0.036484">
+  </testcase>
+  <system-out>
+    <![CDATA[TRACE:  codehaus
+TRACE: At Group[id=397785356, key=haus], looking for "codehaus"
+TRACE:  drools
+TRACE: At Group[id=276387629, key=codehaus], looking for "drools"
+***************************Starting test_list_target****************************
+TRACE:  codehaus
+TRACE: At Group[id=397785356, key=haus], looking for "codehaus"
+TRACE:  drools
+TRACE: At Group[id=276387629, key=codehaus], looking for "drools"
+TRACE:  dev
+TRACE: At Group[id=258203674, key=drools], looking for "dev"
+TRACE:  ~latest
+TRACE: At List[id=236738546, key=dev, group=Group[id=258203674, key=drools], messages_count=0], looking for "~latest"
+***************************Starting test_list_target****************************
+TRACE:  codehaus
+TRACE: At Group[id=397785356, key=haus], looking for "codehaus"
+TRACE:  drools
+TRACE: At Group[id=276387629, key=codehaus], looking for "drools"
+TRACE:  dev
+TRACE: At Group[id=258203674, key=drools], looking for "dev"
+**************************Starting test_message_target**************************
+TRACE:  codehaus
+TRACE: At Group[id=397785356, key=haus], looking for "codehaus"
+TRACE:  drools
+TRACE: At Group[id=276387629, key=codehaus], looking for "drools"
+TRACE:  dev
+TRACE: At Group[id=258203674, key=drools], looking for "dev"
+TRACE:  goo-20060713200832@fnert.lard.com
+TRACE: At List[id=236738546, key=dev, group=Group[id=258203674, key=drools], messages_count=0], looking for "goo-20060713200832@fnert.lard.com"
+]]>
+  </system-out>
+  <system-err>
+    <![CDATA[]]>
+  </system-err>
+</testsuite>

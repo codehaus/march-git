@@ -1,0 +1,26 @@
+<div class="message">
+ <% cache "layouts/message/#{@message.id}/listing/#{@list.messages_count}" do %>
+ <table style='width: 100%'>
+  <tr class="subject"><td class="key">Subject</td><td class="value"><%= h( @message.subject ) %></td></tr>
+  <tr class="email"><td class="key">From</td><td class="value"><%= mail_hide_simple( @message ) %></td></tr>
+  <tr class="date"><td class="key">Sent at</td><td class="value"><%= format_date( @message.sent_at, true )%></td></tr>
+	<tr class="operations">
+	 <td class="key" colspan='2'>
+	 <% if @message.message_prev %>
+	 <%= image_link_to 'message-prev.gif', '', url_for_message(@message.message_prev), :title => "previous message => #{@message.message_prev.subject_precis}" %>
+	 <% else %>
+	 <%= image_link_to 'message-prev-disabled.gif', '', nil, :title => 'no previous message' %>
+	 <% end %>
+
+	 <% if @message.message_next %>
+	 <%= image_link_to 'message-next.gif', '', url_for_message(@message.message_next), :title => "next message => #{@message.message_next.subject_precis}" %>
+	 <% else %>
+	 <%= image_link_to 'message-next-disabled.gif', '', nil, :title => 'no next message' %>
+	 <% end %>
+	 </td>
+	</tr>
+	
+ </table>
+ <% end %>
+ <%= render_rating(@message) %>
+</div>

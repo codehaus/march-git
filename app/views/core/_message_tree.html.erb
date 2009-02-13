@@ -1,0 +1,16 @@
+<% cache "layouts/message-tree/#{message_tree.id}/#{@list.messages_count}" do %>
+<% depth ||= 0 %>
+<% if depth > 50 %>
+  ...
+<% return
+   end %>
+<div class="message_tree_node">
+  <div id='message-<%= message_tree.id %>'>
+    <%= link_to_message h(message_tree.normalized_subject_precis), message_tree %> <%= mail_hide_simple(message_tree) %>
+    <div class="message_tree_date"><%= format_date_short message_tree.sent_at %></div>
+  </div>
+  <% for child in message_tree.replies(@message_cache) %>
+    <%= render :partial=>'/core/message_tree', :locals => { :message_tree => child, :depth => depth + 1 }  %>
+  <% end %>
+</div>
+<% end %>

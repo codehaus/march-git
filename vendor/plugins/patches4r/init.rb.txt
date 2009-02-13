@@ -1,0 +1,10 @@
+# Users of this module should have their own init.rb
+# as not all patches will be suitable for all environments.
+#
+# Further, some patches may be incompatible (although we try and
+# avoid that.
+
+require 'migration_patches'
+require 'postgresql_adapter_patches'
+require 'webrick_patches'
+require 'test_request_patches'

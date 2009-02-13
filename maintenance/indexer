@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+################################################################################
+#  Copyright 2007-2008 Codehaus Foundation
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+################################################################################
+
+require File.dirname(__FILE__) + '/../config/boot'
+
+require RAILS_ROOT + '/config/environment'
+
+#This was the legacy indexer for solr
+#March::Commands::Indexer.tool
+
+#http://www.postgresql.org/docs/8.3/static/textsearch-indexes.html
+#GIN index build time is effected by MAINTENANCE_WORK_MEM
+#puts "Vacuuming contents"
+#Content.connection.execute("VACUUM CONTENTS")
+puts "Increasing MAINTENANCE_WORK_MEM to 1GB"
+Content.connection.execute("SET MAINTENANCE_WORK_MEM = '1GB'")
+BATCH = 3
+DATA_INDEXED = 4
+
+puts 'Finding earliest unindexed content'
+min_id = Content.minimum(:id, :conditions => [ '(data_indexed IS NULL OR data_indexed < ?) AND content_type LIKE ?', DATA_INDEXED, 'text/%' ])
+puts 'Finding latest unindexed content'
+max_id = Content.maximum(:id, :conditions => [ '(data_indexed IS NULL OR data_indexed < ?) AND content_type LIKE ?', DATA_INDEXED, 'text/%' ])
+
+puts "Indexing #{min_id}-#{max_id}"
+current = min_id - (min_id % BATCH)
+
+while (current < max_id)
+  batch_start = current
+  batch_finish = current + BATCH - 1
+  puts "Indexing batch #{batch_start}-#{batch_finish} (#{min_id}-#{max_id})"
+  
+  start = Time.new
+  Content.connection.execute("UPDATE contents SET data_tsv = NULL WHERE (data_indexed IS NULL OR data_indexed < #{DATA_INDEXED}) AND id BETWEEN #{batch_start} AND #{batch_finish}")
+  finish = Time.new
+  
+  delta = finish - start
+  rate =  1.0 * BATCH / delta
+  puts "  Batch completed in #{sprintf('%2.1f', delta)}s (#{sprintf('%2.1f', rate)} records/s)"
+  current += BATCH
+end

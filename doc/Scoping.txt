@@ -1,0 +1,14 @@
+= Overview =
+Within March, there are two pieces of information that are used together to determine what to display to the end 
+users.
+
+== the "root" ==
+The root is determined from a query parameter "root" and determines the top of the displayed hierarchy.
+
+This is typically used for large sites that display different parts of the tree to different VHosts.
+
+While a VHost could determine which root to display, this presents a requirement for more configuration information
+inside the application about which VHost corresponds to which root.  At present, this is too much effort to implement 
+even though it would be trivial to implement.  The main downside for us is that we'd have to push additional
+configuration information from Xircles across to March; and we don't care to.
+

@@ -1,0 +1,4 @@
+<div class='favorite'>
+  <%= render_favorite_icon(list) %>
+  <%= link_to list.name, :controller => 'lists', :action => 'info', :list => list.identifier %>
+</div>

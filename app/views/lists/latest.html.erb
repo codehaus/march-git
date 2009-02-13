@@ -1,0 +1,19 @@
+<% eo = false %>
+<table class="listing" style="width: auto;">
+  <tr class="<%=eo ? 'even' : 'odd' %>">
+  <% eo = ! eo %>
+    <th>List</th>
+    <th>Author</th>
+    <th>Message</th>
+    <th>Sent</th>
+  </tr>
+  <% for message in @messages %>
+  <tr class="<%=eo ? 'even' : 'odd' %>">
+  <% eo = ! eo %>
+    <td><%= link_to_list message.list.address, message.list %></td>
+    <td><%= format_email( message ) %>
+    <td><%= link_to_message message.subject_precis, message %></td>
+    <td><%= time_ago_in_words( message.sent_at ).gsub(' ', '&#160;') %> ago</td>
+  </tr>
+  <% end %>
+</table>

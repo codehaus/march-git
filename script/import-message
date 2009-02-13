@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+
+require RAILS_ROOT + '/config/environment'
+
+require 'march/commands/import_message'
+
+March::Commands::ImportMessage.run

@@ -1,0 +1,29 @@
+//Should              this go under another class?
+#message-tree         
+  :background-color   = !light_background
+  :border-width       1px
+  :border-style       solid
+  :border-color       = !light_border 
+  :padding-left       = !spacing
+  :height 100%
+                      
+  .heading 
+    :margin-top = !spacing
+    :padding-top 0
+    :font-weight bolder
+    :font-size 110%
+    
+.message_tree_date    
+  :color              #777
+                      
+.message_tree_node    
+  :margin-left        0.2em
+  :padding            0.5em 0 0 0.5em
+  :border-left        1px solid #ddd
+  :height 100%
+                      
+  .current_message    
+    :font-weight      bold
+    :background-color = !light_background - #111
+    :border           1px solid #eed
+    :border-left      3px solid #666

@@ -1,0 +1,44 @@
+The process of calculating previous / next items is a convoluted one...
+
+The following is true (and makes life easier (no indexes for next/prev))
+
+
+1. A.next.prev == A (if A.next IS NOT NULL)
+2. A.prev.next == A (if A.prev IS NOT NULL)
+
+
+Solution
+--------
+
+Add two new fields to the MESSAGES table
+
+message_id_next
+message_id_previous
+
+They will be filled in by a trigger on messages
+
+INSERT
+------
+Imagine: A <-> B <-> D
+Adding C
+
+Look up C's previous => B
+
+C.next => B.next
+C.prev => B
+B.next.prev (D.prev) => C
+B.next => C
+
+
+UPDATE
+------
+Same as INSERT + DELETE
+
+
+
+DELETE
+------
+Imagine:   A <-> B <-> C
+Removing B
+B.prev.next (A.next) => B.next (C)
+B.next.prev (C.prev) => B.prev (A)

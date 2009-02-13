@@ -1,0 +1,51 @@
+<% 
+  current_rating = 0 
+  def render_img(img, alt)
+    return image_tag( img, :alt => alt, :title => alt )
+  end
+ %>
+ 
+<% if current_user_id
+    rating = Rating.find_by_user_id_and_message_id( current_user_id, message.id )
+    current_rating = (rating ? rating.value : nil) || 0 %>
+    
+  <%= link_to_remote(   render_img( 'rating-spam.png', 'Cancel to rate as spam'), 
+                        { 
+                          :url => { :controller => 'ratings', :action => 'spam', :message_id => message.id }, 
+                          :update => "#{message.html_id}-wrapper", 
+                          :complete => [ visual_effect(:pulsate, "#{message.html_id}-wrapper", :duration => 1) ]
+                        }, 
+                        {  } )%>
+                        
+  <% if rating %>
+  <%= link_to_remote(   render_img( 'rating-cancel.png', 'Cancel current rating'), 
+                        {
+                          :url => { :controller => 'ratings', :action => 'cancel', :message_id => message.id }, 
+                          :update => "#{message.html_id}-wrapper", 
+                          :complete => [ visual_effect(:pulsate, "#{message.html_id}-wrapper", :duration => 1) ]
+                        },
+                        {  } )%>
+  <% else %>
+    <%= render_img 'rating-cancel-disabled.png', 'Please rate this message' %>
+  <% end %>
+  <% 1.upto(Rating::MAX) { |i| %>
+    <% image = (i > current_rating ? 'rating-off.png' : 'rating-on.png') %>
+    
+    <%= link_to_remote(   render_img( image, "Rate as #{pluralize(i, 'star')}"), 
+                          { 
+                            :url => { :controller => 'ratings', :action => 'set', :message_id => message.id, :value => i }, 
+                            :update => "#{message.html_id}-wrapper", 
+                            :complete => [ visual_effect(:pulsate, "#{message.html_id}-wrapper", :duration => 1) ]
+                          }, 
+                          {  } )%>
+  <% } %>
+<% end %>
+
+
+<% if (message.rating_count || 0) > 0 %>
+<span class='rated'>(<%= sprintf('%2.1f', 1.0 * message.rating_total / message.rating_count) %> from <%= pluralize(message.rating_count, 'rating') %>)</span>
+<% else %>
+<span class='unrated'>(unrated)</span>
+<% end %>
+
+

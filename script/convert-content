@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+################################################################################
+#  Copyright 2007-2008 Codehaus Foundation
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+################################################################################
+require File.dirname(__FILE__) + '/../config/boot'
+require RAILS_ROOT + '/config/environment'
+
+
+part_count = Part.count(:conditions => ['state <> ?', 'V'])
+
+puts "Need to copy data for #{part_count} Part objects"
+converted = 0
+while true
+  parts = Part.find(:all, :conditions => ['state <> ?', 'V'], :limit => 100)
+  break if parts.empty?
+  puts "Converting #{converted}-#{converted + parts.length} of #{part_count}"
+  
+  Part.transaction { 
+    for part in parts
+      if part.content_data
+        part.load_content(part.content_data)
+        part.content_data = nil
+      end
+
+      part.state = 'V'
+      part.save!
+    end
+  }
+  
+  converted = converted + parts.length
+  
+end
+
+puts "Complete"

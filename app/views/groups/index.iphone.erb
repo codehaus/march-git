@@ -1,0 +1,54 @@
+<style type='text/css'>
+li .digg-count {
+    display: block;
+    position: absolute;
+    margin: 0;
+    left: 6px;
+    top: 7px;
+    text-align: center;
+    font-size: 110%;
+    letter-spacing: -0.07em;
+    color: #93883F;
+    font-weight: bold;
+    text-decoration: none;
+    width: 72px;
+    height: 30px;
+    padding: 7px 0 0 0;
+    background: url(/images/shade-compact.gif) repeat-x;
+}
+
+body > ul > li {
+    font-size: 14px;
+}
+
+body > ul > li > a {
+    padding-left:   90px;
+    padding-right:  40px;
+    padding-top:    14px;
+    padding-bottom: 0;
+    vertical-align: top;
+    min-height:     32px;
+}
+
+</style>
+
+
+<% 
+   set_page_title(@group.name)
+ %>
+ 
+<ul title='Groups' selected="true">
+  <%= render_object @group, :iphone_li %>
+</ul>  
+
+
+ <% for list in List.find(:all, :conditions => ['group_id = ?', @group.id ], :order => 'key' ) %>
+   <li>
+      <a class='digg-count'><%= list.messages_count %></a>
+      <%= link_to( list.address, url_for_list( list ), :title => list.address ) %>
+   </li>
+ <% end %>
+</ul>
+
+</ul>
+

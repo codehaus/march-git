@@ -1,0 +1,27 @@
+<% @messages = @list.messages.find( :all, :limit => 25, :include => :part, :order => 'sent_at DESC' ) %>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title><%= @list.address %></title>
+    <link><%= url_for_list( @list ).sub( /&/, '&amp;' ) %></link>
+    <description>Feed for <%= @list.address %></description>
+    <% if @messages.first %>
+      <pubDate><%= @messages.first.sent_at.rfc2822 %></pubDate>
+    <% end %>
+    <generator>http://march.rubyhaus.org/</generator>
+    <language>en</language>
+
+    <% for message in @messages %>
+      <item>
+        <title><%= h( message.subject ) %></title>
+        <link><%= <%= url_for_message( message ) %></link>
+        <pubDate><%= message.sent_at.rfc2822 %></pubDate>
+        <dc:creator><%= message.from_name %></dc:creator>
+        <description>
+          <%= h( render :partial=>'/core/message_content', :object=>message ) %> 
+        </description>
+      </item>
+    <% end %>
+  </channel>
+</rss>

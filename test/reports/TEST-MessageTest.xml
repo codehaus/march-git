@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite assertions="2" failures="2" name="MessageTest" errors="0" tests="2" time="0.79934">
+  <testcase assertions="1" name="test_user_milyn_codehaus_org_02" time="0.495878">
+    <failure type="Test::Unit::AssertionFailedError" message="&lt;nil&gt; expected to not be nil.">
+&lt;nil&gt; expected to not be nil. (Test::Unit::AssertionFailedError)
+./test/integration/import_test.rb:40:in `import_file'
+./test/integration/import_test.rb:23:in `test_user_milyn_codehaus_org_02'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `__send__'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `run'    </failure>
+  </testcase>
+  <testcase assertions="1" name="test_user_milyn_codehaus_org_06" time="0.303134">
+    <failure type="Test::Unit::AssertionFailedError" message="&lt;nil&gt; expected to not be nil.">
+&lt;nil&gt; expected to not be nil. (Test::Unit::AssertionFailedError)
+./test/integration/import_test.rb:40:in `import_file'
+./test/integration/import_test.rb:27:in `test_user_milyn_codehaus_org_06'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `__send__'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `run'    </failure>
+  </testcase>
+  <system-out>
+    <![CDATA[Delivered-To: mailing list user@milyn.codehaus.org
+Importing simple
+PGError: ERROR:  relation "contents" does not exist
+:             SELECT a.attname, format_type(a.atttypid, a.atttypmod), d.adsrc, a.attnotnull
+              FROM pg_attribute a LEFT JOIN pg_attrdef d
+                ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+             WHERE a.attrelid = 'contents'::regclass
+               AND a.attnum > 0 AND NOT a.attisdropped
+             ORDER BY a.attnum
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/abstract_adapter.rb:147:in `log'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/postgresql_adapter.rb:433:in `query'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/postgresql_adapter.rb:937:in `column_definitions'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/postgresql_adapter.rb:570:in `columns'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/base.rb:1145:in `columns_without_redhillonrails_core'
+/Users/bwalding/Workspace/march/vendor/plugins/redhillonrails_core/lib/red_hill_consulting/core/active_record/base.rb:25:in `columns'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/base.rb:2598:in `attributes_from_column_definition_without_lock'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/locking/optimistic.rb:55:in `attributes_from_column_definition'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/base.rb:2126:in `initialize'
+/Users/bwalding/Workspace/march/app/models/part.rb:69:in `new'
+/Users/bwalding/Workspace/march/app/models/part.rb:69:in `load_content'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:206:in `import_body'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:188:in `import_simple'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:111:in `import_mail'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/abstract/database_statements.rb:66:in `transaction'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/transactions.rb:79:in `transaction'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:105:in `import_mail'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:87:in `import_mail_from_content'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/abstract/database_statements.rb:66:in `transaction'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/transactions.rb:79:in `transaction'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:69:in `import_mail_from_content'
+./test/integration/import_test.rb:39:in `import_file'
+./test/integration/import_test.rb:23:in `test_user_milyn_codehaus_org_02'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `__send__'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit.rb:278
+/Library/Ruby/Gems/1.8/gems/rake-0.8.1/lib/rake/rake_test_loader.rb:5
+Delivered-To: mailing list user@milyn.codehaus.org
+Importing simple
+PGError: ERROR:  relation "contents" does not exist
+:             SELECT a.attname, format_type(a.atttypid, a.atttypmod), d.adsrc, a.attnotnull
+              FROM pg_attribute a LEFT JOIN pg_attrdef d
+                ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+             WHERE a.attrelid = 'contents'::regclass
+               AND a.attnum > 0 AND NOT a.attisdropped
+             ORDER BY a.attnum
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/abstract_adapter.rb:147:in `log'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/postgresql_adapter.rb:433:in `query'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/postgresql_adapter.rb:937:in `column_definitions'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/postgresql_adapter.rb:570:in `columns'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/base.rb:1145:in `columns_without_redhillonrails_core'
+/Users/bwalding/Workspace/march/vendor/plugins/redhillonrails_core/lib/red_hill_consulting/core/active_record/base.rb:25:in `columns'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/base.rb:2598:in `attributes_from_column_definition_without_lock'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/locking/optimistic.rb:55:in `attributes_from_column_definition'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/base.rb:2126:in `initialize'
+/Users/bwalding/Workspace/march/app/models/part.rb:69:in `new'
+/Users/bwalding/Workspace/march/app/models/part.rb:69:in `load_content'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:206:in `import_body'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:188:in `import_simple'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:111:in `import_mail'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/abstract/database_statements.rb:66:in `transaction'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/transactions.rb:79:in `transaction'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:105:in `import_mail'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:87:in `import_mail_from_content'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/connection_adapters/abstract/database_statements.rb:66:in `transaction'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.1.0/lib/active_record/transactions.rb:79:in `transaction'
+/Users/bwalding/Workspace/march/lib/march/message_importer.rb:69:in `import_mail_from_content'
+./test/integration/import_test.rb:39:in `import_file'
+./test/integration/import_test.rb:27:in `test_user_milyn_codehaus_org_06'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `__send__'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.1.0/lib/active_support/testing/setup_and_teardown.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:34:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/testsuite.rb:33:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnermediator.rb:46:in `run_suite'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:67:in `start_mediator'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/console/testrunner.rb:41:in `start'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/ui/testrunnerutilities.rb:29:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:216:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit/autorunner.rb:12:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/test/unit.rb:278
+/Library/Ruby/Gems/1.8/gems/rake-0.8.1/lib/rake/rake_test_loader.rb:5
+]]>
+  </system-out>
+  <system-err>
+    <![CDATA[]]>
+  </system-err>
+</testsuite>

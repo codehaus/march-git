@@ -1,0 +1,87 @@
+cache "rss/#{@target.class.name}/#{@target.id}/#{latest_id}" do
+
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.instruct! 'xml-stylesheet'.to_sym, :type => 'text/css', :href => '/rss.css'
+xml.rss(:version=>"2.0"){
+  xml.channel{
+    xml.title( @title )
+    xml.link( @link )
+    xml.language( 'en-us' )
+    xml.pubDate( Time.new.rfc2822 )
+    xml.generator ( 'http://march.rubyhaus.org/' )
+    
+    xml.docs( "This file is an RSS 2.0 file.")
+    xml.description("Feed of the latest messages for #{ @title }")
+    xml.language("en-US")
+    for message in @messages
+      xml.item do
+        xml.title( message.subject )
+        xml.creator( message.author_safe ) #XXX Deprecated?
+        xml.author( message.author_safe )
+        #xml.description(post.inhalt)
+        # rfc822
+        xml.pubDate(message.sent_at.rfc2822)
+        xml.link( url_for( :controller => 'messages', 
+                           :group => message.list.group.identifier, 
+                           :list => message.list.identifier, 
+                           :message => message.identifier, :path_only => false ) )
+        xml.guid ( url_for( :controller => 'messages', 
+                           :group => message.list.group.identifier, 
+                           :list => message.list.identifier, 
+                           :message => message.identifier, :path_only => false ), :isPermaLink => true )
+
+        def header_xml(xml, message)
+          xml.table( :style => 'border: 1px solid #aaa' ) do
+            xml.tr do
+              xml.td( "List", :style => 'border-right: 1px solid #ccc' )
+              xml.td( message.list.address )
+            end
+            xml.tr do
+              xml.td( "Author", :style => 'border-right: 1px solid #ccc' )
+              xml.td( message.author_safe )
+            end
+            xml.tr do
+              xml.td( "Sent", :style => 'border-right: 1px solid #ccc' )
+              xml.td( message.sent_at )
+            end
+          end
+        end
+      
+        content_part = message.content_part
+        
+        if content_part
+          if content_part.content_type =~ /text\/plain/
+            xml.description do
+              content = content_part.content
+              if content
+                header_xml(xml, message)
+                xml.hr
+                xml.pre(content.data)
+              end
+            end
+          elsif content_part.content_type =~ /text\/html/
+            xml.description do
+              content = content_part.content
+              if content
+                header_xml(xml, message)
+                xml.hr
+                xml.div(content.data)
+              end
+            end
+          else
+            xml.description do
+              header_xml(xml, message)
+              xml.hr
+              xml.div("... (content type (#{ content_part.content_type } not currently supported) ... ")
+            end
+          end
+        end
+        
+      end
+    end
+  }
+}
+
+
+end

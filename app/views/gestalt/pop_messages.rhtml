@@ -1,0 +1,12 @@
+<ol>
+<% for message in @messages %>
+ <li><%= message %></li>
+<% end %>
+</ol>
+<p>
+<%= link_to 'POP Message', :action => 'pop_message'%>
+</p>
+
+<p>
+<%= link_to 'POP Messages', :action => 'pop_messages'%>
+</p>

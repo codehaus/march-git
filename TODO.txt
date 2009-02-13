@@ -1,0 +1,20 @@
+Links in search page are all absolute
+
+Test cases are failing
+
+Some text doesn't render
+
+There's at least one message in /tmp/mail-queue/1170[0-2]* that fails to tidy up properly
+
+need to work out why it takes so much db time to commit a handful of messages
+
+
+
+
+
+Make links have no google juice (rel="none" or whatever it is)
+
+Add spam submission 
+
+Add persistent login
+

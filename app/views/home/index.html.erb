@@ -1,0 +1,8 @@
+<div>
+<div class="chart" style='float: right'>
+<div style='text-align: center; width: 100%; font-weight: 80%'>all activity in <%= @root.name %></div>
+<%= render_chart :width => 500, :height => 250, :url => url_for_group( @root, :charts_xml) %>
+</div>
+</div>
+
+<div style='clear: both'/>

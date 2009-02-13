@@ -1,0 +1,22 @@
+<div class="flash">
+<% for type in @flash_types %>
+	<% if @flash_var.has_key?(type) and @flash_var[type].length > 0 %>
+		<div id="flash-<%= type %>" class="flash-<%= type %>">
+			<% @flash_var[type].each_index { |i| %>
+				<div id="flash-<%= type %>-<%= i %>" class="flash-item">
+					<table style="width: 100%">
+						<tr>
+							<td class="message"><%= @flash_var[type][i] %></td>
+							<td class="close" title='dismiss' onclick='javascript:<%= visual_effect(:slide_up, "flash-#{type}-#{i}") %>'><%= image_tag 'remove.gif' %></td>
+						</tr>
+					</table>
+				</div>
+				<script type='text/javascript'>
+					<%= visual_effect(:highlight, "flash-#{type}-#{i}", :duration => 2.0) %>;
+				</script>
+				<% @flash_var[type].clear %>
+		 	<% } %>
+		</div>
+	<% end %>
+<% end %>
+</div>

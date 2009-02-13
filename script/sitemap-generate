@@ -1,0 +1,93 @@
+#!/usr/bin/env ruby
+################################################################################
+#  Copyright 2007-2008 Codehaus Foundation
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+################################################################################
+require File.dirname(__FILE__) + '/../config/boot'
+require RAILS_ROOT + '/config/environment'
+
+#require 'rubygems'
+require 'builder'
+
+# We are attempting to generate the minimum number of sitemaps that meet the following rules
+
+# A sitemap may have at most 50000 URLs
+# A sitemap may be at most 10M (uncompressed)
+# Given that 10M == 200 bytes per URL; and most of our URLs will compress well; it is safe to assume 
+# we can dump 50000 items into each file.
+# The simplest solution is to just messages in order into files. The limit we will reach is 50 million messages.
+# 50,000 URLs per file; 1000 files 
+
+class Sitemap
+  attr_accessor :url
+end
+
+class Info
+  attr_reader :list
+  attr_reader :start
+  attr_reader :count
+  
+  def initialize(list, start = 0, count = -1)
+    @list = list
+    @start = start
+    @count = count
+  end
+end
+
+@archive_output = "#{RAILS_ROOT}/public"
+@archive_host = ARGV[0] #archive.codehaus.org
+@archive_prefix = ARGV[1] #haus/codehaus
+
+lists = List.find(:all)
+
+#t.run(lists)
+digits = Math.log10(lists.length + 1).to_i + 1
+fstr = "%#{digits}d/%#{digits}d"
+
+sitemaps = []
+index = 0
+lists.each_index {|list_index|
+  list = lists[list_index]
+  print "[#{sprintf(fstr, list_index + 1, lists.length)}] #{list.address}: "
+  
+  count = list.messages_count
+  last_sent_at = Time.at(0)
+  while true
+    print '.'
+    messages = list.messages.find(:all, :conditions => [ 'sent_at > ?', last_sent_at ], :order => 'sent_at', :limit => 50000)
+    break if messages.empty?
+    
+    last_sent_at = messages.last.sent_at
+    filename = "sitemap-#{index}.xml"
+    sitemaps << "#{filename}.gz"
+    File.open("#{@archive_output}/#{filename}", 'w') { |io|
+      xml = Builder::XmlMarkup.new(:target => io) #, :indent => 1
+      script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-sitemap.rxml")
+      xml.instance_eval(script)
+    }
+    print "\n"
+    cmd "gzip -f #{@archive_output}/#{filename}"
+    if not system(cmd)
+      puts "Failure running #{cmd}"
+    end
+  end
+}
+
+print "\n"
+puts sitemaps.inspect
+File.open("#{@archive_output}/sitemap.xml", 'w') { |io|
+  xml = Builder::XmlMarkup.new(:target => io, :indent => 1)
+  script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-sitemapindex.rxml")
+  xml.instance_eval(script)
+}

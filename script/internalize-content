@@ -1,0 +1,85 @@
+#!/usr/bin/env ruby
+################################################################################
+#  Copyright 2007-2008 Codehaus Foundation
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+################################################################################
+require File.dirname(__FILE__) + '/../config/boot'
+require RAILS_ROOT + '/config/environment'
+
+#This script moves content on the filesystem into the database text fields
+#File system content is removed as it is successfully imported
+
+BATCH = 1000
+MAX_SIZE = 1024 * 1024
+
+
+puts "Updating all parts that have content in the database already"
+#Part.update_all("state = 'N'", "content IS NOT NULL AND state = 'N'")
+puts "Pre-update complete"
+
+while true
+  count = Part.count(:conditions => [ 'state = ?', 'N' ])
+  if count == 0
+    puts "Internalising complete"
+    break
+  end
+  
+  puts "Indexing... #{count} to go"
+  batch_start = Time.new
+  to_remove = []
+  #Part.transaction { #While a transaction is dandy, it locks out other apps for too long
+    Part.find(:all, :conditions => [ 'state = ?', 'N'], :limit => BATCH).each { |part|
+      content = nil
+      count = count - 1
+      puts "Parts Left: #{count}"
+    
+      if File.exist?(part.content_path)
+        puts "Import: #{part.content_path}"
+        puts "Message Id: #{part.message.message_id822}"
+        
+        File.open(part.content_path) { |io| content = io.read }
+        puts "Processing #{part.content_type}"
+        puts "Loading content(#{content.length}) into db"
+        if content.length > MAX_SIZE #1M
+          puts "Truncating content..."
+          content = content[0..MAX_SIZE]
+        end 
+        
+        part.load_data(content)
+        
+        to_remove << part.content_path
+      else
+        if part.content
+          puts "Part[id=#{part.id}] had already been loaded but not flagged as indexed"
+          part.state = 'I' #Indexed
+          part.save!
+          next
+        end
+
+        puts "Part[id=#{part.id}]: Unable to find content (#{part.content_path})"
+        puts " #{part.message.list.address} on #{part.message.sent_at}"
+        part.state = 'M' #Missing
+        part.save!
+      end
+    }
+  #}
+  
+  to_remove.each { |f| File.unlink(f) }
+  
+  batch_finish = Time.new
+  
+  delta = batch_finish - batch_start
+  puts "Rate for last batch: #{BATCH / delta} parts/second"
+  puts "At this rate, indexing will be complete in #{count / BATCH * delta} seconds"
+end

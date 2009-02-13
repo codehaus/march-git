@@ -1,0 +1,11 @@
+<p>There are <%= List.count() %> lists configured</p>
+<p>There are <%= Message.count() %> messages</p>
+<p>There are <%= Message.count( :conditions => [ 'NOT indexed' ] ) %> unindexed messages</p>
+
+<p>
+<%= link_to 'POP Message', :action => 'pop_message'%>
+</p>
+
+<p>
+<%= link_to 'POP Messages', :action => 'pop_messages'%>
+</p>

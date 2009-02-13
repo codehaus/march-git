@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="<%= h( @page_title ) %>" />
+    <meta name="keywords" content="mail,archive" />
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width">
+    
+    <meta http-equiv="Content-Language" content="en-us" />
+    
+    <!-- Combo-handled YUI CSS files: -->
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.6.0/build/fonts/fonts-min.css&2.6.0/build/grids/grids-min.css&2.6.0/build/assets/skins/sam/skin.css">
+    <!-- Combo-handled YUI JS files: -->
+    <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/yahoo-dom-event/yahoo-dom-event.js&2.6.0/build/calendar/calendar-min.js&2.6.0/build/container/container-min.js&2.6.0/build/element/element-beta-min.js&2.6.0/build/datasource/datasource-min.js&2.6.0/build/datatable/datatable-min.js"></script>
+    
+    <!-- http://developer.yahoo.com/yui/articles/hosting/?calendar&container&containercore&datatable&grids&MIN -->
+    
+    <%= stylesheet_link_tag 'march-xircles.css' %>
+    <%= stylesheet_link_tag 'main.css' %>
+    <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js' %>
+    <%= javascript_include_tag 'handle_search_field' %>
+    <title>
+      Mail Archive <%= @page_title ? ":: #{h(@page_title)}" : '' %>
+    </title>
+    
+    
+    
+    <style type='text/css'>
+    </style>
+    
+    <% if @target %>
+      <%= auto_discovery_link_tag(:rss, url_for_target(@target, :rss), :title => "Latest #{@target.name} messages" ) %>
+    <% else %>
+      <%= auto_discovery_link_tag(:rss, url_for_target(Group.root, :rss), :title => "Latest #{Group.root.name} messages") %>
+    <% end %>
+  </head>
+  <body class='yui-skin-sam'>
+    <div id='doc3' class="yui-t1">
+      <div id="hd">
+        <%= render :partial => '/layouts/header'%>
+        <% @target ||= Group.root 
+           #Fallbacks for dirty data
+           @target.updated_at ||= @target.created_at
+           @target.updated_at ||= Time.new
+          %>
+        <% cache("layouts/navigation/#{User.cache_id(current_user)}/#{@target.class.name}/#{@target.updated_at.iso8601}") do %>
+          <%= render :partial => '/layouts/navigation' %>
+        <% end %>
+      </div><!--   CONTENT -->
+      <div id="bd">
+        <div id="yui-main">
+          <div class="yui-g">
+              <% 
+                 if @target 
+                   cache "layouts/breadcrumbs/#{@target.identifier}/#{@target.updated_at.iso8601}" do
+                     crumbs = breadcrumbs()
+                     if not crumbs.empty? %>
+                      <div class="navigation">
+                        Location <% for crumb in crumbs %> » <span><%= crumb %></span> <% end %> 
+                      </div>
+                  <% end 
+                   end 
+                 end 
+              %>
+            
+            <% if @target %>
+              <% sub_navigation = render_object( @target ).strip %>
+              <% if sub_navigation.length > 0 %>
+                <div class="sub-navigation">
+                  <%= sub_navigation %>
+                </div>
+              <% end %>
+            <% end %>
+            
+            <%= render_flash %>
+            
+            <div class='content-box'>
+            <%= yield %>
+            </div>
+            
+            <% if render_ad?(:bottom) %>
+              <%= render_ad(:bottom) %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div id="ft">
+        <% cache("layouts/footer") do %>
+          <%= render :partial => '/layouts/footer' %>
+        <% end %>
+      </div>
+    </div>
+  </body>
+</html>
