@@ -13,8 +13,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 ################################################################################
+require File.dirname(__FILE__) + '/../test_helper'
 
-require '../test_helper'
 
 class SearchControllerTest < ActionController::TestCase
 
