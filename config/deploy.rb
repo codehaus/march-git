@@ -48,9 +48,12 @@ set :application, "march"
 
 # Repository options
 set :scm, "git"
-set :repository,  "git://git.codehaus.org/march.git"
+set :repository,  "git://git.codehaus.org/march-git.git"
 set :repository_site, "file:///opt/march/site.git"
 set :branch, "master"
+
+ssh_options[:user] = 'ror-march'
+ssh_options[:forward_agent] = true
 
 
 # =============================================================================

@@ -19,7 +19,7 @@ module RenderHelper
 #  include ReCaptcha::ViewHelper
 
   def render_object(object, style = 'listing' )
-    underscore_name = Inflector.underscore( object.class.name )
+    underscore_name = ActiveSupport::Inflector.underscore( object.class.name )
     render :partial=>"/by_object/#{underscore_name}/#{style}", :locals=>{ underscore_name.to_sym=>object } 
   end
 

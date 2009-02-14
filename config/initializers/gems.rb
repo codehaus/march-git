@@ -46,7 +46,7 @@ gems_failed ||= try_gem( 'recaptcha')
 #gem install --source http://www.loonsoft.com/recaptcha/pkg/ recaptcha
 
 gems_failed ||= try_gem( 'chronic')
-gems_failed ||= try_gem( 'memcache-client',      '=', '1.5.0' )
+#gems_failed ||= try_gem( 'memcache-client',      '=', '1.5.0' )
 
 if gems_failed
   exit 1
