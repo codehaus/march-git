@@ -1,0 +1,18 @@
+[submodule "vendor/plugins/redhillonrails_core"]
+	path = vendor/plugins/redhillonrails_core
+	url = git://github.com/harukizaemon/redhillonrails_core.git
+[submodule "vendor/plugins/acts_as_tree"]
+	path = vendor/plugins/acts_as_tree
+	url = git://github.com/rails/acts_as_tree.git
+[submodule "vendor/plugins/haml"]
+	path = vendor/plugins/haml
+	url = git://github.com/nex3/haml.git
+[submodule "vendor/plugins/will_paginate"]
+	path = vendor/plugins/will_paginate
+	url = git://github.com/technoweenie/will_paginate.git
+[submodule "vendor/plugins/query_trace"]
+	path = vendor/plugins/query_trace
+	url = git://github.com/ntalbott/query_trace.git
+[submodule "vendor/plugins/foreign_key_migrations"]
+	path = vendor/plugins/foreign_key_migrations
+	url = git://github.com/harukizaemon/foreign_key_migrations.git
