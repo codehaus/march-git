@@ -32,9 +32,11 @@ class AddTsearch < ActiveRecord::Migration
 EOF
     Content.connection.execute(sql)
     
-    DatabaseFunction.install_all
-    
     sql = <<EOF
+    CREATE OR REPLACE FUNCTION sp_contents_data_trigger() RETURNS trigger AS $$
+    BEGIN
+    END;
+    $$ LANGUAGE plpgsql;
     CREATE TRIGGER contents_data_tsv_update BEFORE INSERT OR UPDATE
     ON contents FOR EACH ROW EXECUTE PROCEDURE
     sp_contents_data_trigger();

@@ -7,10 +7,12 @@ class CreateStopWords < ActiveRecord::Migration
     
     add_index :stop_words, :word
     
+    # insignificant numbers
     1.upto(100) { |i|
       StopWord.create(i)
     }
 
+    # years
     2000.upto(2020) { |i|
       StopWord.create(i)
     }
@@ -18,6 +20,8 @@ class CreateStopWords < ActiveRecord::Migration
     [ 'xircles.codehaus.org', '+44', 'list', 're' ].each { |word|
       StopWord.create(word)
     }
+    
+    DatabaseFunction.install_all
   end
 
   def self.down

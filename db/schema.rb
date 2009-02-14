@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20080925124449) do
     t.string   "description",    :limit => nil
   end
 
+  add_index "groups", ["identifier"], :name => "index_groups_on_identifier"
   add_index "groups", ["key", "parent_id"], :name => "index_groups_on_parent_id_and_key"
 
   create_table "list_alias", :force => true do |t|
@@ -86,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20080925124449) do
   end
 
   add_index "lists", ["group_id", "key"], :name => "index_lists_on_group_id_and_key"
+  add_index "lists", ["identifier"], :name => "index_lists_on_identifier"
 
   create_table "message_references", :force => true do |t|
     t.integer  "message_id",                              :null => false
@@ -130,10 +132,7 @@ ActiveRecord::Schema.define(:version => 20080925124449) do
     t.datetime "updated_at"
   end
 
-  create_table "threads", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "stop_words", ["word"], :name => "index_stop_words_on_word"
 
   create_table "users", :force => true do |t|
     t.string   "identifier", :null => false

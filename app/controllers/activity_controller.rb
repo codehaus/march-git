@@ -31,7 +31,7 @@ class ActivityController < ApplicationController
     )
   ORDER BY M.ID DESC
   LIMIT 25
-  EOF
+EOF
     @messages = Message.find_by_sql(sql)
 
     render :text => @messages.to_json

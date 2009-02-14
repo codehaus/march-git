@@ -18,10 +18,12 @@ class CreateRatings < ActiveRecord::Migration
     change_column :messages, :rating_total, :integer, :default => 0
     change_column :messages, :rating_count, :integer, :default => 0
     
-    DatabaseFunction.install_all #Because the schema of tables has changed
-    
     drop_trigger('ratings', 'rating_message_update')  
     sql = <<EOF
+    CREATE OR REPLACE FUNCTION trg_rating_message() RETURNS trigger AS $$
+    BEGIN
+    END;
+    $$ LANGUAGE plpgsql;
     CREATE TRIGGER rating_message_update BEFORE INSERT OR UPDATE OR DELETE
     ON ratings FOR EACH ROW EXECUTE PROCEDURE
     trg_rating_message();

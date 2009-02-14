@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
 
       response.headers['Last-Modified'] = @message.created_at.to_s
       if minTime and @message.created_at <= minTime
-        return head :not_modified
+        return head( :not_modified )
         #return render( :nothing => true, :status => 304 )
       end
     end
@@ -43,7 +43,7 @@ private
   def cache_by_etag(cache_key)
     cache_key_md5 = Digest::MD5.hexdigest(cache_key)
     if request.has_key?('If-None-Match') and (request['If-None-Match'].downcase == cache_key_md5.downcase)
-      return head :not_modified
+      return head( :not_modified )
     end
     
     response['ETag'] = cache_key_md5
