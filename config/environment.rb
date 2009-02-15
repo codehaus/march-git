@@ -116,7 +116,7 @@ memcache_servers = "localhost:11211"
 
 March::YUI = '2.6.0'
 
-if RAILS_ENV == 'production'
+if [ 'production', 'test' ].include?(RAILS_ENV)
   RAILS_DEFAULT_LOGGER.class.class_eval do
     def trace(s = nil)
     end
