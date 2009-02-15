@@ -14,7 +14,7 @@
 #  limitations under the License.
 ################################################################################
 
-require '../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class EmailTest < ActiveSupport::TestCase
   

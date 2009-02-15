@@ -13,7 +13,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 ################################################################################
-require 'test_helper'
+
+require File.dirname(__FILE__) + '/../test_helper'
 
 class ContentTest < ActiveSupport::TestCase
   # Replace this with your real tests.
