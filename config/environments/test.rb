@@ -65,7 +65,10 @@ ActionController::Base.cache_store = :file_store, "./tmp/cache"
 
 March::PROFILE = false
 March::ADS = true
+
 March::GOOGLE_AD_CLIENT = 'goober'
 March::GOOGLE_AD_SLOT_TOP = nil
 March::GOOGLE_AD_SLOT_BOTTOM = nil
 March::TOKEN = 'X'
+
+March::GOOGLE_ANALYTICS = 'N/A'

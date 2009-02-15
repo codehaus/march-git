@@ -19,7 +19,7 @@ class GestaltController < ApplicationController
   attr_reader :pather
   
   def index
-    @group = pather.target
+    #@group = pather.target
   end
   
   def profile

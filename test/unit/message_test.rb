@@ -31,7 +31,7 @@ class MessageTest < Test::Unit::TestCase
   def test_before_save
     m = Message.new
     m.message_id822 = "a%b.com"
-    m.list_id = 1
+    m.list = List.find(:first)
     m.sent_at = Time.now
     m.from_address = 'clown@example.com'
     m.from_header = 'clown@example.com'

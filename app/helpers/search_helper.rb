@@ -72,7 +72,8 @@ private
    return Message.find_by_sql([ "SELECT * FROM sp_search_group(?, to_tsquery('march_config', ?))", target.id, searchterms ])
  end
  
- def search_all()
+ def search_all(searchterms)
+   raise Exception.new("not implemented")
    #return Message.find_by_sql([ "SELECT * FROM sp_search_list(?, to_tsquery('march_config', ?))", target.id, searchterms)
  end
  

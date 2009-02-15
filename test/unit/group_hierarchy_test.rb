@@ -109,6 +109,7 @@ private
   end
 
   def create_group(options)
+    options[:identifier] ||= options[:key].split('.').reverse.join('.')
     group = Group.new(options)
     group.save!
     group

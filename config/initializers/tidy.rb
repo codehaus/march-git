@@ -14,7 +14,12 @@
 #  limitations under the License.
 ################################################################################
 
-[  "/opt/local/lib/libtidy.dylib", "/usr/lib/libtidy.so", "/usr/local/lib/libtidy.so", '/opt/tidy/current/lib/libtidy.dylib' ].each { |path|
+[  
+  "/opt/local/lib/libtidy.dylib", 
+  "/usr/lib/libtidy.so", 
+  "/usr/local/lib/libtidy.so", 
+  '/opt/tidy/current/lib/libtidy.dylib' 
+].each { |path|
   if File.exists?(path)
     puts "Setting tidy library to #{path}"
     require 'tidy'

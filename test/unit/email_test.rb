@@ -37,7 +37,7 @@ class EmailTest < ActiveSupport::TestCase
 private
   def test_internal(input, expected)
     matches = []
-    March::Email.match(input) { |type,value|
+    March::Email.match2(input) { |type,value|
       matches << [ type, value ]
     }
     
