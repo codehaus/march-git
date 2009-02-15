@@ -30,7 +30,11 @@ class EmailTest < ActiveSupport::TestCase
 
   def test_match_multiline
     test_internal( "hello\nemail is test@example.com", 
-                   [ [ :text, 'hello\nemail is ' ], [ :email, 'test@example.com' ] ] )
+                   [
+                     [ :text, "hello\nemail is " ], 
+                     [ :email, 'test@example.com' ] 
+                   ]
+                 )
   end
 
   

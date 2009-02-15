@@ -25,13 +25,11 @@ class March::Email
     
     text.gsub(REGEX_EMAIL) { |t| yield(t) }
   end
-
-  REGEX_EMAIL2 = Regexp.new('(.*?)([a-zA-Z0-9\-_]+@[a-zA-Z0-9\-_]+[\.a-zA-Z0-9\-_]+)(.*)')
+  
+  REGEX_EMAIL2 = Regexp.new('^(.*?)([a-zA-Z0-9\-_]+@[a-zA-Z0-9\-_]+[\.a-zA-Z0-9\-_]+)(.*)$', Regexp::MULTILINE)
   def self.match2(text)
     puts "Processing: #{text}"
-    if not text
-      return ''
-    end
+    return '' if text.nil? or text.blank?
       
     #The block is passed two values; 
     #chunk_type = :text or :email
@@ -40,14 +38,14 @@ class March::Email
     match = REGEX_EMAIL2.match(msg)
     puts "PreMatch: #{match}"
     while (match)
-      puts "match: #{match}"
+      puts "match: #{$1} / #{$2} / #{$3}"
       pre = $1
-      yield( :text, pre ) if pre != ''
+      yield( :text, pre ) unless pre.blank?
       yield( :email, $2 )
       msg = $3
       match = REGEX_EMAIL2.match(msg)
     end
 
-    yield(:text, msg) if msg != ''
+    yield(:text, msg) unless msg.blank?
   end
 end
