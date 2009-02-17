@@ -42,9 +42,36 @@ EOF
     sp_contents_data_trigger();
 EOF
     drop_trigger('contents', 'contents_data_tsv_update')
+    
+    
+    Content.connection.execute(sql)
+    build_dictionary
+  end
+  
+  def self.build_dictionary
+    sql = <<EOF
+    
+    CREATE TEXT SEARCH DICTIONARY march_dict (
+        TEMPLATE = simple,
+        StopWords = march
+        );
+
+    CREATE TEXT SEARCH CONFIGURATION march_config ( COPY = pg_catalog.simple );
+
+    ALTER TEXT SEARCH CONFIGURATION march_config
+        ALTER MAPPING FOR asciiword, 
+                          asciihword, 
+                          hword_asciipart,
+                          word, 
+                          hword, 
+                          hword_part
+        WITH march_dict;
+EOF
+    
     Content.connection.execute(sql)
   end
-
+  
+  
   notes = <<EOF
   SELECT m.subject, m.message_id822
   FROM contents c, parts p, messages m
@@ -63,23 +90,7 @@ EOF
   CREATE TEXT SEARCH CONFIGURATION pg_catalog.english (
       PARSER = default
   );
-  
-  CREATE TEXT SEARCH DICTIONARY march_dict (
-      TEMPLATE = simple,
-      StopWords = march
-      );
-
-  CREATE TEXT SEARCH CONFIGURATION march_config ( COPY = pg_catalog.simple );
-
-  ALTER TEXT SEARCH CONFIGURATION march_config
-      ALTER MAPPING FOR asciiword, 
-                        asciihword, 
-                        hword_asciipart,
-                        word, 
-                        hword, 
-                        hword_part
-      WITH march_dict;
- 
+  -- build_dictionary
   UPDATE contents SET tsv = to_tsvector(encode(data, 'escape'))
   UPDATE contents SET tsv = to_tsvector(convert_from('text_in_utf8', 'UTF8'));
   
