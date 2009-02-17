@@ -64,10 +64,22 @@ EOF
       PARSER = default
   );
   
- 
-  CREATE TRIGGER mytable_trigiu BEFORE INSERT OR UPDATE
-  ON mytable FOR EACH ROW EXECUTE PROCEDURE mytable_ft_trigger();
+  CREATE TEXT SEARCH DICTIONARY march_dict (
+      TEMPLATE = simple,
+      StopWords = march
+      );
 
+  CREATE TEXT SEARCH CONFIGURATION march_config ( COPY = pg_catalog.simple );
+
+  ALTER TEXT SEARCH CONFIGURATION march_config
+      ALTER MAPPING FOR asciiword, 
+                        asciihword, 
+                        hword_asciipart,
+                        word, 
+                        hword, 
+                        hword_part
+      WITH march_dict;
+ 
   UPDATE contents SET tsv = to_tsvector(encode(data, 'escape'))
   UPDATE contents SET tsv = to_tsvector(convert_from('text_in_utf8', 'UTF8'));
   

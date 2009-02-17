@@ -17,29 +17,26 @@
 class Content < ActiveRecord::Base
   has_one :part, :dependent => :nullify
   
-  
   def data=(new_data)
     puts "data=#{new_data.length}"
-    self.clean = false
     puts content_type
     if self.content_type =~ /text\/html/ and new_data != nil
-      puts "bonker"
       logger.info { "Cleaning content (#{new_data.length})..." }
       
       begin
         puts "cleaning #{new_data.length} bytes"
-        File.open("pre.html") { |io| io.write(new_data) }
+        File.open("pre.html", 'w') { |io| io.write(new_data) }
         new_data = March::HtmlCleaner.new().clean(new_data)
         puts "cleaned #{new_data.length} bytes"
         self.clean = true
-      rescue
+      rescue Exception => e
         self.clean = false
-        logger.warn { "Failed cleaning content; marking content as dirty" }
+        puts "Failed cleaning content; marking content as dirty (#{e})"
       end
     else
       self.clean = true
     end
-    
+    puts "Set self.clean to #{self.clean}"
     write_attribute(:data, new_data)
     if new_data
       self.length = new_data.length

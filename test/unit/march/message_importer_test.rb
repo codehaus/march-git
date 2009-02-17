@@ -33,7 +33,6 @@ class March::MessageImporterTest < Test::Unit::TestCase
     parts = msg.parts
     
     assert_equal 3, parts.length
-    assert_not_nil msg.content_part
     assert_equal 'text/html', msg.content_part.content_type
 
     msg = load_message('414021E3.8060309@codehaus.org', 'msg-03.txt', true)
@@ -65,6 +64,7 @@ private
     
     msg = mi.import_file(File.dirname(__FILE__) + "/#{name}")
     assert_not_nil msg, 'message should be imported'
+    assert_not_nil msg.parts, 'there should be at least 1 part'
     assert_equal message_id822, msg.message_id822
     assert_equal msg, Message.find_by_message_id822(message_id822)
     assert_not_nil msg.content_part, "content_part should be set during load"

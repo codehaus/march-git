@@ -132,7 +132,7 @@ class March::MessageImporter
   
   def set_better_part(message, part)
     #Dirty parts can't be the best!
-    if not part.clean 
+    if not part.content.clean 
       return
     end
     
@@ -149,6 +149,8 @@ class March::MessageImporter
       message.content_part = part
       message.save!
     end
+    
+    puts "Set content part to #{message.content_part}"
     
   end
   

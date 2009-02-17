@@ -170,7 +170,7 @@ class Message < ActiveRecord::Base
   
   
   def preferred_content_part
-    if content_part_id == nil
+    if not content_part_id
       reset_content_part
     end
     

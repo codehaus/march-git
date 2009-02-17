@@ -55,8 +55,8 @@ CREATE TABLE days (
     m integer,
     d integer,
     dw integer,
-    monthname character varying(9) DEFAULT NULL::character varying,
-    dayname character varying(9) DEFAULT NULL::character varying,
+    monthname character varying(9),
+    dayname character varying(9),
     w integer
 );
 
@@ -109,8 +109,8 @@ CREATE TABLE groups (
     id integer NOT NULL,
     parent_id integer,
     key character varying(64) NOT NULL,
-    name character varying(128) DEFAULT NULL::character varying,
-    url character varying(512) DEFAULT NULL::character varying,
+    name character varying(128),
+    url character varying(512),
     children_count integer DEFAULT 0 NOT NULL,
     lists_count integer DEFAULT 0 NOT NULL,
     domain character varying(255) NOT NULL,
@@ -140,8 +140,8 @@ CREATE TABLE lists (
     id integer NOT NULL,
     group_id integer,
     address character varying(128) NOT NULL,
-    url character varying(512) DEFAULT NULL::character varying,
-    subscriber_address character varying(128) DEFAULT NULL::character varying,
+    url character varying(512),
+    subscriber_address character varying(128),
     key character varying(255) NOT NULL,
     messages_count integer DEFAULT 0 NOT NULL,
     created_at timestamp with time zone,
@@ -172,22 +172,20 @@ CREATE TABLE messages (
     id integer NOT NULL,
     list_id integer NOT NULL,
     message_id822 character varying(128) NOT NULL,
-    in_reply_to_message_id822 character varying(128) DEFAULT NULL::character varying,
+    in_reply_to_message_id822 character varying(128),
     sent_at timestamp without time zone NOT NULL,
     from_address character varying(128) NOT NULL,
     from_header character varying(256) NOT NULL,
-    from_name character varying(128) DEFAULT NULL::character varying,
+    from_name character varying(128),
     subject character varying(1024) DEFAULT ''::character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT '2008-08-26 20:35:18.793948'::timestamp without time zone,
+    created_at timestamp without time zone DEFAULT '2009-02-15 19:55:52.318992'::timestamp without time zone,
     indexed boolean DEFAULT false NOT NULL,
     content_part_id integer,
     source character varying(4096),
     updated_at timestamp with time zone,
     subject_tsv tsvector,
-    rating_total integer,
-    rating_count integer,
-    thread_id integer,
-    thread_depth integer
+    rating_total integer DEFAULT 0 NOT NULL,
+    rating_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -202,7 +200,6 @@ CREATE TABLE parts (
     name character varying(255),
     length integer,
     state character(1),
-    clean boolean DEFAULT false,
     content_id integer,
     created_at timestamp with time zone,
     updated_at timestamp with time zone
@@ -247,47 +244,14 @@ CREATE TABLE stop_words (
 
 
 --
--- Name: threads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE threads (
-    id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: tmpa; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE tmpa (
-    word text,
-    ndoc integer,
-    nentry integer
-);
-
-
---
--- Name: tmpb; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE tmpb (
-    word text,
-    ndoc integer,
-    nentry integer
-);
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
     id integer NOT NULL,
     identifier character varying(255) NOT NULL,
-    nickname character varying(255) DEFAULT NULL::character varying,
-    fullname character varying(255) DEFAULT NULL::character varying,
+    nickname character varying(255),
+    fullname character varying(255),
     created_at timestamp without time zone,
     updated_at timestamp without time zone
 );
@@ -709,17 +673,24 @@ BEGIN
   RETURN QUERY SELECT m.*
     FROM messages m
     WHERE m.id IN (
-      SELECT c.message_id 
-      FROM contents c
-      WHERE data_tsv @@ p_query
-        AND list_id = p_list_id
+      SELECT message_id FROM (
+        SELECT
+          c.message_id
+        FROM contents c
+        WHERE data_tsv @@ p_query
+          AND list_id = p_list_id
+        LIMIT 25
+      ) PARTA
         
       UNION ALL
       
-      SELECT id
-      FROM messages m
-      WHERE subject_tsv @@ p_query
-        AND list_id = p_list_id
+      SELECT id FROM (
+        SELECT id
+        FROM messages m
+        WHERE subject_tsv @@ p_query
+          AND list_id = p_list_id
+        LIMIT 25
+      ) PARTB
     )
     ORDER BY SENT_AT DESC
     LIMIT 25;
@@ -800,9 +771,10 @@ BEGIN
     count_delta := count_delta + 1;
   END IF;
   
+  -- For big instances, you may not have zeroed the messages initially
   UPDATE messages m
-  SET rating_total = rating_total + total_delta,
-      rating_count = rating_count + count_delta
+  SET rating_total = COALESCE(rating_total, 0) + total_delta,
+      rating_count = COALESCE(rating_count, 0) + count_delta
   WHERE id = message_id;
   
   IF TG_OP = 'DELETE' THEN
@@ -816,93 +788,11 @@ $$
 
 
 --
--- Name: march_dict; Type: TEXT SEARCH DICTIONARY; Schema: public; Owner: -
---
-
-CREATE TEXT SEARCH DICTIONARY march_dict (
-    TEMPLATE = pg_catalog.ispell,
-    dictfile = 'english', afffile = 'english', stopwords = 'march' );
-
-
---
--- Name: simple_dict; Type: TEXT SEARCH DICTIONARY; Schema: public; Owner: -
---
-
-CREATE TEXT SEARCH DICTIONARY simple_dict (
-    TEMPLATE = pg_catalog.simple,
-    stopwords = 'english' );
-
-
---
--- Name: march_config; Type: TEXT SEARCH CONFIGURATION; Schema: public; Owner: -
---
-
-CREATE TEXT SEARCH CONFIGURATION march_config (
-    PARSER = pg_catalog."default" );
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR asciiword WITH march_dict;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR word WITH march_dict;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR numword WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR email WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR url WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR host WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR sfloat WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR version WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR hword_numpart WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR hword_part WITH march_dict;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR hword_asciipart WITH march_dict;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR numhword WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR asciihword WITH march_dict;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR hword WITH march_dict;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR url_path WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR file WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR "float" WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR "int" WITH simple;
-
-ALTER TEXT SEARCH CONFIGURATION march_config
-    ADD MAPPING FOR uint WITH simple;
-
-
---
 -- Name: contents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE contents_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -958,6 +848,7 @@ ALTER SEQUENCE emails_id_seq OWNED BY emails.id;
 --
 
 CREATE SEQUENCE favorites_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -976,6 +867,7 @@ ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
 --
 
 CREATE SEQUENCE group_hierarchies_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -994,6 +886,7 @@ ALTER SEQUENCE group_hierarchies_id_seq OWNED BY group_hierarchies.id;
 --
 
 CREATE SEQUENCE groups_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1031,6 +924,7 @@ ALTER SEQUENCE list_alias_id_seq OWNED BY list_alias.id;
 --
 
 CREATE SEQUENCE lists_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1049,6 +943,7 @@ ALTER SEQUENCE lists_id_seq OWNED BY lists.id;
 --
 
 CREATE SEQUENCE message_references_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1067,6 +962,7 @@ ALTER SEQUENCE message_references_id_seq OWNED BY message_references.id;
 --
 
 CREATE SEQUENCE messages_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1085,6 +981,7 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 --
 
 CREATE SEQUENCE parts_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1103,6 +1000,7 @@ ALTER SEQUENCE parts_id_seq OWNED BY parts.id;
 --
 
 CREATE SEQUENCE ratings_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1135,29 +1033,11 @@ ALTER SEQUENCE stop_words_id_seq OWNED BY stop_words.id;
 
 
 --
--- Name: threads_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE threads_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: threads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE threads_id_seq OWNED BY threads.id;
-
-
---
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE users_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1260,13 +1140,6 @@ ALTER TABLE ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::regcla
 --
 
 ALTER TABLE stop_words ALTER COLUMN id SET DEFAULT nextval('stop_words_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE threads ALTER COLUMN id SET DEFAULT nextval('threads_id_seq'::regclass);
 
 
 --
@@ -1381,33 +1254,11 @@ ALTER TABLE ONLY stop_words
 
 
 --
--- Name: threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY threads
-    ADD CONSTRAINT threads_pkey PRIMARY KEY (id);
-
-
---
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
--- Name: a; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX a ON stop_words USING btree (word);
-
-
---
--- Name: groups_identifier; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX groups_identifier ON groups USING btree (identifier);
 
 
 --
@@ -1446,6 +1297,13 @@ CREATE INDEX index_contents_on_message_id ON contents USING btree (message_id);
 
 
 --
+-- Name: index_groups_on_identifier; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_groups_on_identifier ON groups USING btree (identifier);
+
+
+--
 -- Name: index_groups_on_parent_id_and_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1457,6 +1315,13 @@ CREATE INDEX index_groups_on_parent_id_and_key ON groups USING btree (parent_id,
 --
 
 CREATE INDEX index_lists_on_group_id_and_key ON lists USING btree (group_id, key);
+
+
+--
+-- Name: index_lists_on_identifier; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_lists_on_identifier ON lists USING btree (identifier);
 
 
 --
@@ -1516,10 +1381,10 @@ CREATE INDEX index_parts_on_message_id ON parts USING btree (message_id);
 
 
 --
--- Name: lists_identifier; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_stop_words_on_word; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX lists_identifier ON lists USING btree (identifier);
+CREATE INDEX index_stop_words_on_word ON stop_words USING btree (word);
 
 
 --
@@ -1678,14 +1543,6 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: messages_thread_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY messages
-    ADD CONSTRAINT messages_thread_id_fkey FOREIGN KEY (thread_id) REFERENCES threads(id);
-
-
---
 -- Name: parts_content_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1801,6 +1658,6 @@ INSERT INTO schema_migrations (version) VALUES ('20080811132122');
 
 INSERT INTO schema_migrations (version) VALUES ('20080828120117');
 
-INSERT INTO schema_migrations (version) VALUES ('20080908212910');
-
 INSERT INTO schema_migrations (version) VALUES ('20080925124449');
+
+INSERT INTO schema_migrations (version) VALUES ('20090215090439');
