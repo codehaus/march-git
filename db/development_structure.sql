@@ -178,14 +178,14 @@ CREATE TABLE messages (
     from_header character varying(256) NOT NULL,
     from_name character varying(128),
     subject character varying(1024) DEFAULT ''::character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT '2009-02-15 19:55:52.318992'::timestamp without time zone,
+    created_at timestamp without time zone DEFAULT '2009-02-17 22:57:41.537336'::timestamp without time zone,
     indexed boolean DEFAULT false NOT NULL,
     content_part_id integer,
     source character varying(4096),
     updated_at timestamp with time zone,
     subject_tsv tsvector,
-    rating_total integer DEFAULT 0 NOT NULL,
-    rating_count integer DEFAULT 0 NOT NULL
+    rating_total integer DEFAULT 0,
+    rating_count integer DEFAULT 0
 );
 
 
@@ -785,6 +785,80 @@ BEGIN
 END;
 $$
     LANGUAGE plpgsql;
+
+
+--
+-- Name: march_dict; Type: TEXT SEARCH DICTIONARY; Schema: public; Owner: -
+--
+
+CREATE TEXT SEARCH DICTIONARY march_dict (
+    TEMPLATE = pg_catalog.simple,
+    stopwords = 'march' );
+
+
+--
+-- Name: march_config; Type: TEXT SEARCH CONFIGURATION; Schema: public; Owner: -
+--
+
+CREATE TEXT SEARCH CONFIGURATION march_config (
+    PARSER = pg_catalog."default" );
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR asciiword WITH march_dict;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR word WITH march_dict;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR numword WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR email WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR url WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR host WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR sfloat WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR version WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR hword_numpart WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR hword_part WITH march_dict;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR hword_asciipart WITH march_dict;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR numhword WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR asciihword WITH march_dict;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR hword WITH march_dict;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR url_path WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR file WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR "float" WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR "int" WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION march_config
+    ADD MAPPING FOR uint WITH simple;
 
 
 --

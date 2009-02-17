@@ -1,3 +1,11 @@
+################################################################################
+#  Copyright (c) 2004-2009, by OpenXource, LLC. All rights reserved.
+#
+#  THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF OPENXOURCE
+#
+#  The copyright notice above does not evidence any
+#  actual or intended publication of such source code.
+################################################################################
 # These settings change the behavior of Rails 2 apps and will be defaults
 # for Rails 3. You can remove this initializer when Rails 3 is released.
 
