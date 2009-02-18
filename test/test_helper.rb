@@ -47,6 +47,7 @@ class Test::Unit::TestCase
   
   def self.all_fixtures
     fixtures :groups
+    fixtures :group_hierarchies
     fixtures :lists
     fixtures :messages
     fixtures :parts

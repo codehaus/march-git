@@ -604,8 +604,9 @@ TRUNCATE TABLE GROUP_HIERARCHIES;
 -- Seed the closure table with top-level groups
 INSERT INTO GROUP_HIERARCHIES
 ( PARENT_GROUP_ID, PARENT_LEVEL, CHILD_GROUP_ID, CHILD_LEVEL )
-SELECT id, 0, id, 0
-FROM GROUPS;
+SELECT id, 1, id, 1
+  FROM GROUPS
+ WHERE PARENT_ID IS NULL;
 
 -- Progressively build lower levels
 -- XXX Should really abort if nothing affected in a given pass
@@ -613,10 +614,18 @@ FOR closure_distance in 1..20 LOOP
   RAISE NOTICE 'Processing loop %', closure_distance;
   INSERT INTO GROUP_HIERARCHIES
   ( PARENT_GROUP_ID, PARENT_LEVEL, CHILD_GROUP_ID, CHILD_LEVEL )
-  SELECT GH.PARENT_GROUP_ID, GH.PARENT_LEVEL, CHILD.ID, closure_distance
+  SELECT GH.PARENT_GROUP_ID, GH.PARENT_LEVEL, CHILD.ID, closure_distance + 1
   FROM GROUP_HIERARCHIES GH, GROUPS CHILD
   WHERE GH.CHILD_GROUP_ID = CHILD.PARENT_ID
-    AND GH.CHILD_LEVEL = closure_distance - 1;
+    AND GH.CHILD_LEVEL = closure_distance;
+    
+  INSERT INTO GROUP_HIERARCHIES
+  ( PARENT_GROUP_ID, PARENT_LEVEL, CHILD_GROUP_ID, CHILD_LEVEL )
+  SELECT DISTINCT child_group_id, child_level, child_group_id, child_level
+  FROM GROUP_HIERARCHIES
+  WHERE
+    child_level = closure_distance + 1;
+  
 END LOOP;
 
 
@@ -941,7 +950,6 @@ ALTER SEQUENCE favorites_id_seq OWNED BY favorites.id;
 --
 
 CREATE SEQUENCE group_hierarchies_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -960,7 +968,6 @@ ALTER SEQUENCE group_hierarchies_id_seq OWNED BY group_hierarchies.id;
 --
 
 CREATE SEQUENCE groups_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE

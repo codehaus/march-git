@@ -57,10 +57,13 @@ class GroupHierarchyTest < Test::Unit::TestCase
 
     
     #assert_equal 12, items.length
-    puts "#" * 80
-    for item in GroupHierarchy.find(:all)
-      puts "Item: #{item}"
-    end
+    #puts "#" * 80
+    #puts "Created entries"
+    #for item in GroupHierarchy.find(:all)
+    #  puts "Item: #{item}"
+    #end
+    #puts "#" * 80
+    
     
     assert check_group_hierarchy(items, group_A, 1, group_A, 1)
     assert check_group_hierarchy(items, group_A, 1, group_B, 2)
@@ -103,7 +106,7 @@ private
       items.delete(item)
       return true
     }
-
+    puts items.inspect
     puts "Missing GroupHierarchy[parent_group=#{parent_group.path}, parent_level=#{parent_level}, child_group=#{child_group.path}, child_level=#{child_level}]"
     return false
   end
