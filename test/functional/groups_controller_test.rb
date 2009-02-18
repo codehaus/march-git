@@ -17,8 +17,21 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class GroupsControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  all_fixtures
+  
+  def setup
+    @root_group = Group.root
   end
+  
+  def test_index_redirect
+    get :index
+    assert_redirected_to :controller => 'groups', :group => @root_group.key
+  end
+
+  def test_index
+    get :index, { :group => @root_group.key }
+    assert_response :success
+  end
+  
+  
 end

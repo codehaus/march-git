@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/groups/:group/:action',
     :controller => 'groups',
-    :requirements => { :group => /[a-z0-9\.\-\@]+/ }
+    :requirements => { :group => /[a-z0-9\.\-\@]+/i }
     
   map.connect '/search',
     :controller => 'search'
