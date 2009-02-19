@@ -48,6 +48,7 @@ set :application, "march"
 
 # Repository options
 set :scm, "git"
+set :git_enable_submodules, 1
 set :repository,  "git://git.codehaus.org/march-git.git"
 set :repository_site, "file:///opt/march/site.git"
 set :branch, "master"
