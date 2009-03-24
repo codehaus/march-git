@@ -19,7 +19,7 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-require 'tasks/rails'
+#require 'tasks/rails'
 
 if [ 'development', 'test' ].include?(RAILS_ENV)
   gem 'ci_reporter'

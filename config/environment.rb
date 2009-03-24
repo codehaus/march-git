@@ -71,8 +71,7 @@ Rails::Initializer.run do |config|
   config.gem 'htmlentities', :version => '>= 4.0.0'
   config.gem 'rcov'
   config.gem 'ruby-openid', :lib => 'openid'
-  config.gem 'recaptcha'
-  #gem install --source http://www.loonsoft.com/recaptcha/pkg/ recaptcha
+  config.gem 'ruby-recaptcha'
   config.gem 'chronic'
 
   if RAILS_ENV != 'prod'

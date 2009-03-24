@@ -27,7 +27,7 @@ Capistrano.configuration(:must_exist).load do
     dbdump = "#{dbdumpdir}/#{sourcedb}_#{date}.txt.bz"
     
     
-    logger.info { "Dumping #{sourcedb} into #{dbdump}" }
+    puts "Dumping #{sourcedb} into #{dbdump}"
     
     run <<-CMD
       mkdir -p #{dbdumpdir} &&
