@@ -46,12 +46,12 @@ class March::HtmlCleaner
   def clean(html)
     #First pass gets rid of a lot of crap you get in Office documents (see test harness cases 06, 07)
     Tidy.open(:output_xhtml => true, :quiet => true, :show_body_only => true) do |tidy|
-      html = "<html><body>\n" + tidy.clean(html) + "</body></html>"
+      html = "<html><body>\n" + tidy.clean(html || '') + "</body></html>"
     end
 
     #Get rid of all the other crap
     Tidy.open(:output_xml => true) do |tidy|
-      html = tidy.clean(html)
+      html = tidy.clean(html || '')
     end
     
     return clean_xml(html)  
