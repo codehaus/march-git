@@ -67,7 +67,6 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
   config.gem 'pg'
-  config.gem 'tidy', :version => ">= 1.1.2"
   config.gem 'htmlentities', :version => '>= 4.0.0'
   config.gem 'rcov'
   config.gem 'ruby-openid', :lib => 'openid'
@@ -81,28 +80,13 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
 end
 
-# Add new inflection rules using the following format 
-# (all these examples are active by default):
-# Inflector.inflections do |inflect|
-#   inflect.plural /^(ox)$/i, '\1en'
-#   inflect.singular /^(ox)en/i, '\1'
-#   inflect.irregular 'person', 'people'
-#   inflect.uncountable %w( fish sheep )
-# end
-
-# Include your application configuration below
-
-
-#require 'cached_model'
-
 
 require 'migration_patches'
-#require 'postgresql_adapter_patches'
 require 'webrick_patches'
 require 'test_request_patches'
 #require 'site'
 
-March::VERSION      = 0.1
+March::VERSION      = 0.2
 
 
 if File.exists?('revision.txt')

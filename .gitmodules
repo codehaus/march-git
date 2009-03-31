@@ -16,3 +16,6 @@
 [submodule "vendor/plugins/foreign_key_migrations"]
 	path = vendor/plugins/foreign_key_migrations
 	url = git://github.com/harukizaemon/foreign_key_migrations.git
+[submodule "vendor/plugins/tidy"]
+	path = vendor/plugins/tidy
+	url = git://github.com/railsmonk/tidy-fork.git
