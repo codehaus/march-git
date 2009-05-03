@@ -16,7 +16,7 @@
 
 require 'fileutils'
 
-Capistrano.configuration(:must_exist).load do
+Capistrano::Configuration.instance(:must_exist).load do
   
   desc 'Backup database'
   task :backup_db, :roles => [ :db ] do
