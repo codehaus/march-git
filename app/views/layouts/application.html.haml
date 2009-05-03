@@ -1,6 +1,11 @@
 !!! XML
 !!! Strict
 
+/ #Fallbacks for dirty data - should be in controller filter
+- @target ||= Group.root 
+- @target.updated_at ||= @target.created_at
+- @target.updated_at ||= Time.new
+
 %html{ :xmlns => 'http://www.w3.org/1999/xhtml', 'xml:lang' => 'en', :lang => 'en' }
   %head
     %title== Mail Archive  #{ @page_title ? ":: #{h(@page_title)}" : '' }
@@ -39,10 +44,6 @@
         - cache("layouts/navigation/#{User.cache_id(current_user)}/#{@target.class.name}/#{@target.updated_at.iso8601}") do
           = render( :partial => '/layouts/navigation' )
         
-        / #Fallbacks for dirty data - should be in controller filter
-        - @target ||= Group.root 
-        - @target.updated_at ||= @target.created_at
-        - @target.updated_at ||= Time.new
         
       #bd
       
