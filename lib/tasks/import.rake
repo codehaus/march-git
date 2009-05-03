@@ -15,20 +15,23 @@
 ################################################################################
 
 def import()
-  config   = ActiveRecord::Base.configurations[RAILS_ENV]
+  config = ActiveRecord::Base.configurations[RAILS_ENV]
 
   if ( RAILS_ENV == 'production' )
-    puts "sorry, that's too dumb" 
+    puts "This Rake task should not be used in production" 
     return
   end
   
   if not File.directory?("tmp/archive")
     system("cd tmp;tar xzvf ../test/archive.tar.gz")
   end
-  system("./script/import-ezmlm-archive-messages ./tmp/archive")
+  system("./maintenance/import-ezmlm-archive-messages ./tmp/archive")
 end
 
-desc 'Loads some test messages into the local instance'
-task :import  => [:environment] do |t|
-  import
+
+namespace :march do
+  desc 'Loads some test messages into the local instance'
+  task :import  => [:environment] do |t|
+    import
+  end
 end
