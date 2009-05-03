@@ -1,0 +1,13 @@
+#!/bin/sh
+# This is the builder URL
+#  http://developer.yahoo.com/yui/articles/hosting/?animation&button&calendar&colorpicker&connection&container&containercore&datasource&datatable&dom&element&event&grids&menu&utilities&yahoo&yahoo-dom-event&MIN
+
+curl "http://yui.yahooapis.com/combo?2.7.0/build/fonts/fonts-min.css&2.7.0/build/grids/grids-min.css&2.7.0/build/assets/skins/sam/skin.css" > public/stylesheets/yui.css
+
+curl "http://yui.yahooapis.com/combo?2.7.0/build/utilities/utilities.js&2.7.0/build/container/container-min.js&2.7.0/build/menu/menu-min.js&2.7.0/build/button/button-min.js&2.7.0/build/calendar/calendar-min.js&2.7.0/build/slider/slider-min.js&2.7.0/build/colorpicker/colorpicker-min.js&2.7.0/build/datasource/datasource-min.js&2.7.0/build/datatable/datatable-min.js" > public/javascripts/yui.js
+
+curl "http://yui.yahooapis.com/2.7.0/build/assets/skins/sam/sprite.png" > public/images/sprite.png
+
+#Need a regex phase to fix all the offsite hardcoded skin references
+#Mainly because this slows down access when you are developing offline
+

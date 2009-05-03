@@ -1,23 +1,18 @@
-- cache( "groups/#{@group.id}/#{latest_id}" ) do
+/ - cache( "groups/#{@group.id}/#{latest_id}" ) do
 
-  %table.legrid
-    %tr
-      %td.left
-        - if render_ad?(:top_banner)
-          %table.ad-wrapper
-            %tr
-              %td= render_ad(:top_banner)
-              
+.yui-g
+  .yui-u.first
+    - if render_ad?(:top_banner)
+      .ad-wrapper{ :style => 'margin-top: 1em' }
+        = render_ad(:top_banner)
 
-  - child_groups = Group.find( :all, :conditions => [ 'parent_id = ?', @group.id ], :order => 'key') 
-  - set_page_title(@group.name)
+    - child_groups = Group.find( :all, :conditions => [ 'parent_id = ?', @group.id ], :order => 'key') 
+    - set_page_title(@group.name)
 
-
-  #myMarkedUpContainer
     - total_messages_count = 0 
     - total_lists_count = 0
 
-    - if @group.children_count + @group.lists_count > 0
+    - if (@group.children_count + @group.lists_count) > 0
       %table.listing#myTable
         %tr.header
           %th{ :colspan => "7" } List / Group
@@ -30,39 +25,42 @@
             %td= render_favorite_icon(group) 
             %td{ :style => "width: 20px" }
               - img = selector(group.children_count + group.lists_count, 'mail-group.png', 'mail-group.png', 'mail-groups.png')
-              = image_link_to(  img, '', url_for_group( group ), :title => group.name, :alt => 'Group' )
+              = image_link_to(  img, '', url_for_group( group ), :title => group.name )
             %td= link_to( group.key, url_for_group( group ), :title => group.name )
             %td= pluralize(lists_count_total, 'list')
             %td= pluralize(messages_count, 'message')
             %td= link_to_rss( url_for_group( group, :rss ), "Feed of latest messages for #{group.name}" )
             %td= link_to_charts( url_for_group( group, :charts ), "Message activity or #{group.name}" )
 
-      - for list in List.find(:all, :conditions => ['group_id = ?', @group.id ], :order => 'key' )
-        - total_messages_count += list.messages_count
-        - total_lists_count += 1
-        %tr{ :class => cycle('even', 'odd') }
-          %td= render_favorite_icon(list)
-          %td= image_link_to( 'mail-list.png', '', url_for_list( list ), :title => list.address, :alt => 'List' )
-          %td= link_to( list.address, url_for_list( list ), :title => list.address )
-          %td
-          %td= pluralize(list.messages_count, 'message')
-          %td= link_to_rss( url_for_list( list, :latest_rss ), "Feed of latest messages for #{list.address}" )
-          %td= link_to_charts( url_for_list( list, :charts ), "Message activity or #{list.address}" )
+        - for list in List.find(:all, :conditions => ['group_id = ?', @group.id ], :order => 'key' )
+          - total_messages_count += list.messages_count
+          - total_lists_count += 1
+          %tr{ :class => cycle('even', 'odd') }
+            %td= render_favorite_icon(list)
+            %td= image_link_to( 'mail-list.png', '', url_for_list( list ), :title => list.address, :alt => 'List' )
+            %td= link_to( list.address, url_for_list( list ), :title => list.address )
+            %td
+            %td= pluralize(list.messages_count, 'message')
+            %td= link_to_rss( url_for_list( list, :latest_rss ), "Feed of latest messages for #{list.address}" )
+            %td= link_to_charts( url_for_list( list, :charts ), "Message activity or #{list.address}" )
 
-      %tr.footer
-        %td{ :colspan => "3" } Totals
-        %td= pluralize(total_lists_count, 'list')
-        %td= pluralize(total_messages_count, 'message')
-        %td
-        %td
+        %tr.footer
+          %td{ :colspan => "3" } Totals
+          %td= pluralize(total_lists_count, 'list')
+          %td= pluralize(total_messages_count, 'message')
+          %td
+          %td
     - else
       No children found
 
-%td.right-info
-  = render_object @group, :info
-  /
-    too expensive to calculate for large groups
-  - if @group.children_count == 0
-    - cache( "groups/#{@group.identifier}/tag_cloud/#{Cache.daily}}" ) do
-      .tag-cloud
-        = tag_cloud(tags(@group))
+      
+    - if render_ad?(:bottom)
+      .ad-wrapper{ :style => 'margin-top: 1em' }
+        = render_ad(:bottom)
+
+  .yui-u
+    = render_object @group, :info
+    / too expensive to calculate for large groups
+    - if @group.children_count == 0
+      - cache( "groups/#{@group.identifier}/tag_cloud/#{Cache.daily}}" ) do
+        .tag-cloud= tag_cloud(tags(@group))

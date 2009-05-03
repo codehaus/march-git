@@ -68,9 +68,9 @@ March::GOOGLE_ADS[:content_horiz] = {
 
 March::GOOGLE_ADS[:bottom] = {
   :client => 'pub-5267633279208525',
-  :slot   => '2029848481',
-  :width  => 728,
-  :height => 90
+  :slot   => '2116975762', #:slot   => '2029848481',
+  :width  => 468,
+  :height => 60
 }
 
 

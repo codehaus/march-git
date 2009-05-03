@@ -1,0 +1,64 @@
+
+- menu = get_navigation_menu()
+:javascript
+  function alertA() {
+    alert('A');
+  }
+  function alertB() {
+    alert('B');
+  }
+  function init_navigation() {
+    function find_menu_item(menubar, name) {
+      for (i = 0; i < menubar.getItems().length; i++) {
+        item = menubar.getItem(i);
+        if (item.id == name) {
+          return item;
+        }
+      }
+      return null;
+    }
+    
+    YAHOO.util.Event.onContentReady("navigation_links", function () {
+      function onMenuBarBeforeRender(p_sType, p_sArgs) {
+        var oSubmenuData = #{ menu.to_json };
+
+        if (oSubmenuData["my"] != nil)
+          find_menu_item(this, 'menu-my').cfg.setProperty("submenu", { id: "my", itemdata: oSubmenuData["my"] });
+          
+        find_menu_item(this, 'menu-activity').cfg.setProperty("submenu", { id: "recent", itemdata: oSubmenuData["recent"] });
+        find_menu_item(this, 'menu-lists').cfg.setProperty("submenu", { id: "lists", itemdata: oSubmenuData["lists"] });
+      };
+      
+      var oMenuBar = new YAHOO.widget.MenuBar("navigation_links", { 
+          autosubmenudisplay: true, hidedelay: 750, 
+          lazyload: true, clicktohide: false });
+      
+      oMenuBar.beforeRenderEvent.subscribe(onMenuBarBeforeRender);
+      oMenuBar.render();
+      oMenuBar.visible = false;
+    });
+  }
+  
+  YAHOO.util.Event.onDOMReady(init_navigation);
+
+  
+
+
+#navigation_links.yuimenubar.yuimenubarnav
+  .bd
+    %ul.first-of-type
+      %li#menu-home.yuimenubaritem
+        = image_link_to 'home.gif', 'Home', { :controller => '/home', :action => 'index' }
+      - if current_user?
+        %li#menu-my.yuimenubaritem
+          = link_to 'My', '#'
+
+      %li#menu-activity.yuimenubaritem
+        = link_to 'Activity', '#'
+      %li#menu-groups.yuimenubaritem
+        = image_link_to 'mail-groups.png', 'Groups', '#'
+      %li#menu-lists.yuimenubaritem
+        = image_link_to 'mail-list.png', 'Lists', '#'
+      - if @searchable
+        %li#menu-search.yuimenubaritem
+          = image_link_to 'search.png', 'Search', { :action => 'search' }

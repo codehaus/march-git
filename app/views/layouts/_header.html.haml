@@ -1,0 +1,22 @@
+#login_box
+  - if current_user?
+    = link_to (current_user.fullname_not_nil), {:controller => 'my', :action => 'index'}, { :title => "Logged in via OpenID : #{current_user.identifier}"}
+    |
+    = link_to 'logout', :controller => 'auth', :action => 'logout', :method => :post, :request_uri => request.request_uri
+  - else
+    - form_tag( :controller => 'auth', :action => 'start') do
+      %p
+        %input.openid{ :name => "openid_identifier", :type => "text" }
+        %input{ :name => "login", :type => "submit", :value => "login" }
+  
+#xearchAutoComplete
+  - cache( "layouts/archive-status/#{Message.maximum(:id)}") do
+    = render :partial => '/layouts/archive_status'
+  
+  - form_tag( { :controller => 'search'}, :id => 'xearch' ) do
+    %p
+      %span
+        %input#xearchInput{ :name => "search", :type => "text", :value => "search", :onclick => "javascript:this.select();" }
+#org_logo
+  = image_tag 'banner.png'
+  = image_tag 'banner-mail-archive.png'

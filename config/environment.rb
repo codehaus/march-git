@@ -21,7 +21,7 @@
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 # RAILS_GEM_VERSION = '2.1.0'
-RAILS_GEM_VERSION = '2.2.2'
+RAILS_GEM_VERSION = '2.3.2'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -83,7 +83,6 @@ end
 
 require 'migration_patches'
 require 'webrick_patches'
-require 'test_request_patches'
 #require 'site'
 
 March::VERSION      = 0.2

@@ -1,0 +1,57 @@
+!!! XML
+!!! Strict
+
+%html{ :xmlns => 'http://www.w3.org/1999/xhtml', 'xml:lang' => 'en', :lang => 'en' }
+  %head
+    %title== Mail Archive  #{ @page_title ? ":: #{h(@page_title)}" : '' }
+    %link{ :rel=> 'icon', :href => '/favicon.ico', :type => 'image/x-icon' }
+    %link{ :rel=> 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon' }
+    
+    %meta{ 'http-equiv' => 'content-type', :content => 'text/html; charset=utf-8' }
+    %meta{ :name => 'description', :content => @page_title }
+    %meta{ :name => 'keywords', :content => 'sport,performance,monitoring' }
+
+    / Application CSS
+    = stylesheet_link_tag 'march-xircles.css'
+    = stylesheet_link_tag 'compiled/main.css'
+    / Combo-handled YUI CSS files
+    = stylesheet_link_tag( '/stylesheets/yui.css' )
+    / Combo-handled YUI JS files
+    = javascript_include_tag( '/javascripts/yui.js')
+    
+    = javascript_include_tag 'prototype' #, 'effects', 'controls', 'tooltip'
+    = javascript_include_tag 'handle_search_field'
+
+      
+    = javascript_include_tag 'application'
+    
+    - if @target
+      = auto_discovery_link_tag(:rss, url_for_target(@target, :rss), :title => "Latest #{@target.name} messages" )
+    - else
+      = auto_discovery_link_tag(:rss, url_for_target(Group.root, :rss), :title => "Latest #{Group.root.name} messages")
+    
+
+  %body.yui-skin-sam
+    
+    #doc3.yui-t1
+      #hd
+        = render( :partial => '/layouts/header' )
+        - cache("layouts/navigation/#{User.cache_id(current_user)}/#{@target.class.name}/#{@target.updated_at.iso8601}") do
+          = render( :partial => '/layouts/navigation' )
+        
+        / #Fallbacks for dirty data - should be in controller filter
+        - @target ||= Group.root 
+        - @target.updated_at ||= @target.created_at
+        - @target.updated_at ||= Time.new
+        
+      #bd
+      
+        #yui-main
+          = render_flash
+            
+          = yield
+            
+      #ft.yuimenubar
+        - cache("layouts/footer") do
+          = render :partial => '/layouts/footer'
+

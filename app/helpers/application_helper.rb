@@ -23,7 +23,6 @@ module ApplicationHelper
   include RenderHelper
   include RedactHelper
   include BreadcrumbHelper
-  include March::YahooUiHelper
   include ReCaptcha::ViewHelper
   
   attr_accessor :image_header
@@ -82,7 +81,42 @@ module ApplicationHelper
     #end
   end
   
-  def image_link_to(image, text, url, *options)
+  def get_navigation_menu
+    menu = {}
+    
+    menu[:home] = []
+
+    menu[:recent] = []
+    menu[:recent] << {
+      :text => 'Latest messages',
+      :url  => url_for_target(@target, :latest)
+    }
+    
+    menu[:lists] = []
+    if @group
+      for list in @group.recently_active(10)
+        menu[:lists] << {
+          :text => list.address,
+          :url  => url_for_target(list)
+        }
+      end
+    end
+    
+    if current_user?
+      menu[:my] = []
+      for favorite in current_user.favorites
+        menu[:my] << {
+          :text => favorite.target.name,
+          :url => url_for_target(favorite.target)
+        }
+      end
+    end
+    return menu
+  end  
+  
+  
+  
+  def image_link_to(image, text, url, options = {})
     options = [ {} ] if not options
     options = options.first if options.class == Array and options.length == 1
     

@@ -70,8 +70,7 @@
     new PeriodicalExecuter(function(pe) { myDataTable.requery() }, 10);
   }
 
-
-  init_functions.push(init_page);
+  YAHOO.util.Event.onDOMReady(init_page);
 
 </script>
 
