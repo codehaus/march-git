@@ -23,10 +23,10 @@ class March::PopTool
     #STDOUT.sync=true
     
     File.open('log/popper.log', 'w') { |io|
+      importer = March::FileMessageImporter.new
       popper.pop_messages(:max => max) { |queue_file|  
         logger.info "Queue File: #{queue_file}"
         io.write("#{queue_file}\n")
-        importer = March::FileMessageImporter.new
         messages << importer.import_file(queue_file)
       }
     }
