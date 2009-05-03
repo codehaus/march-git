@@ -86,24 +86,9 @@ task :after_update_code do
 end
 
 
-
 namespace :deploy do
   task :restart, :roles => :web do
-    puts "You need to bounce the monit elements manually"
-    
     #Restart Passenger configured sites
     run "touch #{current_path}/tmp/restart.txt"
   end
-  
-  task :before_restart, :roles => :web do
-    run "mkdir -p /opt/march/shared/system/"
-    warning = "March is currently restarting... please wait..."
-    put warning, "/opt/march/shared/system/maintenance.html"
-    run "chmod 644 /opt/march/shared/system/maintenance.html" 
-  end
-
-  task :after_restart, :roles => :web do
-    run( "rm -f /opt/march/shared/system/maintenance.html" )
-  end
-
 end

@@ -44,9 +44,7 @@ memcache_options = {
     :readonly => false,
     :urlencode => false
 }
-
-CACHE = MemCache.new( memcache_options )
-CACHE.servers = 'localhost:11211'
+memcache_servers = "localhost:11211"
 
 #ActionController::Base.cache_store = :file_store, "./tmp/cache"
 ActionController::Base.cache_store = :mem_cache_store, "localhost:11211"
