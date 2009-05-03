@@ -1,0 +1,14 @@
+%table.legrid
+  %tr
+    %td.left
+      - cache( "lists/#{@list.identifier}/latest/#{@list.messages_count}}" ) do
+        = render :partial => '/core/messages', :locals => { :messages => @messages }
+        == #{ link_to "browse", :action => 'browse' } the rest of the #{ @list.address } archive
+    %td.right.info
+      = render_object( @list, :info )
+      .chart
+        = render_chart :width => 500, :height => 250, :url => url_for_list( @list, :charts_xml)
+      - cache( "lists/#{@list.identifier}/tag_cloud/#{Cache.daily}" ) do
+        .tag-cloud
+          = tag_cloud(tags(@list))
+
