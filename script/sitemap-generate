@@ -64,7 +64,7 @@ lists.each_index {|list_index|
   count = list.messages_count
   last_sent_at = Time.at(0)
   while true
-    print '.'
+    print '.' => 
     messages = list.messages.find(:all, :conditions => [ 'sent_at > ?', last_sent_at ], :order => 'sent_at', :limit => 50000)
     break if messages.empty?
     
@@ -77,7 +77,7 @@ lists.each_index {|list_index|
       xml.instance_eval(script)
     }
     print "\n"
-    cmd "gzip -f #{@archive_output}/#{filename}"
+    cmd = "gzip -f #{@archive_output}/#{filename}"
     if not system(cmd)
       puts "Failure running #{cmd}"
     end
