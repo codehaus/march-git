@@ -25,7 +25,7 @@ module RedactHelper
     #there's some funny scoping thing going on, so we can't just yield to our own code atm.
     March::Email.match(text) { |t|
       if mode == :html
-        mail_hide(t)
+        mail_hide_simple(t)
       end
       
       if mode == :text

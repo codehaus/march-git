@@ -41,7 +41,7 @@ module FormatHelper
   end
   
   def format_email(message)
-    mail_hide(message.from_address, message.from_name)
+    mail_hide_simple(message)
   end
   
   def format_size(length)

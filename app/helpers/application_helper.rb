@@ -188,7 +188,15 @@ EOF
    def mail_hide_simple(obj)
      from_name = obj.respond_to?(:from_name) ? obj.from_name : nil
      from_address = obj.respond_to?(:from_address) ? obj.from_address : nil
-     return '<span class=''address''>' + mail_hide( from_address, from_name ) + '</span>'
+     
+     from_address = obj.to_s if from_address.nil?
+     from_name = truncate(from_address,10) if from_name.nil?
+     
+     k = ReCaptcha::MHClient.new(MH_PUB, MH_PRIV)
+     enciphered = k.encrypt(from_address)
+     uri = "http://mailhide.recaptcha.net/d?k=#{MH_PUB}&c=#{enciphered}"
+     
+     render :partial => '/core/mailhide', :locals => { :uri => uri, :contents => from_name }
    end
    
    def render_rating(message)

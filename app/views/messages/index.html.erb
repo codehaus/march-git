@@ -57,14 +57,13 @@
     <%= link_to( h( message.normalized_subject_precis(20) ), url_for_message( message ), :title => message.subject ) %> 
   </td>
   <td class="author address">
-    <%= mail_hide(message.from_address, message.from_name) %>
+    <%= mail_hide_simple(message) %>
   </td>
   <td class="date">
      <%=  time_ago_in_words message.sent_at %> ago
   </td>
-  
-  <% end %>
   </tr>
+  <% end %>
   </table>
   <%= link_to 'browse the latest messages', url_for_list(@message.list) %>
 </div>
