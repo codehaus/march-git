@@ -13,9 +13,8 @@
     %link{ :rel=> 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon' }
     
     %meta{ 'http-equiv' => 'content-type', :content => 'text/html; charset=utf-8' }
-    - if not @page_title.nil? and not @page_title.blank?
-      %meta{ :name => 'description', :content => @page_title }
-    %meta{ :name => 'keywords', :content => 'sport,performance,monitoring' }
+    %meta{ :name => 'description', :content => @page_title || 'mail archive' }
+    %meta{ :name => 'keywords', :content => "#{(@page_title || '').gsub(',', ' ')},mail,archive,march,codehaus,rubyhaus" }
 
     / Application CSS
     = stylesheet_link_tag 'march-xircles.css'
@@ -34,7 +33,7 @@
     - if @target
       = auto_discovery_link_tag(:rss, url_for_target(@target, :rss), :title => "Latest #{@target.name} messages" )
     - else
-      = auto_discovery_link_tag(:rss, url_for_target(Group.root, :rss), :title => "Latest #{Group.root.name} messages")
+      = auto_discovery_link_tag(:rss, url_for_target(Group.root, :rss), :title => "Latest #{Group.root.name} messages" )
     
 
   %body.yui-skin-sam
@@ -44,7 +43,6 @@
         = render( :partial => '/layouts/header' )
         - cache("layouts/navigation/#{User.cache_id(current_user)}/#{@target.class.name}/#{@target.updated_at.iso8601}") do
           = render( :partial => '/layouts/navigation' )
-        
         
       #bd
       
