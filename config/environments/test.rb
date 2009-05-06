@@ -32,43 +32,45 @@ config.action_controller.perform_caching             = true
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
-March::DEBUG_LOG=true
 
+################################################################################
+March::MAIL_ROOT  = RAILS_ROOT + "/tmp/test/mail" #XXX Deprecated?
+March::MAIL_QUEUE = RAILS_ROOT + "/tmp/test/mail-queue" #Should be moved under the application
 
-
-March::MAIL_ROOT  = RAILS_ROOT + "/tmp/test/mail"
-March::MAIL_QUEUE = RAILS_ROOT + "/tmp/test/mail-queue"
-
-
-
+################################################################################
+# Memcached Configuration
+require 'memcache'
 memcache_options = {
-    :c_threshold => 10_000,
+    :c_threshold => 10000,
     :compression => true,
     :debug => false,
-    :namespace => 'march_test',
+    :namespace => "march-#{RAILS_ENV}",
     :readonly => false,
     :urlencode => false
-  }
-
+}
 CACHE = MemCache.new memcache_options
 CACHE.servers = 'localhost:11211'
 
+################################################################################
+# Session Storage Configuration
 session_options = {
-    :database_manager => CGI::Session::MemCacheStore,
+    :database_manager => ActionController::Session::MemCacheStore,
     :cache => CACHE,
-    :session_domain => 'march_test_session'
+    :session_domain => 'march_#{RAILS_ENV}_session'
 }
-
 ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update session_options
 
-ActionController::Base.cache_store = :file_store, "./tmp/cache"
-
+################################################################################
+# Enable profiling
 March::PROFILE = false
-March::ADS = true
+March::DEBUG_LOG=true
 
-March::GOOGLE_AD_CLIENT = 'goober'
-March::GOOGLE_AD_SLOT_TOP = nil
-March::GOOGLE_AD_SLOT_BOTTOM = nil
+################################################################################
+# Security Token
+# This option controls access to the March API
 March::TOKEN = 'X'
 
-March::GOOGLE_ANALYTICS = 'N/A'
+################################################################################
+# Google Analytics Profile
+March::GOOGLE_ANALYTICS = 'UA-5294457-1'
+

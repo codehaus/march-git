@@ -32,9 +32,6 @@ config.action_controller.perform_caching             = true
 # Disable delivery errors if you bad email addresses should just be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-
-#STDOUT.reopen("log/stdout.log", 'a+')
-#STDOUT.sync=true
 require 'memcache'
 memcache_options = {
     :c_threshold => 10000,
