@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class March::MessageImporterTest < Test::Unit::TestCase
+class March::MessageImporterTest < ActiveSupport::TestCase
   all_fixtures
   
   def test_import_01

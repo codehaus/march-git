@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class GroupHierarchyTest < Test::Unit::TestCase
+class GroupHierarchyTest < ActionController::TestCase
   all_fixtures
 
   def test_stuff

@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PartTest < Test::Unit::TestCase
+class PartTest < ActiveSupport::TestCase
   fixtures :parts
 
   def test_charset

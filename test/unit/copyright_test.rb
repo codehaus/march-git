@@ -20,7 +20,7 @@ require 'fileutils'
 require 'find'
 
 # Checks for headers on all ruby files
-class CopyrightTest < Test::Unit::TestCase
+class CopyrightTest < ActionController::TestCase
 
   def test_rb
     base_path = File.expand_path(File.dirname(__FILE__) + '/../../')

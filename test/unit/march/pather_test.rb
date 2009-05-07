@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class March::PatherTest < Test::Unit::TestCase
+class March::PatherTest < ActionController::TestCase
   all_fixtures
   
   def test_groups

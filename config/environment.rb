@@ -80,26 +80,25 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
 end
 
-
+################################################################################
 require 'migration_patches'
 require 'webrick_patches'
-#require 'site'
 
+################################################################################
 March::VERSION      = 0.2
-
-
 if File.exists?('revision.txt')
   March::REVISION = `cat revision.txt`.chomp
 else
   March::REVISION = 'HEAD'
 end
 
-puts "March loading..."
-puts "  VERSION   = #{March::VERSION}"
-puts "  REVISION  = #{March::REVISION}"
-puts "  RAILS_ENV = #{RAILS_ENV}"
+################################################################################
+# Temporary queue storage
+March::MAIL_QUEUE = RAILS_ROOT + '/tmp/mail-queue'
 
 
+################################################################################
+# Memcached Configuration
 memcache_options = {
    :compression => false,
    :debug => false,
@@ -109,18 +108,22 @@ memcache_options = {
 }
 memcache_servers = "localhost:11211"
 
+################################################################################
+# YUI Configuration
 March::YUI = '2.6.0'
 
+################################################################################
+# Trace Logging: only shown in development
 if [ 'production', 'test' ].include?(RAILS_ENV)
   RAILS_DEFAULT_LOGGER.class.class_eval do
-    def trace(s = nil)
+    def trace(msg = nil)
     end
   end
 else  
   RAILS_DEFAULT_LOGGER.class.class_eval do
-    def trace(s = nil)
-      if s
-        puts "TRACE: #{s}"
+    def trace(msg = nil)
+      if msg
+        puts "TRACE: #{msg}"
       else
         puts "TRACE: #{yield}"
       end

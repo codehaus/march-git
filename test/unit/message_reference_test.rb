@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MessageReferenceTest < Test::Unit::TestCase
+class MessageReferenceTest < ActiveSupport::TestCase
   fixtures :message_references
 
   # Replace this with your real tests.

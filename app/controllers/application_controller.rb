@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   include BreadcrumbHelper
   include RedactHelper
   
-  before_filter :adjust_format_for_iphone
+  #before_filter :adjust_format_for_iphone
   before_filter :init_account
   before_filter :init_flash
   

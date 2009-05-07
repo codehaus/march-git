@@ -63,11 +63,11 @@ class Part < ActiveRecord::Base
     
     if content_id
       c = self.content
-      puts "   Updating content holder (#{c.id})"
+      logger.trace { "   Updating content holder (#{c.id})" }
       c.data = data
       c.save!
     else
-      puts "   Creating new content holder"
+      logger.trace { "   Creating new content holder" }
       c = Content.new
       c.message_id = self.message_id
       c.content_type = content_type

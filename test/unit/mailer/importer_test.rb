@@ -17,7 +17,7 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'mailer/importer'
 
-class Mailer::ImporterTest < Test::Unit::TestCase
+class Mailer::ImporterTest < ActionController::TestCase
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
   CHARSET = "utf-8"
 

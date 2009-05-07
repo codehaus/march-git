@@ -20,7 +20,7 @@ require 'core_controller'
 # Re-raise errors caught by the controller.
 class CoreController; def rescue_action(e) raise e end; end
 
-class CoreControllerTest < Test::Unit::TestCase
+class CoreControllerTest < ActionController::TestCase
   all_fixtures
   
   def setup

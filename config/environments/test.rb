@@ -34,10 +34,6 @@ config.action_controller.perform_caching             = true
 config.action_mailer.delivery_method = :test
 
 ################################################################################
-March::MAIL_ROOT  = RAILS_ROOT + "/tmp/test/mail" #XXX Deprecated?
-March::MAIL_QUEUE = RAILS_ROOT + "/tmp/test/mail-queue" #Should be moved under the application
-
-################################################################################
 # Memcached Configuration
 require 'memcache'
 memcache_options = {
@@ -67,10 +63,10 @@ March::DEBUG_LOG=true
 
 ################################################################################
 # Security Token
-# This option controls access to the March API
+# This option controls access to the March API - it should be a secret
 March::TOKEN = 'X'
 
 ################################################################################
 # Google Analytics Profile
-March::GOOGLE_ANALYTICS = 'UA-5294457-1'
+March::GOOGLE_ANALYTICS = nil
 

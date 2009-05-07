@@ -18,16 +18,17 @@ class Content < ActiveRecord::Base
   has_one :part, :dependent => :nullify
   
   def data=(new_data)
-    puts "data=#{new_data.length}"
-    puts content_type
+    logger.trace { "data=#{new_data.length}" }
+    logger.trace { content_type }
+    
     if self.content_type =~ /text\/html/ and new_data != nil
       logger.info { "Cleaning content (#{new_data.length})..." }
       
       begin
-        puts "cleaning #{new_data.length} bytes"
+        logger.trace { "cleaning #{new_data.length} bytes" }
         File.open("pre.html", 'w') { |io| io.write(new_data) }
         new_data = March::HtmlCleaner.new().clean(new_data)
-        puts "cleaned #{new_data.length} bytes"
+        logger.trace { "cleaned #{new_data.length} bytes" }
         self.clean = true
       rescue Exception => e
         self.clean = false
@@ -36,7 +37,7 @@ class Content < ActiveRecord::Base
     else
       self.clean = true
     end
-    puts "Set self.clean to #{self.clean}"
+    logger.trace { "Set self.clean to #{self.clean}" }
     write_attribute(:data, new_data)
     if new_data
       self.length = new_data.length

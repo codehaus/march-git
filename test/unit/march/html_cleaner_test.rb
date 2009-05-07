@@ -15,12 +15,12 @@
 ################################################################################
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class March::HtmlCleanerTest < Test::Unit::TestCase
+class March::HtmlCleanerTest < ActiveSupport::TestCase
   
   def setup
     @cleaner = March::HtmlCleaner.new
   end
-    
+  
   #Tests basic ruby configuration
   def test_01
     test_clean("01")

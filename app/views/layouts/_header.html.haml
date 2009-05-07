@@ -1,8 +1,8 @@
 #login_box
   - if current_user?
-    = link_to (current_user.fullname_not_nil), {:controller => 'my', :action => 'index'}, { :title => "Logged in via OpenID : #{current_user.identifier}"}
+    = link_to( current_user.fullname_not_nil ), {:controller => 'my', :action => 'index'}, { :title => "Logged in via OpenID : #{current_user.identifier}"}
     |
-    = link_to 'logout', :controller => 'auth', :action => 'logout', :method => :post, :request_uri => request.request_uri
+    = link_to( 'logout', :controller => 'auth', :action => 'logout', :method => :post, :request_uri => request.request_uri )
   - else
     - form_tag( :controller => 'auth', :action => 'start') do
       %p

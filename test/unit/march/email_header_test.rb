@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class EmailHeaderTest < Test::Unit::TestCase
+class EmailHeaderTest < ActionController::TestCase
 
   FROM_DATA = [
     [ '"Bob McWhirter" <bob@fnokd.com>', 'Bob McWhirter', 'bob@fnokd.com' ],

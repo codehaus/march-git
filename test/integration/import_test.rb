@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MessageTest < Test::Unit::TestCase
+class ImportTest < ActionController::TestCase
   all_fixtures
 
   def test_user_milyn_codehaus_org_02

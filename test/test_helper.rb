@@ -17,7 +17,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
-class Test::Unit::TestCase
+class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
   # test database remains unchanged so your fixtures don't have to be reloaded
@@ -38,11 +38,9 @@ class Test::Unit::TestCase
   # instantiated fixtures translates to a database query per test method),
   # then set this back to true.
   self.use_instantiated_fixtures  = false
-
-  
   
   def log_test_banner(message)
-    puts message.center(80, '*')
+    logger.trace { message.center(80, '*') }
   end
   
   def self.all_fixtures
@@ -51,6 +49,10 @@ class Test::Unit::TestCase
     fixtures :lists
     fixtures :messages
     fixtures :parts
+  end
+  
+  def logger
+    RAILS_DEFAULT_LOGGER
   end
   
 end

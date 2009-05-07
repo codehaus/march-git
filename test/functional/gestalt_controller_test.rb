@@ -20,7 +20,7 @@ require 'gestalt_controller'
 # Re-raise errors caught by the controller.
 class GestaltController; def rescue_action(e) raise e end; end
 
-class GestaltControllerTest < Test::Unit::TestCase
+class GestaltControllerTest < ActionController::TestCase
   def setup
     @controller = GestaltController.new
     @request    = ActionController::TestRequest.new

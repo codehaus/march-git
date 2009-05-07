@@ -875,7 +875,6 @@ ALTER TEXT SEARCH CONFIGURATION march_config
 --
 
 CREATE SEQUENCE contents_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1005,7 +1004,6 @@ ALTER SEQUENCE list_alias_id_seq OWNED BY list_alias.id;
 --
 
 CREATE SEQUENCE lists_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1024,7 +1022,6 @@ ALTER SEQUENCE lists_id_seq OWNED BY lists.id;
 --
 
 CREATE SEQUENCE message_references_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1043,7 +1040,6 @@ ALTER SEQUENCE message_references_id_seq OWNED BY message_references.id;
 --
 
 CREATE SEQUENCE messages_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1062,7 +1058,6 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 --
 
 CREATE SEQUENCE parts_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE

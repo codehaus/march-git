@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MessageTest < Test::Unit::TestCase
+class MessageTest < ActiveSupport::TestCase
   all_fixtures
 
   def test_normalize_message_id822

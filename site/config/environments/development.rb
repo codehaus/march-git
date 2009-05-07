@@ -14,29 +14,30 @@
 #  limitations under the License.
 ################################################################################
 
-March::MAIL_ROOT  = RAILS_ROOT + "/tmp/mail"
-March::MAIL_QUEUE = RAILS_ROOT + "/tmp/mail-queue"
-
-
+################################################################################
+# POP configuration
 March::SUBSCRIBER_HOST='archive.localhost'
-
 March::POP_USERNAME='march-inbox@localhost'
 March::POP_PASSWORD='password'
 March::POP_HOST='localhost'
 March::POP_PORT=110
 
+################################################################################
+# Enable profiling
+March::PROFILE = false
 March::DEBUG_LOG=true
 
-March::PROFILE=true
-# The API key controls who can update a given March server; access control is "somewhat" coarse.
+################################################################################
+# Security Token
+# This option controls access to the March API - it should be a secret
 March::TOKEN = 'X'
 
-#DEPRECATED - just don't fill in March::GOOGLE_ADS if you don't want adverts
-#Should we show advertising?
-March::ADS = true
-
+#This is the Codehaus analytics key; if you use this we will be able to track
+# your site. We wouldn't generally care; so change it!
 March::GOOGLE_ANALYTICS = 'UA-5294457-1'
 
+#These are the Codehaus advertising keys; if you use these for your internet facing instance
+# you will send money to Codehaus. Thanks!
 March::GOOGLE_ADS[:top] = {
   :client => 'pub-5267633279208525',
   :slot   => '7297104046',

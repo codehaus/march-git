@@ -16,7 +16,7 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ListTest < Test::Unit::TestCase
+class ListTest < ActiveSupport::TestCase
   all_fixtures
 
   def test_find_by_path
