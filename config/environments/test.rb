@@ -70,3 +70,14 @@ March::TOKEN = 'X'
 # Google Analytics Profile
 March::GOOGLE_ANALYTICS = nil
 
+
+################################################################################
+# ReCaptcha and MailHide keys
+#MailHide Public Key
+MH_PUB     = '01FPm-gxHKOTy7a4pLdtBvrQ=='
+#MailHide Private Key
+MH_PRIV    = '29C91F299EF63F7722BE3515A1160837'
+#ReCaptcha Public Key (localhost key)
+RCC_PUB    = '6LeJ0QIAAAAAAA_QdYGrk7TvDeKOkMTR3xkesaBb'
+#ReCaptcha Private Key (localhost key)
+RCC_PRIV   = '6LeJ0QIAAAAAAKjC0mkogSaJjpNcnDezTPzdeI6E'

@@ -9,7 +9,7 @@ xml.rss(:version=>"2.0"){
     xml.link( @link )
     xml.language( 'en-us' )
     xml.pubDate( Time.new.rfc2822 )
-    xml.generator ( 'http://march.rubyhaus.org/' )
+    xml.generator( 'http://march.rubyhaus.org/' )
     
     xml.docs( "This file is an RSS 2.0 file.")
     xml.description("Feed of the latest messages for #{ @title }")
@@ -17,8 +17,8 @@ xml.rss(:version=>"2.0"){
     for message in @messages
       xml.item do
         xml.title( message.subject )
-        xml.creator( message.author_safe ) #XXX Deprecated?
-        xml.author( message.author_safe )
+        xml.creator( redact_email_old("#{message.from_name} <#{message.from_address}>") )
+        xml.author( redact_email_old("#{message.from_name} <#{message.from_address}>") )
         #xml.description(post.inhalt)
         # rfc822
         xml.pubDate(message.sent_at.rfc2822)
@@ -26,7 +26,7 @@ xml.rss(:version=>"2.0"){
                            :group => message.list.group.identifier, 
                            :list => message.list.identifier, 
                            :message => message.identifier, :path_only => false ) )
-        xml.guid ( url_for( :controller => 'messages', 
+        xml.guid( url_for( :controller => 'messages', 
                            :group => message.list.group.identifier, 
                            :list => message.list.identifier, 
                            :message => message.identifier, :path_only => false ), :isPermaLink => true )
