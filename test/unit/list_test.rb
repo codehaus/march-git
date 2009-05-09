@@ -23,4 +23,10 @@ class ListTest < ActiveSupport::TestCase
     list = List.find_by_path("haus/codehaus/drools/dev")
     assert_not_nil(list)
   end
+
+  def test_find_by_path_case
+    list = List.find_by_path("haus/codehaus/drools/DEV")
+    assert_not_nil(list)
+  end
+
 end

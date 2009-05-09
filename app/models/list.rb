@@ -31,7 +31,7 @@ class List < ActiveRecord::Base
   end
   
   def self.find_by_path(path)
-    segments = path.split( '/' )
+    segments = path.downcase.split( '/' )
     
     group = Group.find_by_path( segments[0..-2].join('/') )
     return nil unless group
