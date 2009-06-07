@@ -19,8 +19,8 @@ class MessagesController < ApplicationController
   
   before_filter :filter_list
   before_filter :filter_message
+  before_filter :filter_part
   #before_filter :cache_by_etag
-  
   
   def index
     if not @message
@@ -39,6 +39,16 @@ class MessagesController < ApplicationController
     end
   end
   
+  
+  def download
+    grab_part(:attachment)
+  end
+  
+  def inline
+    grab_part(:inline)
+  end
+  
+  
 private
 
   def cache_by_etag(cache_key)
@@ -49,11 +59,47 @@ private
     
     response['ETag'] = cache_key_md5
   end
+  
+  def grab_part(disposition)
+    content = @part.content
+    if not content
+      render :nothing => true, :status => 503
+    end
+
+    filename = @part.name || 'attachment'
+    filename.gsub!(/^["']/, '')
+    filename.gsub!(/["']$/, '')
+    
+    if not content.clean
+      send_data 'content not available', 
+                :type => 'text/plain', 
+                :disposition => disposition, 
+                :filename => filename
+    else
+      send_data content.data, 
+                :type => content.content_type, 
+                :disposition => disposition.to_s,
+                :filename => filename
+    end
+  end
 
   def filter_message
     message_id822 = params[:message]
     @message = Message.find(:first, 
                            :conditions => [ 'list_id = ? AND message_id822 = ?', @list.id, message_id822 ] )
     @target = @message
+  end
+  
+  def filter_part
+    @parts = @message.parts
+    
+    pos = params[:pos].to_i
+    
+    if (pos < 0) or (pos > @parts.length - 1)
+      render :nothing => true, :status => 404
+      return false
+    end
+    
+    @part = @parts[pos]
   end
 end

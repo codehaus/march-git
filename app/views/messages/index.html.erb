@@ -37,8 +37,8 @@
   <% for part in @message.parts %>
     <% next if part == preferred_content_part %>
     <li><%= "#{part.name ? part.name : 'Attachment'} (#{format_size(part.length)} - #{part.content_type})" %>
-          <%= image_link_to('attachment.gif', 'open', url_for_part( part, false ), :title => 'open attachment' ) %> 
-        - <%= image_link_to('download.gif', 'download', url_for_part( part, true ), :title => 'download attachment' ) %></li>
+          <%= image_link_to('attachment.gif', 'open', url_for_part( part, :inline ), :title => 'open attachment' ) %> 
+        - <%= image_link_to('download.gif', 'download', url_for_part( part, :download ), :title => 'download attachment' ) %></li>
   <% end %>
   </ol>
 </div>

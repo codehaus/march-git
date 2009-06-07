@@ -83,15 +83,14 @@ module LinkHelper
     return url_for_message(message) + '/content'
   end
 
-  def url_for_part( part, download = false )
-    if download
-      url_for_message(part.message) + "/#{ part.message.parts.index(part) }/~download"
-    else
-      url_for_message(part.message) + "/#{ part.message.parts.index(part) }"
-    end
+  def url_for_part( part, action )
+    pos = part.message.parts.index(part)
+    return url_for( :controller => 'messages', 
+                    :list => part.message.list.identifier, 
+                    :message => part.message.message_id822,
+                    :action => action,
+                    :pos => pos )
   end
-  
-
 
   def url_for_group( group, action = nil)
     action ||= :index

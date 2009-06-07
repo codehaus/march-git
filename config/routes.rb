@@ -68,6 +68,11 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'messages',
     :action => 'index',
     :requirements => { :list => /[^\/]+/, :message => /[^\/]*/ }
+
+  # For downloading parts off a message
+  map.connect '/lists/:list/msg/:message/:action/:pos',
+    :controller => 'messages',
+    :requirements => { :list => /[^\/]+/, :message => /[^\/]*/ }
     
 
   map.connect '/ratings/:action/:message_id',
