@@ -18,6 +18,7 @@
 module RedactHelper
   require 'recaptcha'
   include ReCaptcha::ViewHelper
+  include ActionView::Helpers::TextHelper	  
   
   def redact_email(text, mode = :html)
     results = []
@@ -74,4 +75,21 @@ module RedactHelper
         text.gsub( /@([a-zA-Z0-9\-_]+)(\.[a-zA-Z0-9\-_]+)*(\.[a-zA-Z0-9\-_]+)/, '@\1\2...' )
     end
   end
+  
+private
+
+  def mail_hide_simple(obj)
+    from_name = obj.respond_to?(:from_name) ? obj.from_name : nil
+    from_address = obj.respond_to?(:from_address) ? obj.from_address : nil
+  
+    from_address = obj.to_s if from_address.nil?
+    from_name = truncate(from_address,10) if from_name.nil?
+  
+    k = ReCaptcha::MHClient.new(MH_PUB, MH_PRIV)
+    enciphered = k.encrypt(from_address)
+    uri = "http://mailhide.recaptcha.net/d?k=#{MH_PUB}&c=#{enciphered}"
+  
+    render :partial => '/core/mailhide', :locals => { :uri => uri, :contents => from_name }
+  end
+
 end

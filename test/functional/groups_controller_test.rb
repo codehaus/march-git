@@ -33,5 +33,9 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  def test_charts
+    get :charts, { :group => @root_group.key }
+    assert_response :success
+  end
   
 end

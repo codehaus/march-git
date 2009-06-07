@@ -24,7 +24,8 @@ class MessagesController < ApplicationController
   
   def index
     if not @message
-      render :template=>'missing'
+      flash[:errors] << "Well that is odd; unable to find message in list #{@list.id}"
+      render :template => 'missing'
     else
       minTime = Time.rfc2822(
         request.env["HTTP_IF_MODIFIED_SINCE"]
