@@ -85,7 +85,7 @@ task :after_update_code do
   puts "Links updated"
   
   run <<-CMD
-    mkdir -p #{shared_path}/sitemap
+    mkdir -p #{shared_path}/sitemap &&
     rm -rf #{release_path}/public/sitemap* &&
     ln -nfs #{shared_path}/sitemap/sitemap* #{release_path}/public/
   CMD
