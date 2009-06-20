@@ -133,3 +133,4 @@ while current_message_id < last_message_id
 end
 
 generate_sitemap_index
+generate_lists_sitemap
