@@ -14,7 +14,7 @@
 #  limitations under the License.
 ################################################################################
 class Sitemap < ActiveRecord::Base
-  MAX_MESSAGES = 100
+  MAX_MESSAGES = 50000
 
   #If a sitemap is passed in, and it has capacity, it will be returned!
   def self.find_next(sitemap = nil)

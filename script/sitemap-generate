@@ -30,7 +30,7 @@ require 'builder'
 # 50,000 URLs per file; 1000 files 
 
 def compress(filename)
-  cmd = "gzip -f #{filename}"
+  cmd = "gzip --best -f #{filename}"
   if not system(cmd)
     puts "Failure running #{cmd}"
   end
