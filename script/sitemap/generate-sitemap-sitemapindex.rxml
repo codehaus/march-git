@@ -1,9 +1,13 @@
 xml.instruct! :xml, :version=>"1.0" 
 xml.sitemapindex( :xmlns => "http://www.sitemaps.org/schemas/sitemap/0.9") do
-  xml.loc "http://archive.codehaus.org/sitemap-lists.xml.gz"
+  xml.sitemap do
+    xml.loc "http://archive.codehaus.org/sitemap-lists.xml.gz"
+    xml.lastmod List.maximum(:updated_at).iso8601
+  end
   for sitemap in sitemaps
     xml.sitemap do
       xml.loc "http://archive.codehaus.org/#{sitemap.filename_compressed}"
+      xml.lastmod sitemap.updated_at.iso8601
     end
   end
 end
