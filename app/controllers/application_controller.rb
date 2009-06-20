@@ -66,10 +66,10 @@ class ApplicationController < ActionController::Base
     case exception
       when CustomNotFoundError, ::ActionController::UnknownAction then
         #render_with_layout "shared/error404", 404, "standard"
-        render :template => "errors/404", :status => "404"
+        render :template => "errors/404", :status => 404
       else
         #@reference = Xircles::Logger.log( exception, binding )
-        render :template => 'errors/generic'
+        render :template => 'errors/generic', :status => 500
     end
   end
   

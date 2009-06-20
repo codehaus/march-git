@@ -20,7 +20,6 @@ require RAILS_ROOT + '/config/environment'
 #require 'rubygems'
 require 'builder'
 
-MAX_MESSAGES = 50000
 # We are attempting to generate the minimum number of sitemaps that meet the following rules
 
 # A sitemap may have at most 50000 URLs
@@ -30,6 +29,12 @@ MAX_MESSAGES = 50000
 # The simplest solution is to just messages in order into files. The limit we will reach is 50 million messages.
 # 50,000 URLs per file; 1000 files 
 
+def compress(filename)
+  cmd = "gzip -f #{filename}"
+  if not system(cmd)
+    puts "Failure running #{cmd}"
+  end
+end
 
 class Info
   attr_reader :list
@@ -67,12 +72,24 @@ def generate_sitemap_index
   }
 end
 
+def generate_lists_sitemap
+  lists = List.find(:all, :order => 'identifier')
+  File.open("#{@archive_output}/sitemap-lists.xml", 'w') { |io|
+    xml = Builder::XmlMarkup.new(:target => io, :indent => 1)
+    sitemaps = Sitemap.find(:all, :order => 'name')
+    script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-lists.rxml")
+    xml.instance_eval(script)
+  }
+  compress("#{@archive_output}/sitemap-lists.xml")
+end
+
 sitemaps = []
 index = 0
 
 if maximum_available_message_id <= maximum_indexed_message_id
   puts "All messages are indexed"
   generate_sitemap_index
+  generate_lists_sitemap
   exit
 end
 
@@ -93,14 +110,15 @@ while current_message_id < last_message_id
   sitemap = Sitemap.find_next(sitemap)
   
   
-  puts 'Loading messages'
-  messages = Message.find(:all, :conditions => [ 'id >= ?', first_batch_id ], :order => :id, :limit => Sitemap::MAX_MESSAGES)
+  puts "Loading messages (from #{first_batch_id})"
+  messages = Message.find(:all, :conditions => [ 'id >= ?', first_batch_id ], :order => 'id', :limit => Sitemap::MAX_MESSAGES)
   break if messages.length == 0
 
   filename = sitemap.filename
   File.open("#{@archive_output}/#{filename}", 'w') { |io|
     xml = Builder::XmlMarkup.new(:target => io) #, :indent => 1
     puts 'Generating sitemap'
+    puts "Processing from #{messages.first.id} to #{messages.last.id}"
     script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-sitemap.rxml")
     sitemap.message_count = messages.length
     sitemap.first_message_id = messages.first.id
@@ -109,10 +127,7 @@ while current_message_id < last_message_id
     xml.instance_eval(script)
   }
 
-  cmd = "gzip -f #{@archive_output}/#{filename}"
-  if not system(cmd)
-    puts "Failure running #{cmd}"
-  end
+  compress("#{@archive_output}/#{filename}")
   
   current_message_id = messages.last.id + 1
 end

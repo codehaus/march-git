@@ -14,7 +14,7 @@
 #  limitations under the License.
 ################################################################################
 class Sitemap < ActiveRecord::Base
-  MAX_MESSAGES = 50000
+  MAX_MESSAGES = 100
 
   #If a sitemap is passed in, and it has capacity, it will be returned!
   def self.find_next(sitemap = nil)
@@ -31,14 +31,14 @@ class Sitemap < ActiveRecord::Base
     if not sitemap
       sitemap = Sitemap.new
       sitemap.message_count = 0
-      sitemap.name = ((Sitemap.maximum(:id) || 0) + 1).to_s
+      sitemap.name = sprintf('%04d', ((Sitemap.maximum(:name).to_i || 0) + 1))
     end
     
     return sitemap
   end
   
   def full?
-    message_count < MAX_MESSAGES
+    message_count >= MAX_MESSAGES
   end
   
   def filename
