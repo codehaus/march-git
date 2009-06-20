@@ -20,6 +20,7 @@ require RAILS_ROOT + '/config/environment'
 #require 'rubygems'
 require 'builder'
 
+MAX_MESSAGES = 50000
 # We are attempting to generate the minimum number of sitemaps that meet the following rules
 
 # A sitemap may have at most 50000 URLs
@@ -29,9 +30,6 @@ require 'builder'
 # The simplest solution is to just messages in order into files. The limit we will reach is 50 million messages.
 # 50,000 URLs per file; 1000 files 
 
-class Sitemap
-  attr_accessor :url
-end
 
 class Info
   attr_reader :list
@@ -45,49 +43,78 @@ class Info
   end
 end
 
-@archive_output = "#{RAILS_ROOT}/public"
+@archive_output = "#{RAILS_ROOT}/../shared/sitemap/"
 @archive_host = ARGV[0] #archive.codehaus.org
 @archive_prefix = ARGV[1] #haus/codehaus
 
 lists = List.find(:all)
 
+def maximum_indexed_message_id
+  Sitemap.maximum(:last_message_id) || 0
+end
+
+def maximum_available_message_id
+  Message.maximum(:id) || 0
+end
+
 #t.run(lists)
-digits = Math.log10(lists.length + 1).to_i + 1
-fstr = "%#{digits}d/%#{digits}d"
+def generate_sitemap_index
+  File.open("#{@archive_output}/sitemap.xml", 'w') { |io|
+    xml = Builder::XmlMarkup.new(:target => io, :indent => 1)
+    sitemaps = Sitemap.find(:all, :order => 'name')
+    script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-sitemapindex.rxml")
+    xml.instance_eval(script)
+  }
+end
 
 sitemaps = []
 index = 0
-lists.each_index {|list_index|
-  list = lists[list_index]
-  print "[#{sprintf(fstr, list_index + 1, lists.length)}] #{list.address}: "
-  
-  count = list.messages_count
-  last_sent_at = Time.at(0)
-  while true
-    print '.' => 
-    messages = list.messages.find(:all, :conditions => [ 'sent_at > ?', last_sent_at ], :order => 'sent_at', :limit => 50000)
-    break if messages.empty?
-    
-    last_sent_at = messages.last.sent_at
-    filename = "sitemap-#{index}.xml"
-    sitemaps << "#{filename}.gz"
-    File.open("#{@archive_output}/#{filename}", 'w') { |io|
-      xml = Builder::XmlMarkup.new(:target => io) #, :indent => 1
-      script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-sitemap.rxml")
-      xml.instance_eval(script)
-    }
-    print "\n"
-    cmd = "gzip -f #{@archive_output}/#{filename}"
-    if not system(cmd)
-      puts "Failure running #{cmd}"
-    end
-  end
-}
 
-print "\n"
-puts sitemaps.inspect
-File.open("#{@archive_output}/sitemap.xml", 'w') { |io|
-  xml = Builder::XmlMarkup.new(:target => io, :indent => 1)
-  script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-sitemapindex.rxml")
-  xml.instance_eval(script)
-}
+if maximum_available_message_id <= maximum_indexed_message_id
+  puts "All messages are indexed"
+  generate_sitemap_index
+  exit
+end
+
+
+sitemap = Sitemap.find_next
+if sitemap.first_message_id
+  puts "Incomplete batch - restarting at #{sitemap.first_message_id}"
+  current_message_id = sitemap.first_message_id
+else
+  current_message_id = maximum_indexed_message_id + 1
+end
+last_message_id = maximum_available_message_id
+
+while current_message_id < last_message_id
+  first_batch_id = current_message_id
+  puts "Roughly #{last_message_id - current_message_id} messages to process"
+  
+  sitemap = Sitemap.find_next(sitemap)
+  
+  
+  puts 'Loading messages'
+  messages = Message.find(:all, :conditions => [ 'id >= ?', first_batch_id ], :order => :id, :limit => Sitemap::MAX_MESSAGES)
+  break if messages.length == 0
+
+  filename = sitemap.filename
+  File.open("#{@archive_output}/#{filename}", 'w') { |io|
+    xml = Builder::XmlMarkup.new(:target => io) #, :indent => 1
+    puts 'Generating sitemap'
+    script = IO.read(File.dirname(__FILE__) + "/sitemap/generate-sitemap-sitemap.rxml")
+    sitemap.message_count = messages.length
+    sitemap.first_message_id = messages.first.id
+    sitemap.last_message_id = messages.last.id
+    sitemap.save!
+    xml.instance_eval(script)
+  }
+
+  cmd = "gzip -f #{@archive_output}/#{filename}"
+  if not system(cmd)
+    puts "Failure running #{cmd}"
+  end
+  
+  current_message_id = messages.last.id + 1
+end
+
+generate_sitemap_index
