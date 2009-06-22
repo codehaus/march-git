@@ -72,6 +72,7 @@ Rails::Initializer.run do |config|
   config.gem 'ruby-openid', :lib => 'openid'
   config.gem 'ruby-recaptcha'
   config.gem 'chronic'
+  config.gem 'packet', :version => '>= 0.1.7'
 
   if RAILS_ENV != 'prod'
     config.gem 'ci_reporter', :lib => 'ci/reporter/test_unit'

@@ -1,0 +1,44 @@
+################################################################################
+#  Copyright 2006-2009 Codehaus Foundation
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+################################################################################
+
+class CreateBackgroundrbQueueTable < ActiveRecord::Migration
+  def self.up
+    create_table :bdrb_job_queues do |t|
+      t.text :args
+      t.string :worker_name
+      t.string :worker_method
+      t.string :job_key
+      t.integer :taken
+      t.integer :finished
+      t.integer :timeout
+      t.integer :priority
+      t.datetime :submitted_at
+      t.datetime :started_at
+      t.datetime :finished_at
+      t.datetime :archived_at
+      t.string :tag
+      t.string :submitter_info
+      t.string :runner_info
+      t.string :worker_key
+      t.datetime :scheduled_at
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :bdrb_job_queues
+  end
+end
