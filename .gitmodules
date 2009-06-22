@@ -19,3 +19,6 @@
 [submodule "vendor/plugins/tidy"]
 	path = vendor/plugins/tidy
 	url = git://github.com/railsmonk/tidy-fork.git
+[submodule "vendor/plugins/backgroundrb"]
+	path = vendor/plugins/backgroundrb
+	url = git://github.com/gnufied/backgroundrb.git
