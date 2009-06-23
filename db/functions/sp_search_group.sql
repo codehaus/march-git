@@ -15,14 +15,7 @@
 --------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION sp_search_group(p_group_id INTEGER, p_query TSQUERY) RETURNS SETOF messages AS $$
 BEGIN
-  RETURN QUERY SELECT *
-    FROM messages WHERE id = -1;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION sp_search_group(p_group_id INTEGER, p_query TSQUERY) RETURNS SETOF messages AS $$
-BEGIN
-  SET STATEMENT_TIMEOUT TO 15;
+  SET STATEMENT_TIMEOUT TO 30000;
   RETURN QUERY SELECT m.*
     FROM messages m
     WHERE m.id IN (
