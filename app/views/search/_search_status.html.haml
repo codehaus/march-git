@@ -4,4 +4,4 @@
   - job_count = BdrbJobQueue.count(:conditions => [ 'started_at IS NULL' ])
   
   %p
-    == You are position #{job_count - (max_id - job_id) } / #{pluralize job_count, 'jobs'} in the queue
+    == You are position #{job_count - (max_id - job_id) } / #{job_count} in the queue
