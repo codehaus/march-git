@@ -1,0 +1,10 @@
+#search-results{ :style => 'width: 100%' }
+  - if messages
+    - if not messages.empty?
+      .results
+      = render :partial => '/core/messages', :locals => { :messages => messages }
+      .help
+        Note: access to further search results is currently not offered; please refine your search
+    - else
+      .results-none
+        No results

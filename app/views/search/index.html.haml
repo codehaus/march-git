@@ -1,0 +1,32 @@
+.search
+  - form_tag do
+    %input{ :name => "search", :value => @search }
+    = submit_tag 'search'
+      
+  - if @english_search and not @english_search.blank?
+    .search-term
+      == Searching for #{ @english_search }
+    
+  - else 
+    .search-none
+      Please enter a search term
+
+
+- if @job_key
+
+  #spinner{ :style => 'width: 100%; text-align: center' }
+    = image_tag 'rel_interstitial_loading.gif', :alt => 'Processing...'
+    
+  = render :partial => '/search/search_status'
+
+  :javascript
+    var stop_polling = false;
+
+    function stop_xhr() {
+      stop_polling = true;
+    }
+
+  = periodically_call_remote(:url => {:action => :search_results, :job_key => @job_key}, :frequency => 1, :condition => "stop_polling == false" )
+
+- if render_ad?(:top_banner)
+  = render_ad(:top_banner)
