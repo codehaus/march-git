@@ -1,2 +1,7 @@
 #search-results{ :style => 'width: 100%' }
+  - job_id = BdrbJobQueue.maximum(:id, :conditions => [ 'job_key = ?', @job_key ])
+  - max_id = BdrbJobQueue.maximum(:id)
+  - job_count = BdrbJobQueue.count(:conditions => [ 'started_at IS NULL' ])
   
+  %p
+    == You are position #{job_count - (max_id - job_id) } / #{pluralize job_count, 'jobs'} in the queue
