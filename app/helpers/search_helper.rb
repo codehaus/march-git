@@ -68,8 +68,6 @@ module SearchHelper
     @job_key = params[:job_key]
     @worker_info = @worker.worker_info 
     
-    puts @worker_info.inspect
-    
     if request.xhr?
       message_ids = @worker.ask_result(@job_key + '_results')
       

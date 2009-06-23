@@ -25,7 +25,7 @@ class SearchWorker < BackgrounDRb::MetaWorker
     searchterms = args[0]
     list_id = args[1]
     result = Message.find_by_sql([ "SELECT * FROM sp_search_list(?, to_tsquery('march_config', ?))", list_id, searchterms ])
-    puts "#{job_key()} search_list complete"
+    trace "search_list complete - #{searchterms}"
     cache[job_key() + '_results'] = result.collect { |m| m.id }
     return result
   end
@@ -34,7 +34,7 @@ class SearchWorker < BackgrounDRb::MetaWorker
     searchterms = args[0]
     group_id = args[1]
     result = Message.find_by_sql([ "SELECT * FROM sp_search_group(?, to_tsquery('march_config', ?))", group_id, searchterms ])
-    puts "#{job_key()} search_group complete"
+    trace "search_group complete - #{searchterms}"
     cache[job_key() + '_results'] = result.collect { |m| m.id }
     return result
   end
@@ -42,9 +42,13 @@ class SearchWorker < BackgrounDRb::MetaWorker
   def search_all(args)
     searchterms = args[0]
     result = Message.find_by_sql([ "SELECT * FROM sp_search_all(to_tsquery('march_config', ?))", searchterms ])
-    puts "#{job_key()} search_all complete"
+    trace "search_all complete - #{searchterms}"
     cache[job_key() + '_results'] = result.collect { |m| m.id }
     return result
+  end
+  
+  def trace(msg)
+    puts "#{job_key()}: #{msg}"
   end
   
 end
