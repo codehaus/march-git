@@ -1,7 +1,18 @@
 .search
   - form_tag do
-    %input{ :name => "search", :value => @search }
-    = submit_tag 'search'
+    %table.legrid
+      %tr
+        %td Search
+        %td
+          %input{ :name => "search", :value => @search }
+      %tr
+        %td Human?
+        %td
+          %input{ :name => "human", :value => @human }
+          (enter "human" - makes your search faster!)
+      %tr
+        %td
+        %td= submit_tag 'search'
       
   - if @english_search and not @english_search.blank?
     .search-term

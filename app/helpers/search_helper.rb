@@ -20,12 +20,20 @@ module SearchHelper
   end
 
   def search
+    @search = params['search']
+    
+    if not params['human'] or (params['human'].downcase != 'human')
+      flash[:warnings] << "You must prove you are human!"
+      return render( :template => '/search/index' )
+    end
+
     parse_query
     if not @postgres_search
       @messages = []
-      return render( :template => '/search/index.html.haml' )
+      return render( :template => '/search/index' )
     end
     
+      
     if @target
       cache( "search/#{@target.class.name}/#{@target.identifier}/#{@search_key}/#{latest_id}" ) do
         @worker_key = generate_worker_key()
