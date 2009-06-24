@@ -41,7 +41,7 @@
     #doc3.yui-t1
       #hd
         = render( :partial => '/layouts/header' )
-        - cache("layouts/navigation/#{User.cache_id(current_user)}/#{@target.class.name}/#{@target.updated_at.iso8601}") do
+        - cache("layouts/navigation/#{User.cache_id(current_user)}/#{@target.class.name}=#{@target.id}/#{@target.updated_at.iso8601}") do
           = render( :partial => '/layouts/navigation' )
         
       #bd
