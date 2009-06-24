@@ -15,12 +15,6 @@
 --------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION sp_search_list(p_list_id INTEGER, p_query TSQUERY) RETURNS SETOF messages AS $$
 BEGIN
-  RETURN QUERY SELECT * FROM messages m WHERE id = -1;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION sp_search_list(p_list_id INTEGER, p_query TSQUERY) RETURNS SETOF messages AS $$
-BEGIN
   SET STATEMENT_TIMEOUT TO 30000;
   RETURN QUERY SELECT m.*
     FROM messages m
