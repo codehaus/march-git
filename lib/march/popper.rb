@@ -46,7 +46,8 @@ class March::Popper
       count = 0
       pop.each_mail do |mail|
         count += 1
-        break if count < max
+        puts "Processing #{count}/#{max}"
+        break if count >= max
         
         begin
           yield mail.pop

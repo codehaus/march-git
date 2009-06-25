@@ -98,5 +98,13 @@ namespace :deploy do
   task :restart, :roles => :web do
     #Restart Passenger configured sites
     run "touch #{current_path}/tmp/restart.txt"
+    stop_backgroundrb #daemontools will restart it
   end
+end
+
+
+
+desc "Stop the backgroundrb server"
+task :stop_backgroundrb , :roles => :app do
+  run "cd #{current_path} && ./script/backgroundrb/stop"
 end

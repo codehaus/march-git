@@ -26,7 +26,7 @@ class March::PopTool
     importer = March::MessageImporter.new
     
     @popper.pop_messages(:max => max) { |content|  
-      messages << importer.import_file(content)
+      messages << importer.import_mail_from_content(content)
     }
   end
   
