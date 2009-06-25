@@ -33,9 +33,10 @@ BEGIN
       WHERE GH.PARENT_GROUP_ID = pGROUP_ID
         AND CHILD_GROUP_ID = L.GROUP_ID
         AND L.ID = M.LIST_ID
-        AND M.ID >= (max_message_id - 500)
+        AND M.ID >= (max_message_id - 5 * pLIMIT)
       GROUP BY L.ID
       ORDER BY COUNT(*) DESC
+      LIMIT pLIMIT
   LOOP
     SELECT * INTO list FROM LISTS L WHERE L.ID = list_id;
     RETURN NEXT list;

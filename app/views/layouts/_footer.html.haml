@@ -1,0 +1,22 @@
+Copyright 2006-2009
+%a{ :href => "http://codehaus.org/" }
+  The Codehaus Foundation
+%br
+Powered by
+%a{ :href => "http://march.rubyhaus.org/" }
+  Codehaus March
+== (Version: #{ March::VERSION }-#{ March::REVISION })
+
+= render :partial => '/layouts/tracking'
+
+- if March::PROFILE
+  = link_to 'Profile', '/profile.html'
+
+
+- if March::GOOGLE_ANALYTICS
+  :javascript
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+    var pageTracker = _gat._getTracker("<%= March::GOOGLE_ANALYTICS %>");
+    pageTracker._trackPageview();

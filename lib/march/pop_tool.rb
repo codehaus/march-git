@@ -14,23 +14,30 @@
 #  limitations under the License.
 ################################################################################
 class March::PopTool
+  
   def self.pop(max)
-    popper = March::Popper.new( March::MAIL_QUEUE, :pop_user => March::POP_USERNAME, :pop_pass => March::POP_PASSWORD, :pop_host => March::POP_HOST, :pop_port => March::POP_PORT )
-
+    poptool = March::PopTool.new
+    poptool.run(max)
+  end
+  
+  def run(max)
     messages = []
     
-    #STDOUT.reopen("log/stdout.log", 'a+')
-    #STDOUT.sync=true
+    importer = March::MessageImporter.new
     
-    File.open('log/popper.log', 'w') { |io|
-      importer = March::FileMessageImporter.new
-      popper.pop_messages(:max => max) { |queue_file|  
-        logger.info "Queue File: #{queue_file}"
-        io.write("#{queue_file}\n")
-        messages << importer.import_file(queue_file)
-      }
+    @popper.pop_messages(:max => max) { |content|  
+      messages << importer.import_file(content)
     }
-    #puts messages.length
+  end
+  
+  def initialize
+    @popper = March::Popper.new( 
+                                  March::MAIL_QUEUE, 
+                                  :pop_user => March::POP_USERNAME, 
+                                  :pop_pass => March::POP_PASSWORD, 
+                                  :pop_host => March::POP_HOST, 
+                                  :pop_port => March::POP_PORT 
+                               )
   end
 protected
   def self.logger

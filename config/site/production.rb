@@ -19,7 +19,6 @@
 raise Exception.new("This is a sample, it should never be called during development (or production)")
 
 March::MAIL_ROOT  = "/var/www/domains/hausfoundation.org/archive/mail"
-March::MAIL_QUEUE = "/tmp/mail-queue"
 
 March::SUBSCRIBER_HOST='archive.hausfoundation.org'
 

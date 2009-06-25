@@ -14,19 +14,19 @@
 #  limitations under the License.
 ################################################################################
 
-:backgroundrb:
-  :ip: 0.0.0.0
-  :port: 11006
-  :debug_log: true
-  :result_storage: memcache
+class PopWorker < BackgrounDRb::MetaWorker
+  set_worker_name :pop_worker
+  
+  def create(args = nil)
+    # this method is called, when worker is loaded for the first time
+  end
+  
+  def pop_messages(args)
+    count = args[:count] || 1
+    
+    puts "Popping #{count} messages at most"
+    March::PopTool.pop(count)
+  end
+    
+end
 
-:memcache: "127.0.0.1:11211"
-
-
-:schedules:
-  :pop_worker:
-    :pop_messages:
-      :trigger_args: */5 * * * * *
-      :data: 
-        :count: 
-          Hello World
