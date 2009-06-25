@@ -106,5 +106,5 @@ end
 
 desc "Stop the backgroundrb server"
 task :stop_backgroundrb , :roles => :app do
-  run "cd #{current_path} && ./script/backgroundrb/stop"
+  run "cd #{current_path} && ./script/backgroundrb stop"
 end
