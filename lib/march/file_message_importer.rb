@@ -19,6 +19,7 @@
 class March::FileMessageImporter
   attr_accessor :reload
   attr_accessor :max_threads
+  attr_accessor :remove_imported
   
   def initialize
     @importer = March::MessageImporter.new
@@ -40,7 +41,15 @@ class March::FileMessageImporter
         if requires_load?(filename) 
           puts "Loading: #{filename}"
           if File.file?(filename)
-            messages << import_file( filename, index, filenames.length )  
+            message = import_file( filename, index, filenames.length )  
+            messages << message
+            
+            if message
+              if @remove_imported
+                puts "Removing #{filename}"
+                File.unlink(filename)
+              end
+            end
           end
         else
           puts "Skipping: #{filename}"

@@ -52,6 +52,7 @@ class March::Commands::ImportDir
 
   def run()
     importer = March::FileMessageImporter.new
+    importer.remove_imported = false
     importer.import_files(@files)
   end
   

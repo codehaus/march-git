@@ -88,6 +88,7 @@ class March::MessageImporter
       rescue Exception => e
         puts e
         puts e.backtrace
+        return nil
       end
     }
   end
