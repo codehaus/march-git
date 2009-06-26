@@ -27,8 +27,7 @@ class March::Commands::ImportDir
       files << get_files(path)
     end
     files.flatten!
-    logger.debug "files: #{files.inspect}"
-    runner = March::Commands::ImportDir.new( March::MAIL_ROOT, files )
+    runner = March::Commands::ImportDir.new( files )
     runner.run
   end
   
@@ -38,7 +37,6 @@ class March::Commands::ImportDir
     Find.find(dir) { |path|
       if File.directory?(path) 
         logger.info "Scanning down into #{path}"
-      #  Find.prune()
       end
       
       if File.file?(path)
@@ -48,13 +46,12 @@ class March::Commands::ImportDir
     return files
   end
 
-  def initialize(root,files)
-    @root  = root
+  def initialize(files)
     @files = files
   end
 
   def run()
-    importer = March::FileMessageImporter.new( @root, false )
+    importer = March::FileMessageImporter.new
     importer.import_files(@files)
   end
   
