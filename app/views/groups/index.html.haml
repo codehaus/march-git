@@ -65,7 +65,7 @@
       .loading
         = image_tag 'rel_interstitial_loading.gif', :alt => 'loading...'
         
-    = periodically_call_remote(:url => {:action => :ajax_latest, :group_id => @group.id }, :frequency => 3 )
+    = periodically_call_remote(:url => {:action => :ajax_latest, :group_id => @group.id }, :frequency => @frequency )
     
     = render_object @group, :chart
     

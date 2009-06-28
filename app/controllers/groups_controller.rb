@@ -21,6 +21,8 @@ class GroupsController < ApplicationController
   #before_filter :parse_query, :only => 'search'
   
   def index
+    @frequency = 30
+    @frequency = 1 if RAILS_ENV == 'development'
   end
   
   def info
