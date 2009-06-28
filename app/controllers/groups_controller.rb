@@ -79,6 +79,7 @@ EOF
         messages = Message.find_by_sql(
           "SELECT * FROM sp_latest_messages_for_group(#{@group.id}, 10) ORDER BY id DESC"
         )
+        messages = messages[0..9]
         render( :partial => '/groups/ajax_latest', :locals => { :messages => messages } )
       end
       page.replace_html 'ajax-latest', content
