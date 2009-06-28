@@ -1,0 +1,3 @@
+- cache( "groups/#{@group.identifier}/chart_xml/#{Cache.daily}}" ) do
+  .chart.info-panel
+    = render_chart :width => 500, :height => 250, :url => url_for_group( group, :charts_xml)

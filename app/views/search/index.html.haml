@@ -36,7 +36,7 @@
     function stop_xhr() {
       stop_polling = true;
     }
-
+    
   = periodically_call_remote(:url => {:action => :search_results, :job_key => @job_key}, :frequency => 1, :condition => "stop_polling == false" )
 
 - if render_ad?(:top_banner)

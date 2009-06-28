@@ -274,4 +274,8 @@ class Message < ActiveRecord::Base
   def self.count_all
     List.sum(:messages_count)
   end
+  
+  def time_ago_in_words
+    ActionView::Helpers::DateHelper.time_ago_in_words sent_at
+  end
 end

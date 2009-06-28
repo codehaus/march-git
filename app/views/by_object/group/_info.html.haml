@@ -1,5 +1,5 @@
 = render_favorite_icon(group) 
-.description
+.info-panel-minimal.description
   - if group.description and not group.description.blank?
     :textile
       #{group.description}
@@ -7,7 +7,4 @@
     :textile
       No description provided
       
-- cache( "groups/#{@group.identifier}/chart_xml/#{Cache.daily}}" ) do
-  .chart
-    = render_chart :width => 500, :height => 250, :url => url_for_group( group, :charts_xml)
 

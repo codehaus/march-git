@@ -22,6 +22,4 @@ class GestaltController < ApplicationController
     #@group = pather.target
   end
   
-  
-  
 end

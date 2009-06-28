@@ -60,7 +60,19 @@
 
   .yui-u
     = render_object @group, :info
+    .info-panel#ajax-latest
+      Latest messages
+      .loading
+        = image_tag 'rel_interstitial_loading.gif', :alt => 'loading...'
+        
+    = periodically_call_remote(:url => {:action => :ajax_latest, :group_id => @group.id }, :frequency => 30 )
+    
+    = render_object @group, :chart
+    
     / too expensive to calculate for large groups
     - if @group.children_count == 0
       - cache( "groups/#{@group.identifier}/tag_cloud/#{Cache.daily}}" ) do
         .tag-cloud= tag_cloud(tags(@group))
+
+
+  

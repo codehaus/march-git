@@ -70,6 +70,19 @@ EOF
     render :template => '/lists/rss', :layout => false, :content_type => 'text/xml'
   end
   
+  def ajax_latest
+    return unless request.xhr?
+
+    messages = Message.find(:all, :order => 'id DESC', :limit => 10)
+      
+    render :update do |page|
+      content = render( :partial => '/groups/ajax_latest', :locals => { :messages => messages } )
+      page.replace_html 'ajax-latest', content
+    end
+  end
+  
+  
+  
 private
   def latest_messages(count = 25)
     return Message.find_by_sql(
