@@ -73,18 +73,7 @@ EOF
   end
   
   def ajax_latest
-    return unless request.xhr?
-
-    cache( "groups/#{@group.identifier}/ajax_latest/#{@group.messages_count}" ) do
-      render :update do |page|
-        messages = Message.find_by_sql(
-          "SELECT * FROM sp_latest_messages_for_group(#{@group.id}, 10) ORDER BY id DESC"
-        )
-        messages = messages[0..9]
-        content = render( :partial => '/groups/ajax_latest', :locals => { :messages => messages } )
-        page.replace_html 'ajax-latest', content
-      end
-    end
+    render :layout => false
   end
   
   

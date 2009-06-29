@@ -61,11 +61,11 @@
   .yui-u
     = render_object @group, :info
     .info-panel#ajax-latest
-      Latest messages
+      %h1 Latest messages
       .loading
         = image_tag 'rel_interstitial_loading.gif', :alt => 'loading...'
         
-    = periodically_call_remote(:url => {:action => :ajax_latest, :group_id => @group.id }, :frequency => @frequency )
+    = periodically_call_remote(:url => {:action => :ajax_latest, :group_id => @group.id }, :frequency => @frequency, :update => 'ajax-latest' )
     
     = render_object @group, :chart
     

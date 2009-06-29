@@ -1,9 +1,13 @@
-%h1== Latest messages in #{@group.name}
-%ul
-  - if messages.empty?
-    There are no new messages!
-  - else
-    - for message in messages
-      %li
-        = link_to_message message.subject_precis(35), message
-        == (#{time_ago_in_words message.sent_at})
+- cache( "groups/#{@group.identifier}/ajax_latest/#{@group.messages_count}" ) do
+  - messages = Message.find_by_sql("SELECT * FROM sp_latest_messages_for_group(#{@group.id}, 10) ORDER BY id DESC")
+  - messages = messages[0..9]
+  %h1== Latest messages in #{@group.name}
+  %ul
+    - if messages.empty?
+      There are no new messages!
+    - else
+      - for message in messages
+        %li
+          = link_to_message message.subject_precis(35), message
+          == (#{time_ago_in_words message.sent_at})
+
