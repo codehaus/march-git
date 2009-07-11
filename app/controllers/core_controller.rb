@@ -119,10 +119,10 @@ protected
   
   def info_for_list(list)
     @messages_count = list.messages_count
-    render :template => 'core/list/info'  
+    render :template => 'core/list/info'
   end
 
-private  
+private
   # For legacy controllers
   def init_target
     if defined?(@group)

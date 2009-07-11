@@ -18,10 +18,12 @@ module TagHelper
 
   def tag_cloud(tags)
     h = ""
-  
-    tags = tags.sort_by { |m| m.word }.collect { |m| [ m.word, m.ndoc ] }
+    tags = tags.sort_by { |m| m.word }.collect { |m| [ m.word, m.ndoc.to_i ] }
+    
+    max = max_log(tags)
+    
     for tag in tags
-      h << " <span style='font-size: #{ font_size(tag, tags) }'>#{tag_link(tag, tags)}</span>"
+      h << " <span style='font-size: #{ font_size(tag[1], max) }'>#{tag_link(tag)}</span>"
     end
   
     return h
@@ -29,15 +31,33 @@ module TagHelper
   
 private
 
-  def font_size(element, elements)
-    factor = 30 #How much the frequency boosts the size
-    base = 60 #Base size
-    return (factor * (element[1].to_i / elements.length) + base).to_s + '%'
-  end
-  
-  def tag_link(tag, tags)
+  def tag_link(tag)
     link_to tag[0], :action => 'search', :search => tag[0]
   end
+  
+  def max_log(tags)
+    max = 0.0
+    tags.each { |tag|
+      STDOUT.write tag.inspect
+      amt = tag[1]
+      max = amt if amt > max
+    }
+    return max
+  end
+  
+  def font_size(amt, max)
+    size = Math.log( amt ) / Math.log(max)
+    #size = amt / max
+    return '20%'  if ( size < 0.50 )
+    return '30%'  if ( size < 0.60 )  
+    return '40%' if ( size < 0.70 )  
+    return '50%' if ( size < 0.80 )  
+    return '60%' if ( size < 0.90 )  
+    return '80%' if ( size < 0.95 )  
+    return '90%' if ( size < 0.98 )  
+    return '100%'
+  end
+    
   
 
 end

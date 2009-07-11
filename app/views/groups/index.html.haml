@@ -60,9 +60,11 @@
 
   .yui-u
     = render_object @group, :info
-    .info-panel#ajax-latest
-      %h1 Latest messages
-      .loading
+    .info-panel
+      %h1== Latest messages in #{@group.name}
+      .glyphs
+        = link_to_remote(image_tag('portlet-refresh.png', :class => 'glyph'), { :url => {:action => :ajax_latest, :group_id => @group.id }, :frequency => 86400, :update => 'ajax-latest' }, { :id => 'ajax-latest-refresh' } )
+      .loading#ajax-latest
         = image_tag 'rel_interstitial_loading.gif', :alt => 'loading...'
         
     = periodically_call_remote(:url => {:action => :ajax_latest, :group_id => @group.id }, :frequency => @frequency, :update => 'ajax-latest' )
@@ -71,8 +73,15 @@
     
     / too expensive to calculate for large groups
     - if @group.children_count == 0
-      - cache( "groups/#{@group.identifier}/tag_cloud/#{Cache.daily}}" ) do
-        .tag-cloud= tag_cloud(tags(@group))
-
-
+      .info-panel
+        %h1 Tags
+        .glyphs
+          = link_to_remote(image_tag('portlet-refresh.png', :class => 'glyph'), { :url => {:action => :ajax_tags, :group_id => @group.id }, :frequency => 86400, :update => 'ajax-tags' }, { :id => 'ajax-tags-refresh' } )
+        .loading#ajax-tags
+          = image_tag 'rel_interstitial_loading.gif', :alt => 'loading...'
+    
+      
+      :javascript
+        document.getElementById('ajax-latest-refresh').onclick();
+        document.getElementById('ajax-tags-refresh').onclick();
   

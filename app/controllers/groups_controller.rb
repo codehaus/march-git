@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
   
   def index
     @frequency = 30
-    @frequency = 1 if RAILS_ENV == 'development'
+    @frequency = 5 if RAILS_ENV == 'development'
   end
   
   def info
@@ -76,6 +76,9 @@ EOF
     render :layout => false
   end
   
+  def ajax_tags
+    render :layout => false
+  end
   
   
 private

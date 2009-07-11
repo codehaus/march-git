@@ -1,9 +1,0 @@
-%h1== Latest messages in #{@group.name}
-%ul
-  - if messages.empty?
-    There are no new messages!
-  - else
-    - for message in messages
-      %li
-        = link_to_message message.subject_precis(35), message
-        == (#{time_ago_in_words message.sent_at})
