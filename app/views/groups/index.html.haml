@@ -41,7 +41,7 @@
             %td= link_to( list.address, url_for_list( list ), :title => list.address )
             %td
             %td= pluralize(list.messages_count, 'message')
-            %td= link_to_rss( url_for_list( list, :latest_rss ), "Feed of latest messages for #{list.address}" )
+            %td= link_to_rss( url_for_list( list, :rss ), "Feed of latest messages for #{list.address}" )
             %td= link_to_charts( url_for_list( list, :charts ), "Message activity or #{list.address}" )
 
         %tr.footer

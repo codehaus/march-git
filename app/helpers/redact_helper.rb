@@ -88,8 +88,11 @@ private
     k = ReCaptcha::MHClient.new(MH_PUB, MH_PRIV)
     enciphered = k.encrypt(from_address)
     uri = "http://mailhide.recaptcha.net/d?k=#{MH_PUB}&c=#{enciphered}"
-  
-    render :partial => '/core/mailhide', :locals => { :uri => uri, :contents => from_name }
+
+    engine = Haml::Engine.new(IO.read("#{RAILS_ROOT}/app/views/core/_mailhide.html.haml"))
+    return engine.render Object.new, { :uri => uri, :contents => from_name }
+      
+    #render :partial => '/core/mailhide', :locals => { :uri => uri, :contents => from_name }
   end
 
 end
