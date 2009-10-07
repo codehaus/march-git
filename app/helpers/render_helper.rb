@@ -44,7 +44,7 @@ module RenderHelper
           [ "SELECT * FROM sp_get_thread(?,?,?)", 
             message_tree.list_id, 
             message_tree.message_id822, 
-            20
+            5
           ])
     @message_cache = RecordCache.new(messages)
     
